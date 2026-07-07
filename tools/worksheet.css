@@ -1,0 +1,55 @@
+/* Print-friendly worksheet styling — generous whitespace for handwritten answers. */
+:root {
+  --ink: #1a1a2e;
+  --accent: #2563eb;
+  --soft: #64748b;
+}
+html { font-size: 16px; }
+body {
+  font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  line-height: 1.55;
+}
+h1 { font-size: 1.6rem; border-bottom: 3px solid var(--accent); padding-bottom: .4rem; }
+h2 { font-size: 1.25rem; color: var(--accent); margin-top: 2.2rem; }
+h3 { font-size: 1.05rem; }
+code, pre {
+  font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+pre { padding: .9rem 1rem; overflow-x: auto; }
+code { padding: .1rem .35rem; font-size: .92em; }
+pre code { padding: 0; background: none; }
+blockquote {
+  border-left: 4px solid var(--accent);
+  margin-left: 0;
+  padding: .3rem 0 .3rem 1rem;
+  color: var(--soft);
+  background: #f8fafc;
+}
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+th, td { border: 1px solid #cbd5e1; padding: .45rem .7rem; text-align: left; }
+th { background: #eff6ff; }
+hr { border: none; border-top: 2px dashed #cbd5e1; margin: 2rem 0; }
+
+/* Problem list: big gaps so answers can be handwritten under each one when printed */
+ol.problems > li, ol > li { margin-bottom: .6rem; }
+.workspace { min-height: 7rem; }               /* explicit answer space */
+li { break-inside: avoid; }
+
+.katex-display { margin: 1rem 0; }
+
+@media print {
+  body { max-width: none; padding: 0; font-size: 12pt; }
+  h1 { font-size: 16pt; }
+  h2 { font-size: 13pt; margin-top: 16pt; }
+  a { color: inherit; text-decoration: none; }
+  /* extra room under each numbered problem for pen work */
+  ol > li { margin-bottom: 3.2cm; }
+  ol ol > li { margin-bottom: 1.6cm; }        /* sub-parts get smaller gaps */
+  blockquote, pre { break-inside: avoid; }
+}
