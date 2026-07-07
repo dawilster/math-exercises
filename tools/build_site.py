@@ -36,6 +36,9 @@ def main() -> None:
     shutil.copytree(KATEX, OUT / "katex")
     shutil.copy(Path(__file__).resolve().parent / "worksheet.css", OUT / "worksheet.css")
 
+    # the flash-card game (self-contained, links /katex/) → /play.html
+    shutil.copy(Path(__file__).resolve().parent / "game.html", OUT / "play.html")
+
     modules = dash.scan_modules()
     seq = dash.study_sequence()
 
@@ -76,6 +79,13 @@ def main() -> None:
             "icons": dash.page_icons(), "inbox": 0}
     index = dash.PAGE.replace("__DATA__", json.dumps(data)).replace(
         "__ICON_SIGMA__", dash.icon("sigma"))
+    # floating "Play" button → the flash-card game
+    fab = ('<a href="/play.html" style="position:fixed;right:1rem;bottom:1rem;z-index:50;'
+           'background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;text-decoration:none;'
+           'padding:.8rem 1.15rem;border-radius:999px;box-shadow:0 6px 18px rgba(37,99,235,.4);'
+           'font-weight:700;font-family:\'Avenir Next\',system-ui,sans-serif;display:inline-flex;'
+           'align-items:center;gap:.4rem;font-size:.95rem;">\U0001f3af Play</a>')
+    index = index.replace("</body>", fab + "</body>", 1)
     (OUT / "index.html").write_text(index)
 
     n_pages = len(list(OUT.rglob("*.html")))

@@ -90,6 +90,21 @@ computer vision, LLMs, stable diffusion).
 - New lessons/worksheets/notebooks appear on the dashboard automatically if they share a filename stem,
   e.g. `01-balance-game.{md,ipynb}` in `lessons/`, `worksheets/`, `notebooks/`.
 
+## Practice game (one-handed flash-card + move-solver)
+
+- `tools/game.html` → deployed to `/play.html` (the "🎯 Play" button on the dashboard). Self-contained,
+  offline, thumb-friendly, progress in `localStorage` (`math-game-v1`). Built by `build_site.py`.
+- **Calm-mastery loop:** one card at a time, no timer; streak + XP + daily-goal ring. A per-module
+  adaptive queue weights toward weak concepts, resurfaces misses, and unlocks harder tiers as strength
+  rises (module "mastered" at ~80% avg strength). Concepts + generators live in the `C = []` bank.
+- **Card kinds** interleaved in one deck: `mc` (distractors are *named mistakes* → why-first
+  correction), `type` (numeric keypad), `reveal` (Anki-style flip), and **`solve`** — the move-solver:
+  tap the next legal balance-scale move, the engine applies it and stacks the derivation. `engine:'linear'`
+  is generated (integer path, infinite); `engine:'script'` is authored guided rearranges (`REARRANGE`),
+  targeting the make-X-the-subject weakness. Wrong move = shown with a why-first note, doesn't advance.
+- Adding content = push a concept to `C` with a `gen()` returning a card. Regression-test generators with
+  a headless harness (extract the `<script>`, stub the DOM, run every `gen()` many times) before deploying.
+
 ## Rendering & tooling
 
 - Python env: `uv run python ...` / `uv run jupyter lab` (numpy, matplotlib, sympy, jupyter, ipympl).

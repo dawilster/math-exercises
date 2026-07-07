@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Math — Play</title>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<script src="/katex/katex.min.js"></script>
+<style>
+  :root{
+    --ink:#1a1a2e; --accent:#2563eb; --purple:#7c3aed; --soft:#64748b;
+    --bg:#f4f6fb; --card:#fff; --done:#16a34a; --wrong:#dc2626;
+    --line:#e2e8f0; --tint:#eff6ff;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; height:100%; }
+  body{
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink);
+    background:var(--bg); overscroll-behavior:none;
+    -webkit-user-select:none; user-select:none;
+  }
+  .app{ display:flex; flex-direction:column; height:100dvh; max-width:34rem; margin:0 auto; }
+
+  /* ---- top bar ---- */
+  .top{ display:flex; align-items:center; gap:.6rem; padding:.7rem .9rem;
+        border-bottom:1px solid var(--line); background:#ffffffcc; backdrop-filter:blur(6px); }
+  .top .back{ font-size:1.4rem; line-height:1; background:none; border:none; color:var(--soft);
+              padding:.1rem .4rem; cursor:pointer; }
+  .stat{ display:inline-flex; align-items:center; gap:.28rem; font-weight:700; font-size:.95rem; }
+  .stat small{ font-weight:600; color:var(--soft); font-size:.7rem; }
+  .spacer{ flex:1; }
+  .ring{ --p:0; width:2.1rem; height:2.1rem; border-radius:50%; flex:none;
+    background:conic-gradient(var(--accent) calc(var(--p)*1%), var(--line) 0);
+    display:flex; align-items:center; justify-content:center; }
+  .ring i{ width:1.5rem; height:1.5rem; border-radius:50%; background:var(--card);
+    display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:800; font-style:normal; color:var(--soft); }
+  .mbar{ height:5px; background:var(--line); }
+  .mbar > div{ height:100%; background:linear-gradient(90deg,var(--accent),var(--purple)); transition:width .4s; }
+
+  /* ---- home ---- */
+  .home{ flex:1; overflow-y:auto; padding:1.1rem 1rem calc(1.4rem + var(--safe-b)); }
+  .hero{ text-align:center; margin:.4rem 0 1.3rem; }
+  .hero h1{ font-size:1.5rem; margin:.2rem 0 .1rem; }
+  .hero p{ color:var(--soft); margin:0; font-size:.9rem; }
+  .stats-row{ display:flex; gap:.6rem; justify-content:center; margin:1rem 0 1.4rem; }
+  .chip{ background:var(--card); border-radius:14px; box-shadow:0 1px 4px rgba(26,26,46,.08);
+    padding:.7rem 1rem; text-align:center; min-width:5.2rem; }
+  .chip b{ font-size:1.35rem; display:block; }
+  .chip span{ font-size:.72rem; color:var(--soft); }
+  .modcard{ background:var(--card); border-radius:16px; box-shadow:0 1px 4px rgba(26,26,46,.08);
+    padding:1rem 1.1rem; margin-bottom:.85rem; display:flex; align-items:center; gap:.9rem;
+    cursor:pointer; border:2px solid transparent; transition:transform .1s, border-color .2s; }
+  .modcard:active{ transform:scale(.985); }
+  .modcard.next{ border-color:var(--accent); }
+  .modcard.mastered{ border-color:var(--done); }
+  .mdisc{ width:3rem; height:3rem; border-radius:50%; flex:none; display:flex; align-items:center;
+    justify-content:center; font-size:1.15rem; font-weight:800; color:#fff;
+    background:conic-gradient(var(--ring-c,var(--accent)) calc(var(--p)*1%), #dbe4f3 0); position:relative; }
+  .mdisc i{ position:absolute; inset:5px; border-radius:50%; background:var(--card); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; font-style:normal; font-size:.95rem; }
+  .minfo{ flex:1; min-width:0; }
+  .minfo h3{ margin:0 0 .15rem; font-size:1.02rem; }
+  .minfo p{ margin:0; font-size:.78rem; color:var(--soft); }
+  .go{ font-size:1.3rem; color:var(--soft); }
+  .foot{ text-align:center; color:var(--soft); font-size:.75rem; margin-top:1rem; }
+  .foot a{ color:var(--accent); text-decoration:none; }
+
+  /* ---- play area ---- */
+  .play{ flex:1; display:flex; flex-direction:column; min-height:0; }
+  .stage{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:1.1rem 1.2rem; text-align:center; overflow-y:auto; }
+  .prompt{ color:var(--soft); font-size:.95rem; font-weight:600; margin-bottom:1rem; }
+  .body{ font-size:1.05rem; line-height:1.5; }
+  .body .katex-display{ margin:.4rem 0; }
+  .qtag{ display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--soft); background:var(--tint); border-radius:999px; padding:.2rem .7rem; margin-bottom:1rem; }
+
+  /* ---- answer controls (thumb zone) ---- */
+  .controls{ padding:.7rem .8rem calc(.9rem + var(--safe-b)); border-top:1px solid var(--line);
+    background:var(--card); }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .keys{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:.55rem; }
+  .btn{ min-height:3.6rem; border-radius:14px; border:2px solid var(--line); background:#fff;
+    font-family:inherit; font-size:1.15rem; font-weight:600; color:var(--ink); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; padding:.4rem .6rem; transition:transform .08s; }
+  .btn:active{ transform:scale(.96); }
+  .btn.ok{ background:#dcfce7; border-color:var(--done); color:#065f46; }
+  .btn.no{ background:#fee2e2; border-color:var(--wrong); color:#991b1b; }
+  .btn.dim{ opacity:.45; }
+  .btn.wide{ grid-column:1 / -1; }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.grade{ min-height:3.1rem; font-size:1rem; flex-direction:column; gap:.1rem; }
+  .btn.grade small{ font-size:.68rem; font-weight:600; opacity:.8; }
+  .answerbox{ min-height:3rem; margin-bottom:.55rem; border:2px dashed var(--line); border-radius:12px;
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem; font-weight:700; color:var(--ink); }
+  .answerbox.empty{ color:#cbd5e1; }
+  .answerbox.ok{ background:#dcfce7; border-color:var(--done); border-style:solid; color:#065f46; }
+  .answerbox.no{ background:#fee2e2; border-color:var(--wrong); border-style:solid; color:#991b1b; }
+
+  /* ---- move-solver ---- */
+  .solvegoal{ font-size:.8rem; font-weight:700; color:var(--accent); background:var(--tint);
+    border-radius:999px; padding:.28rem .9rem; margin-bottom:.9rem; display:inline-block; }
+  .solvehist{ display:flex; flex-direction:column; align-items:center; gap:.2rem; margin-bottom:.55rem; }
+  .solvehist .hstep{ font-size:.95rem; color:#94a3b8; }
+  .solvecur{ font-size:1.35rem; }
+  .movehint{ font-size:.72rem; color:var(--soft); text-align:center; margin-bottom:.5rem; }
+
+  /* ---- feedback / teach ---- */
+  .teach{ background:var(--tint); border-radius:14px; padding:.85rem 1rem; margin-bottom:.7rem;
+    font-size:.9rem; line-height:1.45; text-align:left; }
+  .teach.bad{ background:#fef2f2; }
+  .teach b{ display:block; margin-bottom:.2rem; }
+  .teach.bad b{ color:var(--wrong); }
+  .teach.good b{ color:var(--done); }
+  .xppop{ position:fixed; left:50%; top:32%; transform:translateX(-50%); font-size:1.4rem; font-weight:800;
+    color:var(--done); opacity:0; pointer-events:none; }
+  .xppop.show{ animation:pop 1s ease-out; }
+  @keyframes pop{ 0%{opacity:0; transform:translate(-50%,10px);} 20%{opacity:1;} 100%{opacity:0; transform:translate(-50%,-34px);} }
+
+  /* ---- celebration ---- */
+  .cel{ position:fixed; inset:0; background:#0b1020ee; color:#fff; display:none; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:2rem; z-index:20; }
+  .cel.show{ display:flex; }
+  .cel h2{ font-size:1.8rem; margin:.4rem 0; }
+  .cel p{ color:#cbd5e1; max-width:20rem; }
+  .cel .btn{ margin-top:1.4rem; background:var(--accent); color:#fff; border:none; padding:0 1.6rem; }
+  .conf{ position:fixed; top:-10px; width:10px; height:14px; border-radius:2px; z-index:21; animation:fall 2.2s linear forwards; }
+  @keyframes fall{ to{ transform:translateY(105vh) rotate(540deg); opacity:.9; } }
+
+  .toast{ position:fixed; bottom:calc(6rem + var(--safe-b)); left:50%; transform:translateX(-50%);
+    background:var(--ink); color:#fff; padding:.55rem 1.1rem; border-radius:10px; font-size:.85rem;
+    opacity:0; transition:opacity .3s; z-index:15; text-align:center; }
+  .toast.show{ opacity:1; }
+</style></head>
+<body>
+<div class="app" id="app"></div>
+<div class="xppop" id="xppop"></div>
+<div class="toast" id="toast"></div>
+<div class="cel" id="cel"></div>
+
+<script>
+/* ============================================================
+   William's Math — flash game (calm mastery)
+   One file, offline, one-handed. Progress in localStorage.
+   ============================================================ */
+
+// ---------- tiny helpers ----------
+const $ = s => document.querySelector(s);
+const el = (tag, cls, html) => { const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; };
+const ri = (lo,hi) => lo + Math.floor(Math.random()*(hi-lo+1));      // inclusive int
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const gcd = (a,b)=>{ a=Math.abs(a);b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a||1; };
+const today = () => new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD local
+const buzz = ms => { try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} };
+function tex(node, s, display){ try{ katex.render(s, node, {throwOnError:false, displayMode:!!display}); }catch(e){ node.textContent=s; } }
+// render a tex string to a small element (for buttons/inline)
+const T = (s, display) => { const e=el('span'); tex(e,s,display); return e; };
+
+// build a multiple-choice card from a numeric/tex answer + distractors
+function mc(o){
+  const seen = new Set([o.answer]);
+  const choices = [{tex:o.answer, ok:true}];
+  for(const d of (o.distractors||[])){
+    if(seen.has(d.tex)) continue;
+    seen.add(d.tex); choices.push({tex:d.tex, why:d.why});
+    if(choices.length>=4) break;
+  }
+  shuffle(choices);
+  return {kind:'mc', concept:o.concept, prompt:o.prompt, body:o.body, choices, teach:o.teach, tag:o.tag||'Pick one'};
+}
+const typ = o => ({kind:'type', concept:o.concept, prompt:o.prompt, body:o.body, answer:String(o.answer), teach:o.teach, tag:o.tag||'Type the answer'});
+const rev = o => ({kind:'reveal', concept:o.concept, prompt:o.prompt, body:o.body, back:o.back, teach:o.teach, tag:o.tag||'Think, then flip'});
+
+/* ============================================================
+   CARD BANK — concepts grouped by module, ordered by tier.
+   Each concept has a gen() that returns one fresh card.
+   MC distractors are *named mistakes* → why-first correction.
+   ============================================================ */
+const MODULES = [
+  {id:0, name:'Algebra Bootcamp',    tag:'Rearranging is the mission', ring:'var(--accent)'},
+  {id:1, name:'Functions & Graphs',  tag:'Machines that map inputs',   ring:'var(--accent)'},
+  {id:2, name:'Linear Algebra',      tag:'Vectors, dot products',      ring:'var(--accent)'},
+  {id:3, name:'Calculus',            tag:'Slopes & gradients',         ring:'var(--accent)'},
+  {id:4, name:'Probability & Stats', tag:'Counting & uncertainty',     ring:'var(--accent)'},
+  {id:5, name:'Neural Nets',         tag:'It all comes together',      ring:'var(--purple)'},
+];
+
+const C = [];  // concept list
+const def = (id, mod, tier, title, gen) => C.push({id, mod, tier, title, gen});
+
+/* ---------------- MODULE 0 · Algebra ---------------- */
+
+def('m0-onestep', 0, 1, 'One-step equations', () => {
+  const form = ri(0,3), x = ri(2,9);
+  if(form===0){ const a=ri(1,9); return mc({concept:'m0-onestep', prompt:'Solve for x', body:`x + ${a} = ${x+a}`,
+    answer:`x=${x}`, distractors:[
+      {tex:`x=${x+a}`, why:`You left the +${a} in place. To undo <b>+${a}</b>, subtract it from <i>both</i> sides.`},
+      {tex:`x=${x+2*a}`, why:`You added ${a} instead of subtracting it. Moving +${a} across the = flips it to −${a}.`},
+      {tex:`x=${a}`, why:`That's the number you add, not x. Subtract ${a} from ${x+a}.`}],
+    teach:`Undo <b>+${a}</b> with <b>−${a}</b> on both sides: x = ${x+a} − ${a} = ${x}.`}); }
+  if(form===1){ const a=ri(1,9); return mc({concept:'m0-onestep', prompt:'Solve for x', body:`x - ${a} = ${x-a}`,
+    answer:`x=${x}`, distractors:[
+      {tex:`x=${x-2*a}`, why:`You subtracted ${a} again. To undo <b>−${a}</b> you <i>add</i> ${a}.`},
+      {tex:`x=${x-a}`, why:`You left the −${a} in place. Add ${a} to both sides.`}],
+    teach:`Undo <b>−${a}</b> with <b>+${a}</b>: x = ${x-a} + ${a} = ${x}.`}); }
+  if(form===2){ let a=ri(2,6); if(a===2&&x===2) a=3; return mc({concept:'m0-onestep', prompt:'Solve for x', body:`${a}x = ${a*x}`,
+    answer:`x=${x}`, distractors:[
+      {tex:`x=${a*x-a}`, why:`You subtracted ${a}. But ${a} is <i>multiplying</i> x — undo it by dividing.`},
+      {tex:`x=${a*x*a}`, why:`You multiplied by ${a}. To undo ×${a}, divide by ${a}.`}],
+    teach:`${a} multiplies x, so divide both sides by ${a}: x = ${a*x} ÷ ${a} = ${x}.`}); }
+  let a=ri(2,6); if(a===2&&x===2) a=3; return mc({concept:'m0-onestep', prompt:'Solve for x', body:`\\dfrac{x}{${a}} = ${x}`,
+    answer:`x=${x*a}`, distractors:[
+      {tex:`x=${x}`, why:`You left it divided. To undo ÷${a}, <i>multiply</i> both sides by ${a}.`},
+      {tex:`x=${x+a}`, why:`You added ${a}. ${a} divides x — undo it by multiplying.`}],
+    teach:`${a} divides x, so multiply both sides by ${a}: x = ${x} × ${a} = ${x*a}.`});
+});
+
+def('m0-twostep', 0, 1, 'Two-step equations', () => {
+  const a=ri(2,5), x=ri(2,9), b=ri(1,12), c=a*x+b;
+  const style = ri(0,1);
+  const base = {concept:'m0-twostep', prompt:'Solve for x', body:`${a}x + ${b} = ${c}`,
+    teach:`Two moves, in order: first undo <b>+${b}</b> (subtract) → ${a}x = ${c-b}, then undo <b>×${a}</b> (divide) → x = ${x}.`};
+  if(style===0) return typ({...base, answer:x, tag:'Type the answer'});
+  return mc({...base, answer:`x=${x}`, distractors:[
+    {tex:`x=${(c+b)/a % 1 ? (c+b/a).toFixed(1): (c+b)/a}`, why:`You added ${b} instead of subtracting. Moving +${b} across the = flips it to −${b}.`},
+    {tex:`x=${(c/a % 1)? (c/a).toFixed(1):c/a}`, why:`You divided before peeling off +${b}. Undo the +${b} <i>first</i>, then divide.`},
+    {tex:`x=${x+1}`, why:`Close — recheck the subtraction: ${c} − ${b} = ${c-b}, then ÷${a}.`}]});
+});
+
+def('m0-rearrange', 0, 2, 'Rearrange for a symbol', () => pick([
+  mc({concept:'m0-rearrange', prompt:'Make t the subject', body:`v = u + at`,
+    answer:`t=\\dfrac{v-u}{a}`, distractors:[
+      {tex:`t=\\dfrac{v}{a}-u`, why:`You divided only <i>part</i> of the side by a. Subtract u first, then divide the <b>whole</b> thing by a.`},
+      {tex:`t=v-u-a`, why:`a is <i>multiplying</i> t, so you undo it by dividing — not subtracting.`},
+      {tex:`t=\\dfrac{v+u}{a}`, why:`+u became... it was <b>+u</b>, so moving it across makes it <b>−u</b>.`}],
+    teach:`Peel from the outside in: subtract u → v−u = at, then divide by a → t = (v−u)/a.`}),
+  mc({concept:'m0-rearrange', prompt:'Make w the subject', body:`P = 2(l + w)`,
+    answer:`w=\\dfrac{P}{2}-l`, distractors:[
+      {tex:`w=P-2l`, why:`You didn't undo the <b>×2</b> on w. Divide the whole side by 2 first.`},
+      {tex:`w=\\dfrac{P-l}{2}`, why:`Only l should stay divided-free after you split it off. Divide by 2 first: P/2 = l+w.`}],
+    teach:`Divide by 2 → P/2 = l + w, then subtract l → w = P/2 − l.`}),
+  mc({concept:'m0-rearrange', prompt:'Make h the subject', body:`A = \\tfrac{1}{2}bh`,
+    answer:`h=\\dfrac{2A}{b}`, distractors:[
+      {tex:`h=\\dfrac{A}{2b}`, why:`The ½ is multiplying — undo it by ×2, which puts 2 on <i>top</i>: 2A.`},
+      {tex:`h=2A-b`, why:`b multiplies h, so divide by b — don't subtract it.`}],
+    teach:`Multiply by 2 → 2A = bh, then divide by b → h = 2A/b.`}),
+  mc({concept:'m0-rearrange', prompt:'Make r the subject', body:`C = 2\\pi r`,
+    answer:`r=\\dfrac{C}{2\\pi}`, distractors:[
+      {tex:`r=C-2\\pi`, why:`2π multiplies r, so divide by 2π — subtracting doesn't undo a multiply.`},
+      {tex:`r=\\dfrac{2\\pi}{C}`, why:`Flipped it. r is alone once you divide <i>C</i> by 2π, not the other way.`}],
+    teach:`2π multiplies r, so divide both sides by 2π → r = C/(2π).`}),
+]));
+
+def('m0-expand', 0, 2, 'Expand brackets', () => {
+  if(ri(0,1)===0){ const a=ri(2,6), b=ri(2,6), c=ri(1,9);
+    return mc({concept:'m0-expand', prompt:'Expand', body:`${a}(${b}x + ${c})`,
+      answer:`${a*b}x + ${a*c}`, distractors:[
+        {tex:`${a*b}x + ${c}`, why:`You only multiplied the first term. The ${a} multiplies <b>everything</b> inside: ${a}×${c} too.`},
+        {tex:`${b}x + ${a*c}`, why:`You only multiplied the second term. ${a} hits ${b}x as well.`},
+        {tex:`${a*b}x - ${a*c}`, why:`Sign slip — both terms inside are +, so both stay +.`}],
+      teach:`Distribute ${a} to <i>each</i> term: ${a}×${b}x = ${a*b}x and ${a}×${c} = ${a*c}.`}); }
+  const p=ri(1,6); let q=ri(1,6); if(p===2&&q===2) q=3;
+  return mc({concept:'m0-expand', prompt:'Expand', body:`(x + ${p})(x + ${q})`,
+    answer:`x^2 + ${p+q}x + ${p*q}`, distractors:[
+      {tex:`x^2 + ${p*q}x + ${p+q}`, why:`You swapped them: the middle coefficient is the <b>sum</b> ${p}+${q}, the last is the <b>product</b> ${p}×${q}.`},
+      {tex:`x^2 + ${p+q}`, why:`You forgot the outer × inner cross terms. FOIL gives four products.`},
+      {tex:`x^2 + ${p*q}`, why:`Missing the middle term. The two x-terms add to ${p+q}x.`}],
+    teach:`FOIL: x·x + x·${q} + ${p}·x + ${p}·${q} = x² + ${p+q}x + ${p*q}.`});
+});
+
+def('m0-factor', 0, 3, 'Factor quadratics', () => {
+  const p=ri(1,6), q=ri(1,6), b=p+q, c=p*q;
+  return mc({concept:'m0-factor', prompt:'Factor', body:`x^2 + ${b}x + ${c}`,
+    answer:`(x+${p})(x+${q})`, distractors:[
+      {tex:`(x-${p})(x-${q})`, why:`Both signs should be <b>+</b>: two negatives would give a +${c} last term but a <i>negative</i> middle term.`},
+      {tex:`(x+${b})(x+${c})`, why:`You used the sum and product as the roots. You need two numbers that <b>add</b> to ${b} <i>and</i> <b>multiply</b> to ${c}.`},
+      {tex:`(x+${p+1})(x+${q>1?q-1:q+1})`, why:`Check: those multiply to ${(p+1)*(q>1?q-1:q+1)}, not ${c}.`}],
+    teach:`Find two numbers that multiply to ${c} and add to ${b}: that's ${p} and ${q}.`});
+});
+
+def('m0-fractions', 0, 3, 'Add fractions', () => {
+  let b=ri(2,6), d=ri(2,6); if(b===d) d = (d%6)+1+1;
+  const a=ri(1,b-1), c=ri(1,d-1);
+  const num=a*d+c*b, den=b*d, g=gcd(num,den);
+  const ans = (den/g===1)? `${num/g}` : `\\dfrac{${num/g}}{${den/g}}`;
+  return mc({concept:'m0-fractions', prompt:'Add the fractions', body:`\\dfrac{${a}}{${b}} + \\dfrac{${c}}{${d}}`,
+    answer:ans, distractors:[
+      {tex:`\\dfrac{${a+c}}{${b+d}}`, why:`You added tops and bottoms straight across. Fractions need a <b>common denominator</b> first — you can't add ${b}ths to ${d}ths directly.`},
+      {tex:`\\dfrac{${a*d+c*b}}{${b*d}}`, why:`Right idea, but simplify: ${num}/${den} divides by ${g}.`, keepIf: g>1},
+      {tex:`\\dfrac{${a+c}}{${b}}`, why:`You kept one denominator but added the tops as if they matched. Rescale both to /${den} first.`}].filter(x=>x.keepIf!==false),
+    teach:`Common denominator ${den}: ${a}/${b}=${a*d}/${den}, ${c}/${d}=${c*b}/${den}. Add tops → ${num}/${den}${g>1?` = ${num/g}/${den/g}`:''}.`});
+});
+
+def('m0-exponents', 0, 3, 'Laws of exponents', () => pick([
+  (()=>{ const a=ri(2,4), m=ri(2,5); let n=ri(2,5); if(m===2&&n===2) n=3; return mc({concept:'m0-exponents', prompt:'Simplify', body:`${a}^${m} \\cdot ${a}^${n}`,
+    answer:`${a}^{${m+n}}`, distractors:[
+      {tex:`${a}^{${m*n}}`, why:`You multiplied the exponents. Same base, <b>multiplying</b> the powers → <b>add</b> the exponents: ${m}+${n}.`},
+      {tex:`${a*a}^{${m+n}}`, why:`The base stays ${a} — don't multiply the bases too.`}],
+    teach:`Same base ⇒ add exponents: ${a}^${m}·${a}^${n} = ${a}^{${m}+${n}} = ${a}^{${m+n}}.`}); })(),
+  (()=>{ const a=ri(2,4), m=ri(2,4); let n=ri(2,3); if(m===2&&n===2) n=3; return mc({concept:'m0-exponents', prompt:'Simplify', body:`(${a}^${m})^${n}`,
+    answer:`${a}^{${m*n}}`, distractors:[
+      {tex:`${a}^{${m+n}}`, why:`A power <i>of</i> a power <b>multiplies</b> the exponents: ${m}×${n}. Adding is for ${a}^${m}·${a}^${n}.`},
+      {tex:`${a}^{${m}}`, why:`You applied the inner power but ignored the outer exponent ${n}. Both count — multiply them.`}],
+    teach:`Power of a power ⇒ multiply exponents: (${a}^${m})^${n} = ${a}^{${m}×${n}} = ${a}^{${m*n}}.`}); })(),
+  rev({concept:'m0-exponents', prompt:'Why does a negative power flip the fraction?', body:`2^{-3} = \\;?`,
+    back:`2^{-3}=\\dfrac{1}{2^{3}}=\\dfrac{1}{8}`,
+    teach:`A negative exponent means "divide instead of multiply": each step down halves. 2^{-n} = 1/2^{n}.`}),
+]));
+
+def('m0-logs', 0, 3, 'Logs & exponents', () => pick([
+  (()=>{ const b=pick([2,3,5]), k=ri(2,4); return typ({concept:'m0-logs', prompt:'Solve for x', body:`${b}^x = ${b**k}`,
+    answer:k, teach:`Ask "${b} to what power is ${b**k}?" That's exactly what log means: x = log_${b}(${b**k}) = ${k}.`}); })(),
+  (()=>{ const b=pick([2,3,10]), k=ri(2,4); return typ({concept:'m0-logs', prompt:'Evaluate', body:`\\log_{${b}}(${b**k})`,
+    answer:k, teach:`log_${b}(${b**k}) asks "${b} to what power = ${b**k}?" → ${k}. Logs are the inverse of powers.`}); })(),
+  rev({concept:'m0-logs', prompt:'Why do logs turn × into +?', body:`\\log(ab) = \\;?`,
+    back:`\\log(ab) = \\log a + \\log b`,
+    teach:`Multiplying the numbers <b>adds</b> their exponents (that's the exponent law). A log <i>is</i> the exponent — so it adds. This is why logs show up in loss functions: they turn products of probabilities into sums.`}),
+]));
+
+def('m0-sigma', 0, 3, 'Sigma notation', () => {
+  const kind = ri(0,2), n=ri(3,7);
+  if(kind===0) return typ({concept:'m0-sigma', prompt:'Evaluate the sum', body:`\\sum_{i=1}^{${n}} i`,
+    answer:n*(n+1)/2, teach:`1+2+…+${n}. Shortcut: n(n+1)/2 = ${n}·${n+1}/2 = ${n*(n+1)/2}.`});
+  if(kind===1){ const c=ri(2,4); return typ({concept:'m0-sigma', prompt:'Evaluate the sum', body:`\\sum_{i=1}^{${n}} ${c}`,
+    answer:c*n, teach:`The term ${c} doesn't depend on i, so you just add ${c} to itself ${n} times: ${c}×${n} = ${c*n}.`}); }
+  const c=ri(2,3); return typ({concept:'m0-sigma', prompt:'Evaluate the sum', body:`\\sum_{i=1}^{${n}} ${c}i`,
+    answer:c*n*(n+1)/2, teach:`Pull the ${c} out: ${c}·(1+2+…+${n}) = ${c}·${n*(n+1)/2} = ${c*n*(n+1)/2}.`});
+});
+
+/* ---------------- MODULE 1 · Functions & Graphs ---------------- */
+
+def('m1-eval', 1, 1, 'Evaluate a function', () => {
+  const a=ri(2,5), b=ri(1,9), x=ri(2,6);
+  return typ({concept:'m1-eval', prompt:`If f(x) = ${a}x + ${b}, find f(${x})`, body:`f(${x}) = \\;?`,
+    answer:a*x+b, teach:`A function is a machine: feed in ${x}. f(${x}) = ${a}×${x} + ${b} = ${a*x}+${b} = ${a*x+b}.`});
+});
+
+def('m1-eval-quad', 1, 1, 'Evaluate a quadratic', () => {
+  const b=ri(1,4), c=ri(1,6), x=ri(2,5);
+  return typ({concept:'m1-eval-quad', prompt:`If f(x) = x² + ${b}x + ${c}, find f(${x})`, body:`f(${x}) = \\;?`,
+    answer:x*x+b*x+c, teach:`f(${x}) = ${x}² + ${b}·${x} + ${c} = ${x*x} + ${b*x} + ${c} = ${x*x+b*x+c}. Square first, then the rest.`});
+});
+
+def('m1-transform', 1, 2, 'Transform graphs', () => pick([
+  mc({concept:'m1-transform', prompt:'The graph of…', body:`f(x) - 3`,
+    answer:`shifts down 3`, distractors:[
+      {tex:`shifts up 3`, why:`Subtracting <i>outside</i> the function lowers every output → the whole graph moves <b>down</b>.`},
+      {tex:`shifts left 3`, why:`Left/right shifts happen <i>inside</i> the brackets, like f(x−3). This −3 is outside.`},
+      {tex:`shifts right 3`, why:`That's inside-the-brackets territory. Outside = vertical.`}],
+    teach:`Outside the function = vertical. f(x) − 3 pushes all outputs down by 3.`}),
+  mc({concept:'m1-transform', prompt:'The graph of…', body:`f(x - 2)`,
+    answer:`shifts right 2`, distractors:[
+      {tex:`shifts left 2`, why:`The classic trap! Inside the brackets it's <b>backwards</b>: −2 moves it <b>right</b>, because you need x=2 to get the "old x=0" value.`},
+      {tex:`shifts down 2`, why:`Inside the brackets affects left/right, not up/down.`},
+      {tex:`shifts up 2`, why:`Vertical shifts live outside the function.`}],
+    teach:`Inside the brackets = horizontal, and <b>reversed</b>: f(x−2) shifts <b>right</b> 2.`}),
+  mc({concept:'m1-transform', prompt:'The graph of…', body:`2\\,f(x)`,
+    answer:`stretches vertically ×2`, distractors:[
+      {tex:`shifts up 2`, why:`Multiplying scales outputs, it doesn't add to them. Every y doubles.`},
+      {tex:`stretches horizontally ×2`, why:`Horizontal scaling multiplies <i>inside</i>: f(2x). Outside multiplies the height.`}],
+    teach:`Multiplying outside stretches the height: 2f(x) doubles every output.`}),
+]));
+
+def('m1-compose', 1, 2, 'Compose functions', () => {
+  const a=ri(2,3), b=ri(1,5), k=ri(1,4), x=ri(1,4);
+  const inner=a*x+b, ans=k*inner;
+  return typ({concept:'m1-compose', prompt:`f(x)=${a}x+${b}, g(x)=${k}x. Find g(f(${x}))`, body:`g(f(${x})) = \\;?`,
+    answer:ans, teach:`Inside-out: f(${x}) = ${inner} first, then g(${inner}) = ${k}×${inner} = ${ans}. Composition feeds one machine's output into the next.`});
+});
+
+def('m1-sigmoid', 1, 3, 'Sigmoid & friends', () => pick([
+  mc({concept:'m1-sigmoid', prompt:'The sigmoid σ(x) squashes any input into…', body:`\\sigma(x) = \\dfrac{1}{1+e^{-x}}`,
+    answer:`(0, 1)`, distractors:[
+      {tex:`(-1, 1)`, why:`That's tanh. Sigmoid's floor is 0, not −1.`},
+      {tex:`(-\\infty, \\infty)`, why:`The whole point is to <i>squash</i> — the output is bounded.`},
+      {tex:`[0, \\infty)`, why:`That's ReLU. Sigmoid also has a ceiling: it can't exceed 1.`}],
+    teach:`Sigmoid maps all of ℝ into (0,1) — perfect for turning a score into a <b>probability</b>.`}),
+  typ({concept:'m1-sigmoid', prompt:'What is σ(0)? (as a decimal)', body:`\\sigma(0) = \\dfrac{1}{1+e^{0}}`,
+    answer:'0.5', teach:`e⁰ = 1, so σ(0) = 1/(1+1) = 0.5. The sigmoid is perfectly undecided at 0.`}),
+]));
+
+/* ---------------- MODULE 2 · Linear Algebra ---------------- */
+
+def('m2-vecadd', 2, 1, 'Add vectors', () => {
+  let a,b,c,d; do{ a=ri(1,6); b=ri(1,6); c=ri(1,6); d=ri(1,6); } while(c===d || b===c);
+  return mc({concept:'m2-vecadd', prompt:'Add the vectors', body:`(${a},\\,${b}) + (${c},\\,${d})`,
+    answer:`(${a+c},\\,${b+d})`, distractors:[
+      {tex:`(${a+d},\\,${b+c})`, why:`You crossed the slots. Add <b>matching</b> components: first+first, second+second.`},
+      {tex:`(${a*c},\\,${b*d})`, why:`That's multiplying. Vector addition adds component-by-component.`},
+      {tex:`(${a+b},\\,${c+d})`, why:`You added <i>within</i> each vector. Line them up and add across instead.`}],
+    teach:`Add slot by slot: (${a}+${c}, ${b}+${d}) = (${a+c}, ${b+d}).`});
+});
+
+def('m2-scalar', 2, 1, 'Scale a vector', () => {
+  const k=ri(2,4), a=ri(1,6); let b=ri(1,6); if(k===2&&a===2&&b===2) b=3;
+  return mc({concept:'m2-scalar', prompt:'Scale the vector', body:`${k}\\,(${a},\\,${b})`,
+    answer:`(${k*a},\\,${k*b})`, distractors:[
+      {tex:`(${k*a},\\,${b})`, why:`The scalar multiplies <b>every</b> component — including the second.`},
+      {tex:`(${k+a},\\,${k+b})`, why:`That's adding ${k}. Scaling multiplies each slot.`}],
+    teach:`Multiply every component by ${k}: (${k}×${a}, ${k}×${b}) = (${k*a}, ${k*b}).`});
+});
+
+def('m2-dot', 2, 2, 'Dot product', () => {
+  let a,b,c,d; do{ a=ri(1,5); b=ri(1,5); c=ri(1,5); d=ri(1,5); } while(a===b || c===d);
+  return mc({concept:'m2-dot', prompt:'Compute the dot product', body:`(${a},\\,${b}) \\cdot (${c},\\,${d})`,
+    answer:`${a*c+b*d}`, distractors:[
+      {tex:`${a*d+b*c}`, why:`You crossed the pairs. The dot product multiplies <b>matching</b> slots: ${a}×${c} + ${b}×${d}.`},
+      {tex:`${a*c*b*d}`, why:`You multiplied all four together. It's a <i>sum</i> of the two products.`},
+      {tex:`${(a+c)*(b+d)}`, why:`Add-then-multiply isn't it. Multiply matching slots, then add.`}],
+    teach:`Pair matching slots and add: ${a}×${c} + ${b}×${d} = ${a*c} + ${b*d} = ${a*c+b*d}. This one number measures how aligned the vectors are — it powers attention.`});
+});
+
+def('m2-matmul', 2, 3, 'Matrix × matrix', () => {
+  const A=[[ri(1,4),ri(1,4)],[ri(1,4),ri(1,4)]], B=[[ri(1,4),ri(1,4)],[ri(1,4),ri(1,4)]];
+  const tl = A[0][0]*B[0][0] + A[0][1]*B[1][0];
+  const bodyA = `A=\\begin{bmatrix}${A[0][0]}&${A[0][1]}\\\\${A[1][0]}&${A[1][1]}\\end{bmatrix}`;
+  const bodyB = `B=\\begin{bmatrix}${B[0][0]}&${B[0][1]}\\\\${B[1][0]}&${B[1][1]}\\end{bmatrix}`;
+  return typ({concept:'m2-matmul', prompt:'Top-left entry of A·B?', body:`${bodyA}\\;\\; ${bodyB}`,
+    answer:tl, teach:`Top-left = (row 1 of A) · (col 1 of B) = ${A[0][0]}×${B[0][0]} + ${A[0][1]}×${B[1][0]} = ${tl}. Every entry is a row-meets-column dot product.`});
+});
+
+def('m2-images', 2, 3, 'Images are matrices', () => rev({concept:'m2-images',
+  prompt:'How is a greyscale image stored?', body:`\\text{a photo} = \\;?`,
+  back:`\\text{a matrix of pixel brightnesses } (0\\text{–}255)`,
+  teach:`A greyscale image is just a grid of numbers — a matrix. Colour = three such matrices (R, G, B). That's why linear algebra <i>is</i> image processing.`}));
+
+/* ---------------- MODULE 3 · Calculus ---------------- */
+
+def('m3-power', 3, 1, 'Power rule', () => {
+  const n=ri(2,6);
+  return mc({concept:'m3-power', prompt:'Differentiate', body:`\\dfrac{d}{dx}\\,x^{${n}}`,
+    answer:`${n}x^{${n-1}}`, distractors:[
+      {tex:`x^{${n-1}}`, why:`You lowered the power but dropped the <b>coefficient</b>. Bring the exponent ${n} down out front.`},
+      {tex:`${n}x^{${n}}`, why:`You brought ${n} down but forgot to <b>reduce</b> the power by 1.`},
+      {tex:`${n-1}x^{${n-1}}`, why:`The coefficient is the <i>original</i> exponent ${n}, not ${n-1}.`}],
+    teach:`Power rule: bring the exponent down, drop it by one. x^${n} → ${n}x^${n-1}. Slope of a slope.`});
+});
+
+def('m3-poly', 3, 2, 'Differentiate a polynomial', () => {
+  const a=ri(2,4), n=ri(2,4), b=ri(2,6);
+  return typ({concept:'m3-poly', prompt:`If f(x)=${a}x^${n} + ${b}x, find f'(1)`, body:`f'(1) = \\;?`,
+    answer:a*n+b, teach:`f'(x) = ${a*n}x^${n-1} + ${b}. At x=1: ${a*n}·1 + ${b} = ${a*n+b}. Differentiate term by term.`});
+});
+
+def('m3-chain', 3, 3, 'Chain rule', () => {
+  const a=ri(2,4), b=ri(1,5), n=ri(2,4);
+  return mc({concept:'m3-chain', prompt:'Differentiate', body:`\\dfrac{d}{dx}\\,(${a}x+${b})^{${n}}`,
+    answer:`${n*a}(${a}x+${b})^{${n-1}}`, distractors:[
+      {tex:`${n}(${a}x+${b})^{${n-1}}`, why:`You forgot the <b>inside</b>. The chain rule multiplies by the derivative of ${a}x+${b}, which is ${a}.`},
+      {tex:`${n}(${a})^{${n-1}}`, why:`Don't differentiate the inside away entirely — keep (${a}x+${b}) in the base, just drop its power by one.`},
+      {tex:`${n*a}(${a}x+${b})^{${n}}`, why:`Reduce the power by 1: it becomes ${n-1}, not ${n}.`}],
+    teach:`Chain rule: power rule on the outside × derivative of the inside. ${n}(${a}x+${b})^${n-1} × ${a} = ${n*a}(${a}x+${b})^${n-1}. This IS backprop.`});
+});
+
+def('m3-descent', 3, 3, 'Gradient descent', () => rev({concept:'m3-descent',
+  prompt:'To minimise a loss, which way do you step?', body:`\\text{step} = -\\eta\\,\\nabla L`,
+  back:`\\text{opposite the gradient (downhill)}`,
+  teach:`The gradient ∇L points <b>uphill</b> (steepest increase). To go <i>down</i>, step the opposite way — that minus sign is the whole idea of learning. η is the step size (learning rate).`}));
+
+/* ---------------- MODULE 4 · Probability & Stats ---------------- */
+
+def('m4-count', 4, 1, 'Probability as counting', () => pick([
+  typ({concept:'m4-count', prompt:'A fair die is rolled. P(even)? (as a decimal)', body:`P(\\text{even}) = \\;?`,
+    answer:'0.5', teach:`Even faces: {2,4,6} = 3 of 6. P = 3/6 = 0.5. Probability = favourable ÷ total.`}),
+  (()=>{ const tot=ri(4,8), fav=ri(1,tot-1); const g=gcd(fav,tot);
+    return mc({concept:'m4-count', prompt:`A bag has ${tot} balls, ${fav} red. P(red)?`, body:`P(\\text{red}) = \\;?`,
+      answer: (tot/g===1)?`${fav/g}`:`\\dfrac{${fav/g}}{${tot/g}}`, distractors:[
+        {tex:`\\dfrac{${fav}}{${tot-fav}}`, why:`Denominator is the <b>total</b> (${tot}), not the non-red count. Odds ≠ probability.`},
+        {tex:`\\dfrac{${tot}}{${fav}}`, why:`Flipped it — favourable goes on <b>top</b>, total on the bottom.`}],
+      teach:`P(red) = red ÷ total = ${fav}/${tot}${g>1?` = ${fav/g}/${tot/g}`:''}.`}); })(),
+]));
+
+def('m4-mean', 4, 1, 'Mean of a list', () => {
+  const n=ri(3,4), xs=Array.from({length:n},()=>ri(2,9));
+  const sum=xs.reduce((a,b)=>a+b,0);
+  const isInt = sum%n===0;
+  return typ({concept:'m4-mean', prompt:`Mean of ${xs.join(', ')}?`, body:`\\bar{x} = \\;?`,
+    answer: isInt? sum/n : (sum/n).toFixed(2),
+    teach:`Add them (${sum}), divide by how many (${n}): ${sum}/${n} = ${isInt?sum/n:(sum/n).toFixed(2)}. The mean is the balance point.`});
+});
+
+def('m4-independent', 4, 2, 'AND / OR', () => {
+  return mc({concept:'m4-independent', prompt:'Two fair coins. P(both heads)?', body:`P(H \\text{ and } H) = \\;?`,
+    answer:`\\dfrac{1}{4}`, distractors:[
+      {tex:`\\dfrac{1}{2}`, why:`That's one coin. Two <i>independent</i> events: <b>multiply</b> the chances.`},
+      {tex:`1`, why:`Adding to 1 would mean it's certain. Independent AND multiplies: ½×½.`},
+      {tex:`\\dfrac{2}{4}`, why:`½+½ adds them. For "and" with independent events you multiply, not add.`}],
+    teach:`Independent AND ⇒ multiply: ½ × ½ = ¼. (OR would add, roughly.)`});
+});
+
+def('m4-normal', 4, 3, 'Normal distribution', () => pick([
+  mc({concept:'m4-normal', prompt:'In a normal distribution, about what % is within 1 standard deviation?', body:`\\pm 1\\sigma`,
+    answer:`68\\%`, distractors:[
+      {tex:`95\\%`, why:`95% is within <b>2σ</b>. One σ captures the middle 68%.`},
+      {tex:`50\\%`, why:`50% is just one side of the mean. 1σ each way covers 68%.`},
+      {tex:`99.7\\%`, why:`That's 3σ. 1σ = 68%.`}],
+    teach:`The 68–95–99.7 rule: ±1σ ≈ 68%, ±2σ ≈ 95%, ±3σ ≈ 99.7%. The bell's shape in three numbers.`}),
+  rev({concept:'m4-normal', prompt:'Why does the bell curve appear everywhere?', body:`\\text{sum of many small random effects} \\to \\;?`,
+    back:`\\text{a normal (bell) distribution}`,
+    teach:`The Central Limit Theorem: add up many independent little wobbles and their sum is bell-shaped — no matter what each wobble looked like. That's why heights, errors, and noise are all normal.`}),
+]));
+
+def('m4-crossentropy', 4, 3, 'Likelihood & surprise', () => rev({concept:'m4-crossentropy',
+  prompt:'A model gave the true answer probability p. Its "surprise" (loss) is…', body:`\\text{loss} = \\;?`,
+  back:`-\\log(p)`,
+  teach:`−log(p): if the model was <b>confident and right</b> (p→1), −log(1)=0, no penalty. If it was sure and <i>wrong</i> (p→0), −log(0)→∞, huge penalty. This is cross-entropy — the loss that trains classifiers.`}));
+
+/* ---------------- MODULE 5 · Neural Nets ---------------- */
+
+def('m5-neuron', 5, 1, 'A neuron computes', () => {
+  const w1=ri(1,3), w2=ri(1,3), x1=ri(1,4), x2=ri(1,4), b=ri(1,4);
+  const z=w1*x1+w2*x2+b;
+  return typ({concept:'m5-neuron', prompt:`weights (${w1},${w2}), inputs (${x1},${x2}), bias ${b}. Output z?`,
+    body:`z = w\\cdot x + b`,
+    answer:z, teach:`z = ${w1}×${x1} + ${w2}×${x2} + ${b} = ${w1*x1}+${w2*x2}+${b} = ${z}. A neuron is a dot product plus a bias — that's it.`});
+});
+
+def('m5-relu', 5, 1, 'ReLU activation', () => {
+  const x=ri(-6,6);
+  return typ({concept:'m5-relu', prompt:`ReLU(x) = max(0, x). Find ReLU(${x})`, body:`\\text{ReLU}(${x}) = \\;?`,
+    answer: Math.max(0,x), teach:`ReLU keeps positives, zeroes negatives: max(0, ${x}) = ${Math.max(0,x)}. This one kink is what lets networks bend into any shape.`});
+});
+
+def('m5-softmax', 5, 2, 'Softmax', () => rev({concept:'m5-softmax',
+  prompt:'What does softmax do to a list of raw scores?', body:`\\text{softmax}(\\mathbf{z}) = \\;?`,
+  back:`\\text{turns them into probabilities that sum to 1}`,
+  teach:`Softmax exponentiates each score (making them positive) then normalises so they add to 1 — converting "how strongly" into "how likely". It's the last layer of a classifier.`}));
+
+def('m5-crossentropy', 5, 2, 'Classifier loss', () => {
+  const p=pick([0.25,0.5,0.1,0.2]);
+  return mc({concept:'m5-crossentropy', prompt:'The model gave the correct class probability 1.0. Cross-entropy loss?', body:`-\\log(1.0) = \\;?`,
+    answer:`0`, distractors:[
+      {tex:`1`, why:`log(1)=0, and −0 = 0. A perfectly confident, correct model pays <b>no</b> penalty.`},
+      {tex:`\\infty`, why:`∞ is the penalty for being confident and <i>wrong</i> (p→0), not right.`}],
+    teach:`Cross-entropy = −log(p_correct). At p=1: −log(1) = 0. Perfect prediction, zero loss.`});
+});
+
+def('m5-backprop', 5, 3, 'Backprop', () => rev({concept:'m5-backprop',
+  prompt:'What mathematical rule powers backpropagation?', body:`\\dfrac{\\partial L}{\\partial w} = \\;?`,
+  back:`\\text{the chain rule}`,
+  teach:`Backprop is the chain rule applied layer by layer, from the loss backward to every weight — multiplying local slopes along the way. You already learned it in calculus (m3-chain). Same machine, bigger stack.`}));
+
+/* ============================================================
+   MOVE-SOLVER ENGINE — solve a linear equation one legal move
+   at a time. Integer state throughout the ideal path, so no
+   fractions ever appear. Distractor moves are shown with a
+   why-first note but never applied (you re-pick).
+   ============================================================ */
+
+// linear equation state: {l:{x,k}, r:{x,k}} with integer coeffs
+function newLinearProblem(){
+  const x = ri(2,9);
+  if(ri(0,1)===0){                      // ax + b = c
+    const a=ri(2,5), b=ri(1,12);
+    return {l:{x:a, k:b}, r:{x:0, k:a*x+b}, sol:x};
+  }
+  const a=ri(3,6), c=ri(1,a-1), b=ri(1,9);   // ax + b = cx + d,  a>c ⇒ d>0
+  return {l:{x:a, k:b}, r:{x:c, k:a*x + b - c*x}, sol:x};
+}
+const sideTex = s => {
+  let t='';
+  if(s.x!==0) t = s.x===1?'x' : s.x===-1?'-x' : `${s.x}x`;
+  if(s.k!==0) t += (t===''? `${s.k}` : (s.k>0? ` + ${s.k}` : ` - ${-s.k}`));
+  return t||'0';
+};
+const eqTex = e => `${sideTex(e.l)} = ${sideTex(e.r)}`;
+const solvedEq = e => {
+  const pureX=s=>s.x===1&&s.k===0, pureK=s=>s.x===0;
+  return (pureX(e.l)&&pureK(e.r)) || (pureX(e.r)&&pureK(e.l));
+};
+function idealDesc(e){
+  const lx=e.l.x!==0, rx=e.r.x!==0;
+  if(lx&&rx){ const v = Math.abs(e.l.x)<=Math.abs(e.r.x)? e.l.x : e.r.x; return {type:'x', v:-v}; }
+  const xs = lx? e.l : e.r;
+  if(xs.k!==0) return {type:'k', v:-xs.k};
+  return {type:'div', v:xs.x};
+}
+function applyIdeal(e, d){
+  const n={l:{...e.l}, r:{...e.r}};
+  if(d.type==='k'){ n.l.k+=d.v; n.r.k+=d.v; }
+  else if(d.type==='x'){ n.l.x+=d.v; n.r.x+=d.v; }
+  else if(d.type==='div'){ n.l.x/=d.v; n.l.k/=d.v; n.r.x/=d.v; n.r.k/=d.v; }
+  return n;
+}
+function labelOf(d){
+  if(d.type==='k') return d.v>0? `+ ${d.v}` : `− ${-d.v}`;
+  if(d.type==='x'){ const t=Math.abs(d.v)===1?'x':`${Math.abs(d.v)}x`; return d.v>0? `+ ${t}` : `− ${t}`; }
+  if(d.type==='div') return `÷ ${d.v}`;
+  return 'swap sides';
+}
+function candidates(e){
+  const id=idealDesc(e);
+  const out=[{label:labelOf(id), good:true, desc:id}];
+  if(id.type==='k') out.push({label:labelOf({type:'k',v:-id.v}), good:false,
+    note:'Wrong direction — that grows the equation instead of cancelling. To remove a term, use the opposite sign.'});
+  else if(id.type==='x') out.push({label:labelOf({type:'x',v:-id.v}), good:false,
+    note:'Wrong direction — that piles on more x instead of cancelling. Subtract the smaller x-term.'});
+  else if(id.type==='div') out.push({label:`÷ ${id.v+1}`, good:false,
+    note:`Divide by the coefficient of x (that's ${id.v}), not ${id.v+1}.`});
+  const xs = e.l.x!==0? e.l : e.r;                       // "premature divide" trap
+  if(id.type!=='div' && xs.k!==0 && Math.abs(xs.x)!==1)
+    out.push({label:`÷ ${Math.abs(xs.x)}`, good:false,
+      note:'Legal, but dividing now drags the constant into a fraction. Clear the +/− term first, then divide.'});
+  if(out.length<4) out.push({label:'swap sides', good:false,
+    note:'That just flips the sides — harmless, but no closer to isolating x.'});
+  const seen=new Set();
+  const uniq=out.filter(o=> !seen.has(o.label) && seen.add(o.label));
+  return shuffle(uniq.slice(0,4));
+}
+
+// authored "make X the subject" guided solves (symbolic — his core weakness)
+const REARRANGE = [
+  {goal:'Make t the subject', steps:[
+    {tex:'v = u + at', choices:[
+      {label:'− u (both sides)', correct:true},
+      {label:'÷ a (both sides)', note:'Legal, but that splits everything by a → v/a = u/a + t. Peel off the + u first.'},
+      {label:'− a (both sides)', note:'a is *multiplying* t, not added on — you can’t subtract it away.'},
+      {label:'+ u (both sides)', note:'Wrong direction — you want to remove the + u, so subtract it.'}]},
+    {tex:'v - u = at', choices:[
+      {label:'÷ a (both sides)', correct:true},
+      {label:'− a (both sides)', note:'a multiplies t — undo it by dividing, not subtracting.'},
+      {label:'× a (both sides)', note:'That makes it worse: a(v−u) = a²t. Divide to peel a off t.'}]},
+    {tex:'\\dfrac{v - u}{a} = t', done:true}]},
+  {goal:'Make w the subject', steps:[
+    {tex:'P = 2(l + w)', choices:[
+      {label:'÷ 2 (both sides)', correct:true},
+      {label:'− 2 (both sides)', note:'The 2 is multiplying the bracket, not added — divide to undo it.'},
+      {label:'− l (both sides)', note:'l is trapped inside the bracket, still ×2. Divide by 2 first to free it.'}]},
+    {tex:'\\dfrac{P}{2} = l + w', choices:[
+      {label:'− l (both sides)', correct:true},
+      {label:'+ l (both sides)', note:'Wrong direction — you want to remove + l, so subtract it.'},
+      {label:'÷ l (both sides)', note:'l is added to w, not multiplying it — subtract to move it.'}]},
+    {tex:'\\dfrac{P}{2} - l = w', done:true}]},
+  {goal:'Make h the subject', steps:[
+    {tex:'A = \\tfrac{1}{2}bh', choices:[
+      {label:'× 2 (both sides)', correct:true},
+      {label:'÷ 2 (both sides)', note:'The ½ is already a divide — multiply by 2 to undo it.'},
+      {label:'÷ b (both sides)', note:'Fine eventually, but clear the ½ first: × 2, then ÷ b.'}]},
+    {tex:'2A = bh', choices:[
+      {label:'÷ b (both sides)', correct:true},
+      {label:'− b (both sides)', note:'b multiplies h — divide to undo it, don’t subtract.'},
+      {label:'÷ h (both sides)', note:'h is what we’re solving for — don’t divide it away.'}]},
+    {tex:'\\dfrac{2A}{b} = h', done:true}]},
+  {goal:'Make r the subject', steps:[
+    {tex:'C = 2\\pi r', choices:[
+      {label:'÷ 2π (both sides)', correct:true},
+      {label:'− 2π (both sides)', note:'2π multiplies r — subtracting can’t undo a multiply. Divide.'},
+      {label:'÷ r (both sides)', note:'r is what we want alone — don’t divide by it.'}]},
+    {tex:'\\dfrac{C}{2\\pi} = r', done:true}]},
+];
+
+def('m0-solve-linear', 0, 2, 'Solve, move by move', () => {
+  const p = newLinearProblem();
+  return {kind:'solve', engine:'linear', concept:'m0-solve-linear', goal:'Isolate  x',
+    start:{l:{...p.l}, r:{...p.r}}, sol:p.sol, tag:'Solve it — one move at a time'};
+});
+def('m0-solve-rearrange', 0, 3, 'Make X the subject', () => {
+  const p = pick(REARRANGE);
+  return {kind:'solve', engine:'script', concept:'m0-solve-rearrange', goal:p.goal,
+    steps:p.steps, tag:'Rearrange — one move at a time'};
+});
+
+/* ============================================================
+   STATE — localStorage, offline, resumable.
+   ============================================================ */
+const KEY='math-game-v1';
+const GOAL=20, UNLOCK=60, MASTER=80;   // thresholds
+let S = load();
+
+function load(){
+  let s; try{ s=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+  if(!s) s={};
+  s.xp = s.xp||0;
+  s.streak = s.streak||0;
+  s.lastPlayed = s.lastPlayed||null;
+  s.daily = s.daily||{date:today(), count:0};
+  s.mods = s.mods||{};
+  s.mastered = s.mastered||{};
+  for(const m of MODULES){
+    if(!s.mods[m.id]) s.mods[m.id]={tier:1, c:{}};
+  }
+  // reset daily counter on a new day
+  if(s.daily.date!==today()) s.daily={date:today(), count:0};
+  // gentle decay so streaks/reviews matter (applied once per day)
+  const t=today();
+  if(s.decayDate!==t){
+    for(const m of MODULES){ const cs=s.mods[m.id].c;
+      for(const k in cs){ cs[k].s = Math.max(0, cs[k].s - 3); } }
+    s.decayDate=t;
+  }
+  return s;
+}
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
+
+const conceptsOf = m => C.filter(c=>c.mod===m);
+const strOf = (m,cid) => (S.mods[m].c[cid]?.s ?? 0);
+function bumpConcept(m,cid,delta){
+  const cs=S.mods[m].c; if(!cs[cid]) cs[cid]={s:0,seen:0,ok:0};
+  cs[cid].s = Math.max(0, Math.min(100, cs[cid].s + delta));
+  cs[cid].seen++; if(delta>0) cs[cid].ok++;
+}
+const activeConcepts = m => conceptsOf(m).filter(c=>c.tier<=S.mods[m].tier);
+function moduleMastery(m){  // 0..100 across ALL concepts in the module
+  const cs=conceptsOf(m); if(!cs.length) return 0;
+  return Math.round(cs.reduce((a,c)=>a+strOf(m,c.id),0)/cs.length);
+}
+const maxTier = m => Math.max(...conceptsOf(m).map(c=>c.tier));
+
+function recordDay(){
+  const t=today();
+  if(S.lastPlayed===t) return;
+  const y=new Date(Date.now()-864e5).toLocaleDateString('en-CA');
+  S.streak = (S.lastPlayed===y)? S.streak+1 : 1;
+  S.lastPlayed=t;
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+const app = $('#app');
+let session = null;
+
+function go(view){ app.innerHTML=''; view(); }
+
+// ---------- HOME ----------
+function home(){
+  const wrap = el('div','home');
+  const hero = el('div','hero',`<h1>Let's play 🎯</h1><p>Pick a module. Short bursts, one hand, no clock.</p>`);
+  wrap.appendChild(hero);
+
+  const row = el('div','stats-row');
+  row.appendChild(el('div','chip',`<b>🔥 ${S.streak}</b><span>day streak</span>`));
+  row.appendChild(el('div','chip',`<b>✦ ${S.xp}</b><span>total XP</span>`));
+  const dailyPct = Math.min(100, Math.round(S.daily.count/GOAL*100));
+  row.appendChild(el('div','chip',`<b>${S.daily.count}/${GOAL}</b><span>today ${dailyPct}%</span>`));
+  wrap.appendChild(row);
+
+  // find "next" module = first not-yet-mastered
+  const nextId = MODULES.find(m=>moduleMastery(m.id)<MASTER)?.id;
+  for(const m of MODULES){
+    const mast = moduleMastery(m.id);
+    const done = mast>=MASTER;
+    const card = el('div','modcard'+(done?' mastered':(m.id===nextId?' next':'')));
+    const disc = el('div','mdisc');
+    disc.style.setProperty('--p', mast);
+    disc.style.setProperty('--ring-c', done?'var(--done)':m.ring);
+    disc.appendChild(el('i',null, done?'✓':`${mast}`));
+    const info = el('div','minfo',
+      `<h3>${m.name}</h3><p>${done?'Mastered · keep it sharp':m.tag} · ${mast}%</p>`);
+    card.appendChild(disc); card.appendChild(info); card.appendChild(el('div','go','▶'));
+    card.onclick = () => startSession(m.id);
+    wrap.appendChild(card);
+  }
+  wrap.appendChild(el('div','foot','Progress saves on this device. <a href="/">← Dashboard</a>'));
+  app.appendChild(wrap);
+}
+
+// ---------- SESSION ----------
+function startSession(m){
+  session = {m, upcoming:[], last:null, combo:0, sessionXp:0, answered:false, correctCount:0};
+  go(play);
+  nextCard();
+}
+
+function refill(){
+  const m=session.m, act=activeConcepts(m), bag=[];
+  for(const c of act){ const w=Math.max(1, Math.round((100-strOf(m,c.id))/20)+1); for(let i=0;i<w;i++) bag.push(c.id); }
+  shuffle(bag); session.upcoming.push(...bag);
+}
+function drawConcept(){
+  if(session.upcoming.length<2) refill();
+  let cid=session.upcoming.shift();
+  if(cid===session.last && session.upcoming.length){ session.upcoming.push(cid); cid=session.upcoming.shift(); }
+  session.last=cid; return C.find(c=>c.id===cid);
+}
+
+function play(){
+  const m=MODULES[session.m];
+  // top bar
+  const top=el('div','top');
+  const back=el('button','back','‹'); back.onclick=()=>{ save(); go(home); };
+  top.appendChild(back);
+  const strk=el('div','stat',`🔥 ${S.streak}`); strk.id='strk'; top.appendChild(strk);
+  top.appendChild(el('div','stat',`✦ <span id="xp">${S.xp}</span>`));
+  const sp=el('div','spacer'); top.appendChild(sp);
+  const ring=el('div','ring'); ring.id='dring'; ring.style.setProperty('--p', Math.min(100,S.daily.count/GOAL*100));
+  ring.appendChild(el('i',null,`${S.daily.count}`)); top.appendChild(ring);
+  app.appendChild(top);
+
+  const mbar=el('div','mbar'); mbar.innerHTML=`<div id="mfill" style="width:${moduleMastery(session.m)}%"></div>`;
+  app.appendChild(mbar);
+
+  const pl=el('div','play');
+  pl.appendChild(el('div','stage')); pl.appendChild(el('div','controls'));
+  pl.firstChild.id='stage'; pl.lastChild.id='controls';
+  app.appendChild(pl);
+}
+
+function refreshTop(){
+  const xp=$('#xp'); if(xp) xp.textContent=S.xp;
+  const sk=$('#strk'); if(sk) sk.textContent=`🔥 ${S.streak}`;
+  const r=$('#dring'); if(r){ r.style.setProperty('--p', Math.min(100,S.daily.count/GOAL*100)); r.firstChild.textContent=S.daily.count; }
+  const mf=$('#mfill'); if(mf) mf.style.width=moduleMastery(session.m)+'%';
+}
+
+function nextCard(){
+  session.answered=false;
+  const concept=drawConcept();
+  const card=concept.gen();
+  card._concept=concept;
+  session.card=card;
+  renderCard(card);
+}
+
+function renderCard(card){
+  const stage=$('#stage'), controls=$('#controls');
+  stage.innerHTML=''; controls.innerHTML='';
+  if(card.kind==='solve'){ renderSolve(card, stage, controls); return; }
+  stage.appendChild(el('div','qtag', card.tag));
+  if(card.prompt){ const p=el('div','prompt'); p.textContent=card.prompt; stage.appendChild(p); }
+  const body=el('div','body'); tex(body, card.body||'', true); stage.appendChild(body);
+
+  if(card.kind==='mc') renderMC(card, controls);
+  else if(card.kind==='type') renderType(card, controls);
+  else renderReveal(card, stage, controls);
+}
+
+// ----- move-solver: tap the next move, one at a time -----
+function renderSolve(card, stage, controls){
+  stage.appendChild(el('div','qtag', card.tag));
+  stage.appendChild(el('div','solvegoal', card.goal));
+  const hist=el('div','solvehist'); stage.appendChild(hist);
+  const cur=el('div','body solvecur'); stage.appendChild(cur);
+
+  const past=[];                                   // tex of prior states
+  let wrong=0;
+  let eq = card.engine==='linear' ? {l:{...card.start.l}, r:{...card.start.r}} : null;
+  let si = 0;                                       // step index for script engine
+
+  const curTex   = () => card.engine==='linear' ? eqTex(eq) : card.steps[si].tex;
+  const isSolved = () => card.engine==='linear' ? solvedEq(eq) : !!card.steps[si].done;
+  const cands = () => card.engine==='linear'
+    ? candidates(eq)
+    : card.steps[si].choices.map(c => ({label:c.label, good:!!c.correct, note:c.note||''}));
+
+  function draw(){
+    hist.innerHTML='';
+    past.forEach(t => { const h=el('div','hstep'); tex(h, t, false); hist.appendChild(h); });
+    tex(cur, curTex(), true);
+    controls.innerHTML='';
+    if(isSolved()){ finishSolve(card, wrong); return; }
+    controls.appendChild(el('div','movehint', 'Tap the next move — applied to both sides'));
+    const grid=el('div','grid2');
+    cands().forEach(c => {
+      const b=el('button','btn'); b.textContent=c.label;
+      b.onclick=()=>{
+        if(c.good){
+          past.push(curTex());
+          if(card.engine==='linear') eq=applyIdeal(eq, c.desc); else si++;
+          b.classList.add('ok'); buzz(10);
+          setTimeout(draw, 200);
+        } else {
+          wrong++; buzz([8,30,8]); b.classList.add('no');
+          const old=controls.querySelector('.solveadv'); if(old) old.remove();
+          const adv=el('div','teach bad solveadv', `<b>Not that move</b>${c.note}`);
+          controls.insertBefore(adv, controls.firstChild);
+        }
+      };
+      grid.appendChild(b);
+    });
+    controls.appendChild(grid);
+  }
+  draw();
+}
+
+// ----- multiple choice -----
+function renderMC(card, controls){
+  const grid=el('div','grid2');
+  card.choices.forEach(ch=>{
+    const b=el('button','btn'); b.appendChild(T(ch.tex));
+    b.onclick=()=>{ if(session.answered) return;
+      if(ch.ok){ grade(true, card); b.classList.add('ok'); }
+      else{ grade(false, card, ch.why); b.classList.add('no');
+        // highlight the correct one
+        card.choices.forEach((c,i)=>{ if(c.ok) grid.children[i].classList.add('ok'); });
+      }
+      [...grid.children].forEach(x=>x.classList.add('dim'));
+      b.classList.remove('dim');
+    };
+    grid.appendChild(b);
+  });
+  controls.appendChild(grid);
+}
+
+// ----- type the answer -----
+function renderType(card, controls){
+  let val='';
+  const box=el('div','answerbox empty'); box.textContent='·';
+  controls.appendChild(box);
+  const keys=el('div','keys');
+  const layout=['1','2','3','4','5','6','7','8','9','−','0','⌫'];
+  const sync=()=>{ box.textContent=val||'·'; box.classList.toggle('empty', !val); };
+  layout.forEach(k=>{
+    const b=el('button','btn', k);
+    b.onclick=()=>{ if(session.answered) return; buzz(4);
+      if(k==='⌫') val=val.slice(0,-1);
+      else if(k==='−'){ val = val.startsWith('-')? val.slice(1) : '-'+val; }
+      else val+=k;
+      sync();
+    };
+    keys.appendChild(b);
+  });
+  controls.appendChild(keys);
+  const submit=el('button','btn primary wide','Check');
+  submit.style.marginTop='.55rem';
+  submit.onclick=()=>{ if(session.answered||!val) return;
+    const norm=s=>String(s).replace('−','-').replace(/\.0+$/,'');
+    const ok = norm(val)===norm(card.answer);
+    box.classList.add(ok?'ok':'no');
+    grade(ok, card, `The answer is ${card.answer}.`);
+  };
+  controls.appendChild(submit);
+}
+
+// ----- reveal / anki -----
+function renderReveal(card, stage, controls){
+  const flip=el('button','btn primary wide','Show answer');
+  flip.onclick=()=>{
+    const b=el('div','body'); b.style.marginTop='1rem'; tex(b, card.back, true); stage.appendChild(b);
+    controls.innerHTML='';
+    const grid=el('div','keys');
+    const grades=[['Again','−','no',-15],['Good','+','',12],['Easy','++','ok',20]];
+    grades.forEach(([label,mark,cls,delta])=>{
+      const gb=el('button','btn grade '+cls); gb.innerHTML=`${label}<small>${mark}</small>`;
+      gb.onclick=()=>{ if(session.answered) return; grade(delta>0, card, null, delta); };
+      grid.appendChild(gb);
+    });
+    controls.appendChild(grid);
+  };
+  controls.appendChild(flip);
+}
+
+// ----- scoring + feedback -----
+// shared bookkeeping for every answered item (card OR completed solve)
+function commit(m, cid, o){
+  const wasMastered = !!S.mastered[m];
+  bumpConcept(m, cid, o.strengthDelta);
+  recordDay(); S.daily.count++;
+  session.combo = o.keepCombo ? session.combo+1 : 0;
+  if(o.xpGain>0){ S.xp += o.xpGain; session.sessionXp += o.xpGain; popXp(`+${o.xpGain}`); }
+  save(); refreshTop();
+  const act=activeConcepts(m);
+  if(S.mods[m].tier<maxTier(m) && act.every(c=>strOf(m,c.id)>=UNLOCK)){
+    S.mods[m].tier++; save(); toast('🔓 New concepts unlocked!');
+  }
+  if(!wasMastered && moduleMastery(m)>=MASTER){
+    S.mastered[m]=today(); save(); setTimeout(()=>celebrate(MODULES[m].name), 700);
+  }
+}
+
+function grade(correct, card, why, deltaOverride){
+  if(session.answered) return; session.answered=true;
+  buzz(correct?12:[8,40,8]);
+  const m=session.m, cid=card.concept, tier=card._concept.tier;
+  const delta = deltaOverride!=null ? deltaOverride : (correct ? (strOf(m,cid)<40?20:strOf(m,cid)<70?12:8) : -15);
+  const xpGain = correct ? 10 + tier*2 + Math.min(10, session.combo*2) : 0;
+  commit(m, cid, {strengthDelta:delta, xpGain, keepCombo:correct});
+  if(!correct) session.upcoming.splice(1,0,cid);   // resurface soon
+  showFeedback(correct, card, why);
+}
+
+// completion of a move-solver challenge
+function finishSolve(card, wrongPicks){
+  const m=session.m, cid=card.concept, tier=card._concept.tier;
+  const perfect = wrongPicks===0;
+  const delta = perfect ? (strOf(m,cid)<50?24:14) : 9;
+  const xpGain = perfect ? 22 + tier*3 : 11;
+  commit(m, cid, {strengthDelta:delta, xpGain, keepCombo:perfect});
+  if(!perfect) session.upcoming.splice(1,0,cid);
+  const controls=$('#controls'); controls.innerHTML='';
+  const panel=el('div','teach '+(perfect?'good':''));
+  panel.innerHTML = perfect
+    ? `<b>✓ Clean solve</b>Minimum moves, no wrong turns — that's exactly the restructuring you're rebuilding.`
+    : `<b>Solved</b>You got there. Watch the move order (cancel constants before dividing) and match the sign when you undo a term.`;
+  controls.appendChild(panel);
+  const cont=el('button','btn primary wide','Continue →'); cont.onclick=()=>nextCard();
+  controls.appendChild(cont);
+  buzz(perfect?[10,40,10,40,10]:12);
+}
+
+function showFeedback(correct, card, why){
+  const controls=$('#controls');
+  const panel=el('div','teach '+(correct?'good':'bad'));
+  panel.innerHTML = `<b>${correct?'✓ Nice':'Not quite'}</b>` + (correct? card.teach : (why? why+'<br><br>'+card.teach : card.teach));
+  controls.insertBefore(panel, controls.firstChild);
+  const cont=el('button','btn primary wide', 'Continue →');
+  cont.onclick=()=>nextCard();
+  controls.appendChild(cont);
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ---------- effects ----------
+function popXp(t){ const p=$('#xppop'); p.textContent=t; p.classList.remove('show'); void p.offsetWidth; p.classList.add('show'); }
+let toastT;
+function toast(t){ const el2=$('#toast'); el2.textContent=t; el2.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>el2.classList.remove('show'),1800); }
+function celebrate(name){
+  const cel=$('#cel');
+  cel.innerHTML=`<div style="font-size:3rem">🏆</div><h2>${name} mastered!</h2>
+    <p>You've hit a satisfactory score across every concept here. Come back tomorrow to keep it sharp.</p>
+    <button class="btn">Back to modules</button>`;
+  cel.classList.add('show');
+  cel.querySelector('button').onclick=()=>{ cel.classList.remove('show'); go(home); };
+  const colors=['#2563eb','#7c3aed','#16a34a','#f59e0b','#dc2626'];
+  for(let i=0;i<40;i++){ const c=el('div','conf'); c.style.left=Math.random()*100+'vw';
+    c.style.background=pick(colors); c.style.animationDelay=(Math.random()*.6)+'s';
+    document.body.appendChild(c); setTimeout(()=>c.remove(),2600); }
+}
+// ---------- boot ----------
+function boot(){ go(home); }
+if(window.katex) boot(); else window.addEventListener('load', boot);
+</script>
+</body></html>
