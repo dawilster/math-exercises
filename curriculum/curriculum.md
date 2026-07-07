@@ -118,6 +118,21 @@ Almost everything here is *reuse* — modern AI isn't new math, it's Modules 2�
 
 **Interlude reward (finale):** *Fourier & Epicycles* — any drawing rebuilt from pure spinning circles; the math inside JPEG, audio, and vision models. Plus *Euler's identity*, e^{iπ} + 1 = 0 — the most beautiful equation ever written, and by then he'll understand every symbol in it.
 
+## Module 7 — Read a Breakthrough Paper *(capstone III — the graduation test)*
+
+Nobody teaches how to read CS papers. This module fixes that, live, as guided sessions with Claude
+rather than pre-written worksheets — question-driven dissection suits how William learns.
+
+| # | Unit | What happens |
+|---|---|---|
+| 7.1 | Anatomy of a paper | The three-pass method: skim (title/abstract/figures) → read (intro/conclusions) → dissect (method). Papers are written back-to-front; readers shouldn't read front-to-back |
+| 7.2 | Notation survival kit | The Greek alphabet of ML: subscripts/superscripts, argmax, 𝔼 expectations, ‖·‖ norms, ∇, ⊙ — every symbol mapped to the module that taught it and to a line of Python |
+| 7.3 | Dissect *Attention Is All You Need* | Section by section, equation by equation. The famous $\text{Attention}(Q,K,V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right)V$ — by now he can hand-compute every piece (M2 dot products, M0 exp, M6 softmax). Translate each equation into numpy as we go |
+| 7.4 | Reproduce something | Rebuild a toy version of one figure or result from the paper in a notebook — the moment a paper stops being scripture and becomes an engineering document |
+| 7.5 | Solo flight | He picks the second paper (ResNet, U-Net, CLIP, DDPM…) and leads the dissection; Claude only answers questions. Pass = he explains the core equation on paper to Claude |
+
+**Prerequisite:** Module 6. **Format:** live sessions, one pass per session — logged in `sessions/` like everything else.
+
 ---
 
 ## Wonder Interludes *(the beauty track — `modules/interludes/`)*
@@ -149,4 +164,7 @@ M0 algebra ──▶ M1 functions ──▶ M2 linear algebra ──▶ M3 calcu
                                             │
                                             ▼
                               M6 LLMs & stable diffusion
+                                            │
+                                            ▼
+                              M7 read a breakthrough paper
 ```

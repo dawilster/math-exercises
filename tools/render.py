@@ -18,7 +18,9 @@ KATEX_DIR = TOOLS_DIR / "katex"
 CSS_FILE = TOOLS_DIR / "worksheet.css"
 
 
-def render(input_md: Path, output_html: Path) -> None:
+def render(input_md: Path, output_html: Path, katex_url: str | None = None) -> None:
+    """Render md → HTML. Default: fully self-contained (embedded KaTeX, ~1.7MB, printable anywhere).
+    With katex_url (e.g. "/katex/"): links KaTeX from that URL instead — tiny files for web deploys."""
     if not KATEX_DIR.exists():
         sys.exit(f"KaTeX not found at {KATEX_DIR} — re-vendor it (see CLAUDE.md).")
     cmd = [
@@ -26,13 +28,15 @@ def render(input_md: Path, output_html: Path) -> None:
         str(input_md),
         "-o", str(output_html),
         "--standalone",
-        "--embed-resources",          # inline KaTeX js/css/fonts → single file
         "--toc", "--toc-depth=2",     # contents at the top of every page
-        f"--katex={KATEX_DIR.as_uri()}/",
         "--css", str(CSS_FILE),
         "--metadata", f"pagetitle={input_md.stem.replace('-', ' ').title()}",  # browser-tab title only, no header block
         "--metadata", "lang=en-AU",
     ]
+    if katex_url:
+        cmd += [f"--katex={katex_url}"]
+    else:
+        cmd += ["--embed-resources", f"--katex={KATEX_DIR.as_uri()}/"]
     subprocess.run(cmd, check=True)
     print(f"rendered: {output_html}  ({output_html.stat().st_size // 1024} KB)")
 
