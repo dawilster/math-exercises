@@ -26,10 +26,13 @@
         .forEach(function (a) { a.classList.remove("revealed"); });
     }
     btn.setAttribute("aria-pressed", String(locked));
-    btn.textContent = locked ? "🔒 Answers locked" : "🔓 Tap to reveal";
+    // Label always describes what TAPPING THE BUTTON does, not what tapping an
+    // answer does — those are different targets and conflating them read as
+    // "broken" on touch devices where there's no hover to disambiguate.
+    btn.textContent = locked ? "🔒 Locked — tap to unlock" : "🔓 Unlocked — tap to lock";
     btn.title = locked
-      ? "Answers are locked — click to allow revealing them"
-      : "Answers reveal on hover/tap — click to lock so you can't peek by accident";
+      ? "Answers are locked — tap here to unlock, then tap any answer to reveal it"
+      : "Tap any answer to reveal it — tap here to lock again";
   }
 
   btn.addEventListener("click", function () {
@@ -40,11 +43,18 @@
   document.body.appendChild(btn);
   render();
 
+  function pulseToggle() {                     // surfaces the unlock control instead of a silent no-op
+    btn.classList.remove("pulse");
+    void btn.offsetWidth;                      // restart the CSS animation
+    btn.classList.add("pulse");
+  }
+
   // tap / click a blurred answer to toggle it (works on touch e-readers, not just hover)
   document.addEventListener("click", function (e) {
     if (e.target.closest(".answers-toggle")) return;
     var a = e.target.closest(".answer");
-    if (!a || locked) return;
+    if (!a) return;
+    if (locked) { pulseToggle(); return; }      // tapped while locked — point at the unlock button
     a.classList.toggle("revealed");
   });
 })();

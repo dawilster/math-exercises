@@ -71,6 +71,7 @@ li { break-inside: avoid; }
   transition: filter .18s ease;
   -webkit-user-select: none;
   user-select: none;
+  touch-action: manipulation;   /* tap responds immediately, no double-tap-zoom delay */
 }
 div.answer { display: block; padding: .55rem .85rem; margin: .5rem 0; }
 .answer.revealed {
@@ -92,7 +93,7 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
 .answers-toggle {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));  /* clears iOS home-indicator / toolbar */
   z-index: 60;
   font-family: inherit;
   font-weight: 600;
@@ -103,12 +104,20 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
   padding: .5rem .85rem;
   border-radius: 999px;
   cursor: pointer;
+  touch-action: manipulation;
   box-shadow: 0 4px 12px rgba(37, 99, 235, .18);
 }
 .answers-toggle[aria-pressed="true"] {
   background: #fee2e2;
   border-color: #fecaca;
   color: #b91c1c;
+}
+.answers-toggle.pulse {                          /* draws the eye here when a locked answer is tapped */
+  animation: answers-toggle-pulse .5s ease-in-out 2;
+}
+@keyframes answers-toggle-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); box-shadow: 0 4px 20px rgba(185, 28, 28, .45); }
 }
 
 @media print {
