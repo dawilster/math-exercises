@@ -123,6 +123,19 @@ th, td { border: 1px solid #cbd5e1; padding: .45rem .7rem; text-align: left; }
 th { background: #eff6ff; }
 hr { border: none; border-top: 2px dashed #cbd5e1; margin: 2rem 0; }
 
+#TOC {
+background: #f8fafc;
+border: 1px solid #e2e8f0;
+border-radius: 10px;
+padding: .8rem 1.2rem;
+margin: 1.2rem 0;
+font-size: .92rem;
+}
+#TOC::before { content: "Contents"; font-weight: 700; color: var(--accent); }
+#TOC ul { margin: .4rem 0 0; padding-left: 1.2rem; list-style: none; }
+#TOC a { color: var(--ink); text-decoration: none; }
+#TOC a:hover { color: var(--accent); }
+
 ol.problems > li, ol > li { margin-bottom: .6rem; }
 .workspace { min-height: 7rem; } 
 li { break-inside: avoid; }
@@ -157,6 +170,24 @@ blockquote, pre { break-inside: avoid; }
 </style>
 </head>
 <body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#worksheet-0.1-the-balance-game" id="toc-worksheet-0.1-the-balance-game">Worksheet 0.1 — The Balance
+Game</a>
+<ul>
+<li><a href="#part-a-warm-up-one-move-each" id="toc-part-a-warm-up-one-move-each">Part A — Warm-up: one move
+each</a></li>
+<li><a href="#part-b-two-move-games" id="toc-part-b-two-move-games">Part
+B — Two-move games</a></li>
+<li><a href="#part-c-spot-the-illegal-move" id="toc-part-c-spot-the-illegal-move">Part C — Spot the illegal
+move</a></li>
+<li><a href="#part-d-deep-end" id="toc-part-d-deep-end">Part D — Deep
+end</a></li>
+<li><a href="#part-e-python-check-at-the-computer-after-the-pen-work" id="toc-part-e-python-check-at-the-computer-after-the-pen-work">Part E —
+Python check (at the computer, after the pen work)</a></li>
+</ul></li>
+</ul>
+</nav>
 <h1 id="worksheet-0.1-the-balance-game">Worksheet 0.1 — The Balance
 Game</h1>
 <p><em>Pen and paper. For every problem, write the <strong>move you’re

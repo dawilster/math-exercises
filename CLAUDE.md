@@ -78,6 +78,18 @@ computer vision, LLMs, stable diffusion).
   curriculum skills. Sprinkle glimpses into ordinary lessons too — a well-timed
   "want to see something amazing this equation can do?" beats any pep talk.
 
+## Dashboard
+
+- `uv run python tools/dashboard.py` → http://localhost:8123 (opens automatically).
+- Shows all modules/units (discovered from the filesystem), overall + per-module progress,
+  a "NEXT UP" marker, links to lessons/worksheets (rendered on demand with prev/next nav + contents),
+  scan-inbox alerts, and tick-to-complete.
+- Completion state: `profile/dashboard-state.json`. **Read it at session start** alongside progress.md;
+  when William completes a unit in-session, Claude may also tick it by editing this file
+  (`{"completed": {"<module-dir>/<stem>": "YYYY-MM-DD"}}`).
+- New lessons/worksheets/notebooks appear on the dashboard automatically if they share a filename stem,
+  e.g. `01-balance-game.{md,ipynb}` in `lessons/`, `worksheets/`, `notebooks/`.
+
 ## Rendering & tooling
 
 - Python env: `uv run python ...` / `uv run jupyter lab` (numpy, matplotlib, sympy, jupyter, ipympl).

@@ -27,6 +27,7 @@ def render(input_md: Path, output_html: Path) -> None:
         "-o", str(output_html),
         "--standalone",
         "--embed-resources",          # inline KaTeX js/css/fonts → single file
+        "--toc", "--toc-depth=2",     # contents at the top of every page
         f"--katex={KATEX_DIR.as_uri()}/",
         "--css", str(CSS_FILE),
         "--metadata", f"pagetitle={input_md.stem.replace('-', ' ').title()}",  # browser-tab title only, no header block

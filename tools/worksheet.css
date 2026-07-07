@@ -36,6 +36,20 @@ th, td { border: 1px solid #cbd5e1; padding: .45rem .7rem; text-align: left; }
 th { background: #eff6ff; }
 hr { border: none; border-top: 2px dashed #cbd5e1; margin: 2rem 0; }
 
+/* table of contents (pandoc --toc) */
+#TOC {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: .8rem 1.2rem;
+  margin: 1.2rem 0;
+  font-size: .92rem;
+}
+#TOC::before { content: "Contents"; font-weight: 700; color: var(--accent); }
+#TOC ul { margin: .4rem 0 0; padding-left: 1.2rem; list-style: none; }
+#TOC a { color: var(--ink); text-decoration: none; }
+#TOC a:hover { color: var(--accent); }
+
 /* Problem list: big gaps so answers can be handwritten under each one when printed */
 ol.problems > li, ol > li { margin-bottom: .6rem; }
 .workspace { min-height: 7rem; }               /* explicit answer space */

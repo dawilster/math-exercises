@@ -123,6 +123,19 @@ th, td { border: 1px solid #cbd5e1; padding: .45rem .7rem; text-align: left; }
 th { background: #eff6ff; }
 hr { border: none; border-top: 2px dashed #cbd5e1; margin: 2rem 0; }
 
+#TOC {
+background: #f8fafc;
+border: 1px solid #e2e8f0;
+border-radius: 10px;
+padding: .8rem 1.2rem;
+margin: 1.2rem 0;
+font-size: .92rem;
+}
+#TOC::before { content: "Contents"; font-weight: 700; color: var(--accent); }
+#TOC ul { margin: .4rem 0 0; padding-left: 1.2rem; list-style: none; }
+#TOC a { color: var(--ink); text-decoration: none; }
+#TOC a:hover { color: var(--accent); }
+
 ol.problems > li, ol > li { margin-bottom: .6rem; }
 .workspace { min-height: 7rem; } 
 li { break-inside: avoid; }
@@ -157,6 +170,23 @@ blockquote, pre { break-inside: avoid; }
 </style>
 </head>
 <body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#equations-as-a-balance-game" id="toc-equations-as-a-balance-game">0.1 — Equations as a Balance
+Game</a>
+<ul>
+<li><a href="#why-this-matters-the-real-reason" id="toc-why-this-matters-the-real-reason">Why this matters (the real
+reason)</a></li>
+<li><a href="#the-one-big-idea" id="toc-the-one-big-idea">The one big
+idea</a></li>
+<li><a href="#watch-one-game-get-played" id="toc-watch-one-game-get-played">Watch one game get played</a></li>
+<li><a href="#the-python-connection" id="toc-the-python-connection">The
+Python connection</a></li>
+<li><a href="#what-breaks-the-balance-the-classic-traps" id="toc-what-breaks-the-balance-the-classic-traps">What breaks the
+balance (the classic traps)</a></li>
+</ul></li>
+</ul>
+</nav>
 <h1 id="equations-as-a-balance-game">0.1 — Equations as a Balance
 Game</h1>
 <p><em>≤5 min read. Then straight to the worksheet.</em></p>
