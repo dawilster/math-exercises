@@ -232,14 +232,21 @@ def study_sequence() -> list[dict]:
 
 
 NAV_CSS = """<style>
-.studynav { position: sticky; top: 0; z-index: 10; display: flex; gap: .6rem; align-items: center;
+/* Full-bleed sticky bar: escapes the centered body column via the 100vw trick */
+body { overflow-x: hidden; }
+.studynav { position: sticky; top: 0; z-index: 10; box-sizing: border-box;
+  width: 100vw; margin: -2rem 0 1.5rem calc(50% - 50vw);
+  display: flex; align-items: center; gap: .6rem;
   background: #ffffffee; backdrop-filter: blur(6px); border-bottom: 1px solid #e2e8f0;
-  padding: .55rem 1rem; font-family: "Avenir Next","Segoe UI",system-ui,sans-serif; font-size: .85rem; }
+  padding: .55rem 1.2rem; font-family: "Avenir Next","Segoe UI",system-ui,sans-serif;
+  font-size: .85rem; line-height: 1.3; }
+.studynav .zone { flex: 1 1 0; display: flex; min-width: 0; }
+.studynav .zone.c { flex: 0 0 auto; }
+.studynav .zone.r { justify-content: flex-end; }
 .studynav a { color: #2563eb; text-decoration: none; border: 1px solid #dbeafe; background: #eff6ff;
   border-radius: 7px; padding: .3rem .7rem; white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis; max-width: 40%; }
+  text-overflow: ellipsis; max-width: 100%; box-sizing: border-box; }
 .studynav a:hover { background: #dbeafe; }
-.studynav .grow { flex: 1; }
 @media print { .studynav { display: none; } }
 </style>"""
 
@@ -254,9 +261,11 @@ def nav_bar(rel_path: str) -> str:
     if idx is not None and idx < len(seq) - 1:
         n = seq[idx + 1]
         next_link = f'<a href="/view/{n["path"]}">{n["kind"]}: {n["title"]} →</a>'
-    return (NAV_CSS + '<div class="studynav">' + prev_link
-            + '<span class="grow"></span><a href="/">🏠 dashboard</a><span class="grow"></span>'
-            + next_link + "</div>")
+    return (NAV_CSS + '<div class="studynav">'
+            + f'<span class="zone">{prev_link}</span>'
+            + '<span class="zone c"><a href="/">🏠 dashboard</a></span>'
+            + f'<span class="zone r">{next_link}</span>'
+            + "</div>")
 
 
 def dashboard_html() -> str:
