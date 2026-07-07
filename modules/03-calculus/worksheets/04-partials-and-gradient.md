@@ -12,11 +12,31 @@ Write "freeze $y$" / "freeze $x$" before each one.
 
 1. $f(x, y) = x^2 + y^2$
 
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 2x$ (freeze $y$), $\dfrac{\partial f}{\partial y} = 2y$ (freeze $x$).
+   :::
+
 2. $f(x, y) = 5xy$
+
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 5y$ — move: freeze $y$, it's now just a constant multiplier on $x$.
+   $\dfrac{\partial f}{\partial y} = 5x$ — move: freeze $x$ instead.
+   :::
 
 3. $f(x, y) = x^3 + 2y$
 
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 3x^2$ — move: freeze $y$, so $2y$ is a constant and differentiates to $0$.
+   $\dfrac{\partial f}{\partial y} = 2$ — move: freeze $x$, so $x^3$ is a constant and differentiates to $0$.
+   :::
+
 4. $f(x, y) = 7$   *(what does it mean that both partials are what they are?)*
+
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 0$, $\dfrac{\partial f}{\partial y} = 0$ — move: freeze either variable,
+   a constant's derivative is always $0$. Meaning: a flat, constant surface is equally
+   (zero) sensitive to every input, everywhere.
+   :::
 
 ---
 
@@ -27,14 +47,39 @@ State which input the output is *more sensitive to* there.
 
 5. $f(x, y) = x^2 + y^2$ at $(3, 1)$
 
+   ::: answer
+   $\nabla f = (2x, 2y)$, so $\nabla f(3,1) = (6, 2)$ — move: gradient is the vector of
+   partials, then plug in the point. More sensitive to $x$ (component $6 > 2$).
+   :::
+
 6. $f(x, y) = x^2 y$ at $(2, 5)$
+
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 2xy$ (freeze $y$), $\dfrac{\partial f}{\partial y} = x^2$
+   (freeze $x$). At $(2,5)$: $\nabla f = (20, 4)$ — move: substitute the point into each
+   partial separately. More sensitive to $x$.
+   :::
 
 7. $f(x, y) = x^2 - 4x + y^2 - 2y$ at $(1, 1)$. Then find the point where $\nabla f = (0, 0)$
    — the flat spot. (Set both partials to zero; two small balance games.)
 
+   ::: answer
+   $\dfrac{\partial f}{\partial x} = 2x - 4$, $\dfrac{\partial f}{\partial y} = 2y - 2$.
+   At $(1,1)$: $\nabla f = (-2, 0)$. Flat spot: solve $2x - 4 = 0$ and $2y - 2 = 0$
+   separately (two small balance games) — move: set each partial to zero on its own,
+   giving $(x, y) = (2, 1)$.
+   :::
+
 8. $L(w, b) = (2w + b - 7)^2$ — a real one-data-point loss: prediction $2w + b$, target $7$.
    Use the chain rule from 3.3 for each partial (inner: $2w + b - 7$). Find $\nabla L$ at
    $(w, b) = (1, 1)$.
+
+   ::: answer
+   Let $u = 2w + b - 7$; at $(1,1)$, $u = 2(1) + 1 - 7 = -4$. Move: chain rule outside-in,
+   then freeze the other variable for the inner partial. $\dfrac{\partial L}{\partial w} =
+   2u \cdot 2 = 4u = -16$ (inner derivative w.r.t. $w$ is $2$). $\dfrac{\partial L}{\partial b}
+   = 2u \cdot 1 = 2u = -8$ (inner derivative w.r.t. $b$ is $1$). $\nabla L(1,1) = (-16, -8)$.
+   :::
 
 ---
 
@@ -45,14 +90,35 @@ Circle the broken line, name what broke.
 9. Claimed: $\dfrac{\partial}{\partial x}\left(3xy + y^2\right)$
    - line 1: $= 3y \cdot 1 + 2y$   *(differentiated everything in sight)*
 
+   ::: answer
+   Line 1 is broken. This is $\partial/\partial x$, so $y$ must be frozen:
+   $\dfrac{\partial}{\partial x}(3xy) = 3y$, but $\dfrac{\partial}{\partial x}(y^2) = 0$
+   (a frozen $y^2$ is just a constant) — not $2y$, which is the derivative w.r.t. $y$,
+   the wrong variable. Correct: $3y$.
+   :::
+
 10. Claimed: $f(x,y) = x^2 + y^2$ at $(1, 2)$, so $\nabla f(1,2) = (2, 4)$.
     "To decrease $f$ fastest, step in the direction $(2, 4)$."
+
+    ::: answer
+    The gradient itself, $\nabla f(1,2) = (2,4)$, is correct. The broken move is the
+    conclusion: $\nabla f$ points in the direction of **steepest increase**, not decrease.
+    To decrease $f$ fastest, step in $-\nabla f = (-2, -4)$.
+    :::
 
 11. Claimed: $\dfrac{\partial}{\partial y}\left(x^2 y^3\right)$
     - line 1: freeze $x$
     - line 2: $= x^2 \cdot 3y^2$
     - line 3: $= 3x^2 y^2$, "so at any point on the $x$-axis (where $y = 0$) the function is
       completely insensitive to $x$ as well, since the whole gradient must be zero there."
+
+    ::: answer
+    Lines 1–3 are correct ($\partial f/\partial y = 3x^2y^2$). The broken move is the
+    closing claim: knowing $\partial f/\partial y$ tells you nothing about $\partial
+    f/\partial x$ — they're independent computations, each freezing a different variable.
+    (It happens that $\partial f/\partial x = 2xy^3$ is also $0$ when $y = 0$, but that's a
+    coincidence of this particular function, not something the argument actually earned.)
+    :::
 
 ---
 
@@ -63,16 +129,42 @@ Circle the broken line, name what broke.
     and at $(1, 1)$ (direction only). What do all three arrows do relative to the contour
     they sit on?
 
+    ::: answer
+    All three arrows point straight outward, perpendicular (normal) to the contour circle
+    they sit on — move: $\nabla f = (2x, 2y) = 2(x, y)$ points radially outward here, and a
+    gradient is always perpendicular to its contour line, pointing toward increasing $f$.
+    :::
+
 13. On your sketch: standing at $(2, 2)$, a friend proposes walking in direction $(-1, 1)$.
     Roughly what happens to the height? (Hint: is that direction along a contour, uphill,
     or downhill?)
+
+    ::: answer
+    The height barely changes (to first order): $\nabla f(2,2) = (4,4)$, and
+    $(4,4)\cdot(-1,1) = -4 + 4 = 0$ — move: dot the gradient with the step direction. A zero
+    dot product means the step is tangent to the contour (perpendicular to the gradient), so
+    it's neither uphill nor downhill there.
+    :::
 
 14. A loss surface has $\nabla L = (0.001, \; 40)$ at the current weights.
     In plain words: which weight is the training signal *screaming* about, and which one
     barely matters right now?
 
+    ::: answer
+    The training signal is screaming about the second weight (partial $= 40$) — steep
+    sensitivity there. The first weight (partial $= 0.001$) barely matters right now —
+    move: compare the magnitudes of the gradient's components; the larger one is the
+    direction a gradient-descent step will move the most.
+    :::
+
 15. True or false, with one sentence: "if $\nabla f = (0,0)$ at a point, that point must be
     the lowest point of the surface." (Think about hilltops. And saddles, if you dare.)
+
+    ::: answer
+    False. $\nabla f = (0,0)$ only means *flat* — a critical point. It could be a minimum,
+    a maximum (hilltop), or a saddle. Move: zero gradient alone can't tell these apart; that
+    needs extra information (e.g. how the surface curves — second derivatives).
+    :::
 
 ---
 

@@ -1,0 +1,51 @@
+<!-- Hover/tap-to-reveal answers + a lock toggle. Injected after <body> by render.py.
+     Self-activating: does nothing unless the page actually contains .answer elements.
+     Authoring (in the worksheet .md):
+         ::: answer
+         $x = 8$ — subtract 7 from both sides.
+         :::
+       inline:  [$x = 8$]{.answer}
+     Styling lives in worksheet.css (.answer / .answers-toggle). -->
+<script>
+(function () {
+  var answers = document.querySelectorAll(".answer");
+  if (!answers.length) return;                 // no answers on this page → no toggle
+
+  var KEY = "ws-answers-locked";
+  var stored = localStorage.getItem(KEY);
+  var locked = stored === null ? true : stored === "1";   // default LOCKED until you opt in
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "answers-toggle";
+
+  function render() {
+    document.body.classList.toggle("answers-locked", locked);
+    if (locked) {                              // locking re-hides anything open
+      document.querySelectorAll(".answer.revealed")
+        .forEach(function (a) { a.classList.remove("revealed"); });
+    }
+    btn.setAttribute("aria-pressed", String(locked));
+    btn.textContent = locked ? "🔒 Answers locked" : "🔓 Tap to reveal";
+    btn.title = locked
+      ? "Answers are locked — click to allow revealing them"
+      : "Answers reveal on hover/tap — click to lock so you can't peek by accident";
+  }
+
+  btn.addEventListener("click", function () {
+    locked = !locked;
+    localStorage.setItem(KEY, locked ? "1" : "0");
+    render();
+  });
+  document.body.appendChild(btn);
+  render();
+
+  // tap / click a blurred answer to toggle it (works on touch e-readers, not just hover)
+  document.addEventListener("click", function (e) {
+    if (e.target.closest(".answers-toggle")) return;
+    var a = e.target.closest(".answer");
+    if (!a || locked) return;
+    a.classList.toggle("revealed");
+  });
+})();
+</script>

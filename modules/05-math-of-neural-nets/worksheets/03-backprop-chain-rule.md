@@ -14,13 +14,31 @@ $z_2 = 1$, $\hat{y} \approx 0.73$ — round it to $0.75$ for clean hand arithmet
 
 1. $L = -\ln(\hat{y})$. What is $\frac{dL}{d\hat{y}}$ at $\hat{y} = 0.5$? At $\hat{y} = 0.25$?
 
+   ::: answer
+   $\frac{dL}{d\hat{y}} = -\frac{1}{\hat{y}}$. At $\hat{y}=0.5$: $-2$. At $\hat{y}=0.25$: $-4$.
+   :::
+
 2. Sigmoid's derivative is $\sigma'(z) = \sigma(z)(1 - \sigma(z))$. Evaluate it at $z = 0$.
    Why can it never exceed $0.25$? *(What does Module 1.2 say about the graph of $p(1-p)$?)*
 
+   ::: answer
+   $\sigma'(0) = 0.5(1-0.5) = 0.25$. Move: $p(1-p)$ is a downward parabola (Module 1.2) with vertex
+   at $p = 0.5$, peak value $0.25$ — so $\sigma'(z)$ can never exceed it.
+   :::
+
 3. ReLU's derivative: $\text{ReLU}'(-2) = \;?$, $\;\text{ReLU}'(5) = \;?$, $\;\text{ReLU}'(-0.001) = \;?$
+
+   ::: answer
+   $\text{ReLU}'(-2) = 0$, $\text{ReLU}'(5) = 1$, $\text{ReLU}'(-0.001) = 0$ — the gate only cares about the
+   sign of the input, not its size.
+   :::
 
 4. Pure chain rule (Module 3.3): $L = u^2$ where $u = 3w$. Find $\frac{dL}{dw}$ at $w = 1$,
    writing it as $\frac{dL}{du} \cdot \frac{du}{dw}$ first.
+
+   ::: answer
+   $\frac{dL}{dw} = \frac{dL}{du}\cdot\frac{du}{dw} = 2u \cdot 3 = 6u = 18w$. At $w=1$: $u=3$, so $\frac{dL}{dw}=18$.
+   :::
 
 ---
 
@@ -32,20 +50,54 @@ Use the forward values above ($\hat{y} = 0.75$, $y = 0$). Follow the lesson's se
    proved: $\delta_2 = \frac{\partial L}{\partial z_2} = \hat{y} - y$. Write its value, and one
    sentence on what its *sign* says the output should do.
 
+   ::: answer
+   $\delta_2 = \hat{y} - y = 0.75 - 0 = 0.75$. Sign: positive means $\hat{y}$ is too *high* relative to
+   $y$ — gradient descent will push $z_2$ (and so $\hat{y}$) *down*.
+   :::
+
 6. **Step 4.** $\frac{\partial L}{\partial W_2} = \delta_2\, \mathbf{h}^\top$ and
    $\frac{\partial L}{\partial b_2} = \delta_2$. Compute both. Why is the gradient for $W_{2,2}$
    exactly zero? *(Look at what $h_2$ was.)*
 
+   ::: answer
+   $\frac{\partial L}{\partial W_2} = \delta_2\,\mathbf{h}^\top = 0.75\,(1,\ 0) = (0.75,\ 0)$, and
+   $\frac{\partial L}{\partial b_2} = \delta_2 = 0.75$. $W_{2,2}$'s gradient is $\delta_2 \cdot h_2 = 0.75 \cdot 0 = 0$ —
+   killed because the second hidden unit's activation $h_2$ is zero, not because of any local derivative.
+   :::
+
 7. **Step 5.** $\frac{\partial L}{\partial \mathbf{h}} = W_2^\top \delta_2$. Compute it (a 2-vector).
+
+   ::: answer
+   $\frac{\partial L}{\partial \mathbf{h}} = W_2^\top \delta_2 = \begin{pmatrix} 3 \\ -1 \end{pmatrix} \times 0.75 = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix}$.
+   :::
 
 8. **Step 6.** Apply the ReLU gate: $\delta_1 = \frac{\partial L}{\partial \mathbf{h}} \odot \text{ReLU}'(\mathbf{z}_1)$,
    with $\mathbf{z}_1 = (1, 0)$ and the convention $\text{ReLU}'(0) = 0$. Compute $\delta_1$.
 
+   ::: answer
+   $\text{ReLU}'(\mathbf{z}_1) = (1, 0)$ (gate open for unit 1, shut for unit 2). Move: elementwise multiply —
+   $\delta_1 = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix} \odot \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 2.25 \\ 0 \end{pmatrix}$.
+   :::
+
 9. **Step 7.** $\frac{\partial L}{\partial W_1} = \delta_1 \mathbf{x}^\top$ (column times row — a
    $2{\times}2$ matrix) and $\frac{\partial L}{\partial \mathbf{b}_1} = \delta_1$. Compute both.
 
+   ::: answer
+   $\frac{\partial L}{\partial W_1} = \delta_1 \mathbf{x}^\top = \begin{pmatrix} 2.25 \\ 0 \end{pmatrix}(2,\ 1) = \begin{pmatrix} 4.5 & 2.25 \\ 0 & 0 \end{pmatrix}$,
+   and $\frac{\partial L}{\partial \mathbf{b}_1} = \delta_1 = \begin{pmatrix} 2.25 \\ 0 \end{pmatrix}$.
+   :::
+
 10. Circle every gradient entry that came out **zero**, and for each, say *which* forward-pass fact
     killed it. (There are two different killers in this network.)
+
+    ::: answer
+    Zeros: $W_{2,2}$'s gradient, plus the whole bottom row of $\frac{\partial L}{\partial W_1}$ and the
+    second entry of $\frac{\partial L}{\partial \mathbf{b}_1}$. Killer 1 (forward-value kill): $h_2 = 0$
+    zeroes $W_{2,2}$'s gradient by direct multiplication in the outer product $\delta_2 \mathbf{h}^\top$ —
+    no gate involved. Killer 2 (gate kill): the second entry of $\mathbf{z}_1$ is $0$, so
+    $\text{ReLU}'=0$ there by convention — the gate blocks backward flow entirely for that unit,
+    zeroing the second entry of $\delta_1$ and everything downstream of it.
+    :::
 
 ---
 
@@ -58,13 +110,35 @@ Each derivation contains exactly one broken move. Circle it; name the rule it br
     - line 2: $\frac{\partial L}{\partial b_2} = -0.75$
     - line 3: "so gradient descent will *increase* $b_2$"
 
+    ::: answer
+    Line 1 is broken: the shortcut is $\delta_2 = \hat{y} - y$, not $y - \hat{y}$ — they flipped the sign.
+    Correct: $\delta_2 = 0.75 - 0 = 0.75$, so $\frac{\partial L}{\partial b_2} = 0.75$ (positive), and
+    gradient descent moves $b_2 \leftarrow b_2 - \text{lr}\cdot 0.75$, i.e. $b_2$ *decreases*, not increases.
+    :::
+
 12. Claimed hidden-layer gradient, given $\frac{\partial L}{\partial \mathbf{h}} = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix}$, $\mathbf{z}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$:
     - line 1: $\delta_1 = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix}$ "(ReLU is basically the identity, skip the gate)"
     - line 2: $\frac{\partial L}{\partial \mathbf{b}_1} = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix}$
 
+    ::: answer
+    Line 1 is broken: ReLU is not the identity — it's a gate. Since $\mathbf{z}_1 = (1, 0)$,
+    $\text{ReLU}'(\mathbf{z}_1) = (1, 0)$, so
+    $\delta_1 = \begin{pmatrix} 2.25 \\ -0.75 \end{pmatrix} \odot \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 2.25 \\ 0 \end{pmatrix}$,
+    and $\frac{\partial L}{\partial \mathbf{b}_1} = \begin{pmatrix} 2.25 \\ 0 \end{pmatrix}$ too — the second
+    entry must be $0$, not $-0.75$.
+    :::
+
 13. Claimed sigmoid step: "$\sigma'(z_2) = \sigma(z_2)(1 - \sigma(z_2)) = 1(1 - 1) = 0$, because I
     plugged in $z_2 = 1$... so no gradient flows and the network can't learn." Two errors hide in
     one line — find at least one.
+
+    ::: answer
+    Error 1 (arithmetic): $\sigma(1) \neq 1$ — $\sigma(1) \approx 0.731$, so
+    $\sigma'(1) \approx 0.731(0.269) \approx 0.197$, nowhere near zero. (Sigmoid only *approaches* $1$ as
+    $z\to\infty$; it never reaches it at $z=1$.) Error 2 (conceptual): this network never needs
+    $\sigma'(z_2)$ on its own — the lesson's shortcut $\delta_2 = \hat{y}-y$ already folds the sigmoid
+    derivative into the loss derivative, sidestepping this exact multiplication.
+    :::
 
 ---
 
@@ -75,14 +149,33 @@ Each derivation contains exactly one broken move. Circle it; name the rule it br
     $\frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_2}$ symbolically
     and simplify to $\hat{y} - 1$. Every move is Module 0 algebra — name them.
 
+    ::: answer
+    $\frac{\partial L}{\partial \hat{y}} = -\frac{1}{\hat{y}}$ and $\frac{\partial \hat{y}}{\partial z_2} = \hat{y}(1-\hat{y})$.
+    Chain rule (multiply the two): $-\frac{1}{\hat{y}} \cdot \hat{y}(1-\hat{y})$. Move: cancel the $\hat{y}$'s
+    (a $\frac{\hat{y}}{\hat{y}}=1$ move) → $-(1-\hat{y})$. Move: distribute the minus sign → $\hat{y} - 1$.
+    Since $y=1$ here, this is $\hat{y} - y$ — the same shortcut as the $y=0$ case.
+    :::
+
 15. **Gradient check** (Module 3.1, the nudge). Your answer to problem 9 says
     $\frac{\partial L}{\partial W_{1,11}} = 4.5$ (top-left entry). Predict: if $W_{1,11}$ went up by
     $0.01$ and everything was recomputed, roughly what would the new loss be? (Old loss:
     $-\ln(0.25) \approx 1.386$.)
 
+    ::: answer
+    $\Delta L \approx \text{gradient} \times \Delta w = 4.5 \times 0.01 = 0.045$. New loss $\approx 1.386 + 0.045 = 1.431$.
+    :::
+
 16. Suppose an input landed where BOTH hidden neurons were off. Write down $\frac{\partial L}{\partial W_1}$
     without computing anything. What would happen if *every* training input did this? (This failure
     has a name — "dying ReLU" — and now you can explain it at a dinner party.)
+
+    ::: answer
+    $\frac{\partial L}{\partial W_1} = \mathbf{0}$ (the full $2{\times}2$ zero matrix) — both entries of
+    $\text{ReLU}'(\mathbf{z}_1)$ are $0$, so $\delta_1 = \mathbf{0}$ regardless of what
+    $\frac{\partial L}{\partial \mathbf{h}}$ was, and $\delta_1 \mathbf{x}^\top = \mathbf{0}$. If every
+    input did this, $W_1$ and $\mathbf{b}_1$ would never update again — the unit is permanently dead,
+    since gradient descent has zero signal to ever move it back to positive $z$.
+    :::
 
 ---
 

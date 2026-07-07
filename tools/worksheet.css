@@ -57,6 +57,60 @@ li { break-inside: avoid; }
 
 .katex-display { margin: 1rem 0; }
 
+/* ── Hover / tap to reveal answers ──────────────────────────────────────────
+   Author answers as a fenced div ( ::: answer … ::: ) or inline span
+   ( [$x=8$]{.answer} ). Blurred by default; hover (desktop) or tap (e-reader)
+   reveals one. The floating .answers-toggle locks them so you can't peek by
+   accident. Logic in tools/answers.html. */
+.answer {
+  filter: blur(7px);
+  cursor: pointer;
+  border-radius: 6px;
+  background: #eef2ff;
+  padding: 0 .25em;
+  transition: filter .18s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+div.answer { display: block; padding: .55rem .85rem; margin: .5rem 0; }
+.answer.revealed {
+  filter: none;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+@media (hover: hover) {                            /* desktop hover-to-peek */
+  body:not(.answers-locked) .answer:hover {
+    filter: none;
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+}
+body.answers-locked .answer { cursor: not-allowed; }
+body.answers-locked .answer,
+body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides reveal */
+
+.answers-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: .85rem;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: var(--accent);
+  padding: .5rem .85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .18);
+}
+.answers-toggle[aria-pressed="true"] {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
 @media print {
   body { max-width: none; padding: 0; font-size: 12pt; }
   h1 { font-size: 16pt; }
@@ -66,4 +120,6 @@ li { break-inside: avoid; }
   ol > li { margin-bottom: 3.2cm; }
   ol ol > li { margin-bottom: 1.6cm; }        /* sub-parts get smaller gaps */
   blockquote, pre { break-inside: avoid; }
+  .answers-toggle { display: none; }
+  .answer { display: none !important; }        /* never print the answer key */
 }

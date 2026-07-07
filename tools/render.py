@@ -16,6 +16,7 @@ from pathlib import Path
 TOOLS_DIR = Path(__file__).resolve().parent
 KATEX_DIR = TOOLS_DIR / "katex"
 CSS_FILE = TOOLS_DIR / "worksheet.css"
+ANSWERS_JS = TOOLS_DIR / "answers.html"   # hover/tap-to-reveal answers + lock toggle
 
 
 def render(input_md: Path, output_html: Path, katex_url: str | None = None,
@@ -35,6 +36,8 @@ def render(input_md: Path, output_html: Path, katex_url: str | None = None,
         "--metadata", f"pagetitle={input_md.stem.replace('-', ' ').title()}",  # browser-tab title only, no header block
         "--metadata", "lang=en-AU",
     ]
+    if ANSWERS_JS.exists():
+        cmd += [f"--include-after-body={ANSWERS_JS}"]  # self-activates only if the page has .answer
     if katex_url:
         cmd += [f"--katex={katex_url}"]
     else:

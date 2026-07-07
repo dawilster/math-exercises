@@ -109,6 +109,12 @@ computer vision, LLMs, stable diffusion).
 - Lessons: `modules/NN-name/lessons/NN-slug.md` — short, why-first, ≤ 5–7 min read.
 - Worksheets: `modules/NN-name/worksheets/NN-slug.md` — problems ramp difficulty; final problems
   stretch beyond what was taught (deep-end).
+- **Hidden answers.** Give every worksheet problem an answer authored as a fenced div
+  `::: answer` … `:::` (multi-line proof) or inline `[$x=8$]{.answer}`. These render **blurred**;
+  the reader hovers (desktop) or taps (e-reader) to reveal one, and a floating 🔓/🔒 toggle locks
+  them against accidental peeking. Answers are auto-hidden when printed. Always name the *move*, not
+  just the number. Mechanism: `tools/answers.html` + `.answer` rules in `tools/worksheet.css`,
+  injected by `render.py` (so `build_site.py` picks it up for free).
 - Notebooks: `modules/NN-name/notebooks/NN-slug.ipynb` — runnable top-to-bottom, seeded exercises with
   `# YOUR TURN` cells.
 - Dates are absolute (YYYY-MM-DD), Melbourne time.

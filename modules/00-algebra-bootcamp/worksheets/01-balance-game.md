@@ -3,6 +3,9 @@
 *Pen and paper. For every problem, write the **move you're making** next to each step, like
 "−2 both sides". The moves are the point, not the answers. Photograph into `scans/inbox/` when done.*
 
+*Answers are hidden — hover (or tap) a blurred box to check one after you've attempted it.
+Use the **🔓 / 🔒 toggle** (bottom-right) to lock them so you can't peek by accident.*
+
 ---
 
 ## Part A — Warm-up: one move each
@@ -11,11 +14,27 @@ Solve for $x$. One legal move is enough. Name the move.
 
 1. $x + 7 = 15$
 
+   ::: answer
+   $x = 8$ — move: $-7$ both sides.
+   :::
+
 2. $x - 3 = 11$
+
+   ::: answer
+   $x = 14$ — move: $+3$ both sides.
+   :::
 
 3. $5x = 35$
 
+   ::: answer
+   $x = 7$ — move: $\div 5$ both sides.
+   :::
+
 4. $\frac{x}{6} = 4$
+
+   ::: answer
+   $x = 24$ — move: $\times 6$ both sides.
+   :::
 
 ---
 
@@ -25,11 +44,28 @@ Solve for $x$, naming each move. Strategy: peel the outermost layer first.
 
 5. $2x + 5 = 17$
 
+   ::: answer
+   $x = 6$ — peel the $+5$ first ($-5$: $2x = 12$), then $\div 2$.
+   :::
+
 6. $4x - 9 = 19$
+
+   ::: answer
+   $x = 7$ — $+9$: $4x = 28$, then $\div 4$.
+   :::
 
 7. $\frac{x}{3} + 2 = 7$
 
+   ::: answer
+   $x = 15$ — $-2$: $\frac{x}{3} = 5$, then $\times 3$.
+   :::
+
 8. $10 - x = 4$   *(trickier than it looks — what move deals with the minus in front of $x$?)*
+
+   ::: answer
+   $x = 6$. The move: $+x$ both sides to get $x$ off the minus → $10 = 4 + x$, then $-4$.
+   (Or $-10$ both sides → $-x = -6$, then $\times(-1)$.)
+   :::
 
 ---
 
@@ -43,10 +79,21 @@ Each "solution" below contains exactly one broken move. Circle the broken line a
    - line 2: $x + 6 = 6$   *(divided by 3)*
    - line 3: $x = 0$
 
+   ::: answer
+   Line 2 is broken. Dividing a side by 3 means dividing **every term**:
+   $\frac{3x + 6}{3} = x + 2$, not $x + 6$. They only divided the $3x$. Correct: $x = 4$.
+   :::
+
 10. Claimed solution of $5x - 4 = 21$:
     - line 1: $5x - 4 = 21$
     - line 2: $5x = 17$   *(subtracted 4 from the left, added 4... somewhere)*
     - line 3: $x = \frac{17}{5}$
+
+    ::: answer
+    Line 2 is broken. To undo $-4$ you **add 4 to both sides** → $5x = 25$.
+    They did $21 - 4 = 17$ (subtracted on the right instead of adding), breaking "same move both sides".
+    Correct: $x = 5$.
+    :::
 
 ---
 
@@ -57,12 +104,29 @@ Wrong attempts with named moves are worth more than blank space.*
 
 11. $2(x + 3) = 16$   *(two different move-orders both work — can you find both?)*
 
+    ::: answer
+    $x = 5$. Order A: $\div 2$ first → $x + 3 = 8$, then $-3$. Order B: expand → $2x + 6 = 16$,
+    $-6$: $2x = 10$, $\div 2$. Same answer either way.
+    :::
+
 12. $\frac{20}{x} = 5$   *(the $x$ is in the basement. What move gets it out?)*
+
+    ::: answer
+    $x = 4$. Move: $\times x$ both sides to lift it out of the basement → $20 = 5x$, then $\div 5$.
+    :::
 
 13. $3x + 4 = x + 10$   *(mystery weights on BOTH pans. The moves still work.)*
 
+    ::: answer
+    $x = 3$. Move: $-x$ both sides to gather $x$ on one pan → $2x + 4 = 10$, $-4$: $2x = 6$, $\div 2$.
+    :::
+
 14. Solve for $a$: $\;v = a t$   *(no numbers at all — just symbols. Same game, same moves.
     This is 90% of what reading ML papers requires.)*
+
+    ::: answer
+    $a = \dfrac{v}{t}$ — move: $\div t$ both sides. No numbers needed; the move is identical.
+    :::
 
 ---
 
