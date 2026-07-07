@@ -101,7 +101,12 @@ computer vision, LLMs, stable diffusion).
 
 ## Conventions
 
-- Lessons: `modules/NN-name/lessons/NN-slug.md` — short, why-first, ≤ 5 min read.
+- **Lessons + worksheets are the source of truth; notebooks are optional.** William often works
+  pen-and-paper or on his e-reader without the notebook. Any insight, analogy, or figure that carries
+  explanatory weight MUST live in the lesson (embed matplotlib-generated PNGs under
+  `lessons/img/<stem>-*.png`, referenced relatively). Worksheets must be fully doable from the lesson
+  alone. Notebooks apply what's taught — they may repeat visuals but never introduce load-bearing content.
+- Lessons: `modules/NN-name/lessons/NN-slug.md` — short, why-first, ≤ 5–7 min read.
 - Worksheets: `modules/NN-name/worksheets/NN-slug.md` — problems ramp difficulty; final problems
   stretch beyond what was taught (deep-end).
 - Notebooks: `modules/NN-name/notebooks/NN-slug.ipynb` — runnable top-to-bottom, seeded exercises with

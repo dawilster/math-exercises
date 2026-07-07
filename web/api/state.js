@@ -1,4 +1,4 @@
-// GET /api/state — read completion state from Vercel Blob
+// GET /api/state — read completion state from Vercel Blob (private store)
 import { list } from '@vercel/blob';
 
 export default async function handler(req, res) {
@@ -6,7 +6,8 @@ export default async function handler(req, res) {
   try {
     const { blobs } = await list({ prefix: 'dashboard-state.json' });
     if (!blobs.length) return res.status(200).json({ completed: {} });
-    const data = await fetch(blobs[0].url, { cache: 'no-store' }).then(r => r.json());
+    const url = blobs[0].downloadUrl || blobs[0].url; // downloadUrl is signed for private stores
+    const data = await fetch(url, { cache: 'no-store' }).then(r => r.json());
     return res.status(200).json(data);
   } catch (e) {
     return res.status(500).json({ error: String(e) });

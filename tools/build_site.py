@@ -32,8 +32,9 @@ def main() -> None:
         shutil.rmtree(OUT)
     OUT.mkdir(parents=True)
 
-    # KaTeX once, shared by every page
+    # KaTeX + stylesheet once, shared by every page
     shutil.copytree(KATEX, OUT / "katex")
+    shutil.copy(Path(__file__).resolve().parent / "worksheet.css", OUT / "worksheet.css")
 
     modules = dash.scan_modules()
     seq = dash.study_sequence()
@@ -43,10 +44,15 @@ def main() -> None:
         md = ROOT / s["path"]
         out = OUT / html_path(s["path"])
         out.parent.mkdir(parents=True, exist_ok=True)
-        render_md(md, out, katex_url="/katex/")
+        render_md(md, out, katex_url="/katex/", css_url="/worksheet.css")
         nav = dash.nav_bar(s["path"], href_for=lambda p: "/" + html_path(p), home="/")
         page = out.read_text()
         out.write_text(page.replace("<body>", "<body>" + nav, 1))
+
+    # image assets referenced relatively by lessons/worksheets (e.g. lessons/img/*.png)
+    for img_dir in (ROOT / "modules").glob("*/*/img"):
+        dest = OUT / img_dir.relative_to(ROOT)
+        shutil.copytree(img_dir, dest, dirs_exist_ok=True)
 
     # notebooks → read-only HTML
     for m in modules:
