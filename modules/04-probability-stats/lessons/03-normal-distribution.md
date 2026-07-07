@@ -16,7 +16,14 @@ curve. This is THE distribution of deep learning, and of nature.
 Each die roll is flat — 1 through 6, equally likely. But the *sum of ten dice* piles up around 35
 and thins out symmetrically into tails. Heights, measurement errors, coin-flip totals: anything
 built from many small random contributions comes out bell-curved. Randomness in, law out.
-(This is the central limit theorem — you'll *watch it happen* in the notebook.)
+(This is the central limit theorem — and here it is happening.)
+
+![Three histograms: one die is a flat row of equal bars, two dice make a triangle peaked at 7, ten dice make a smooth symmetric bell](img/03-clt-emergence.png)
+
+*The central limit theorem in three pictures. **One** die: perfectly flat, every face equally likely.
+**Two** dice: a triangle (the 4.1 result). **Ten** dice: a smooth **bell** — nobody designed it, it
+emerged from adding flat, boring randomness. Add enough small independent things and you *always* get
+this shape. That's why the bell is everywhere.*
 
 The bell curve is a family with two dials, and you already own them from Module 1.3:
 
@@ -26,6 +33,18 @@ Same shape every time; only shifted and stretched. And the stretch obeys a rule 
 
 **68 / 95 / 99.7** — about 68% of values land within $1\sigma$ of $\mu$, 95% within $2\sigma$,
 99.7% within $3\sigma$.
+
+![A bell curve of a million heights with vertical dotted lines at ±1σ, ±2σ, ±3σ from the mean, showing how quickly the tails thin out](img/03-68-95-997.png)
+
+*The rule, drawn on a million real-ish heights. Almost everyone lands within $\pm1\sigma$ (68%); by
+$\pm3\sigma$ the curve has all but hit the floor (99.7% already inside). This is why a z-score is so
+informative: it tells you which band you're in, and the bands have fixed, memorable sizes.*
+
+![Three bell curves overlaid: the standard N(0,1), a copy slid right to N(3,1), and a wider, shorter copy N(0,2)](img/03-mu-sigma-dials.png)
+
+*Two dials, both from Module 1.3. **μ** slides the whole bell left or right without changing its
+shape; **σ** stretches it wider (and, because the area must stay 1, flatter). Every normal
+distribution in existence is this one shape, shifted and stretched.*
 
 ## Watch one get worked
 

@@ -35,6 +35,13 @@ The intuition that makes it stick: $-\log p$ is **surprise**.
 - $p = 0.5$: moderate surprise.
 - $p \to 0$: surprise $\to \infty$ — you said this could never happen, and it happened.
 
+![The curve of −ln p from p near 0 to p=1: near zero at p=1, rising gently through p=0.5, then shooting up toward infinity as p approaches 0, with dots marked at p=0.9, 0.5, 0.1, 0.02](img/05-surprise.png)
+
+*The shape of surprise, which is the shape of the loss. Give the true answer high probability (right
+side) and you pay almost nothing. Give it a low probability and the cost climbs; call the truth
+"impossible" ($p\to0$) and the loss rockets to infinity. This single curve, averaged over your data,
+is cross-entropy — the loss training every classifier and LLM.*
+
 Cross-entropy = **average surprise at the true answers**. Training a classifier = making the truth
 unsurprising.
 
@@ -88,6 +95,13 @@ the loss *teaching calibration*.
 > a 10-class model that shrugs — $p = 0.1$ for everything — scores $-\ln 0.1 \approx 2.303$ on
 > every example. Untrained networks start almost exactly there. Why is $\ln(\text{number of
 > classes})$ the "knows nothing" score, and what would a loss *above* it tell you?
+
+![A log-likelihood curve over candidate coin-biases from 0 to 1, peaking near 0.64, with a dashed line at the peak and a dotted line at the hidden truth 0.7 close beside it](img/05-likelihood-scan.png)
+
+*Likelihood finding a hidden bias by itself. A coin with secret $p=0.7$ was flipped 50 times; we score
+**every** candidate model by the log-likelihood of what we saw. The peak (dashed) sits at 0.64 — the
+sample's own fraction of heads — landing **near** the true 0.7 but not exactly on it, because 50 flips
+still wobble (Module 4.4). More flips, sharper peak, closer to 0.7. "Training" is climbing this hill.*
 
 **Now: worksheet `05-likelihood-cross-entropy` — pen and paper. Then the notebook, where you'll
 watch likelihood find a hidden coin's bias all by itself.**

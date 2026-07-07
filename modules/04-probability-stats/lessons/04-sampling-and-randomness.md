@@ -26,6 +26,13 @@ $$\text{wobble} \propto \frac{1}{\sqrt{n}}$$
 That square root is brutal and important: **10× more data only makes estimates ~3× steadier.**
 It's why more data always helps, and why it helps less than you'd hope.
 
+![A log-log plot of estimate wobble versus sample size: the measured wobble falls in a straight line that lands exactly on the dashed 1/√n prediction](img/04-sqrt-n.png)
+
+*Measured against theory, on log-log axes. The wobble of a coin-fraction estimate (dots) falls right
+onto the $1/\sqrt n$ line (dashed) — a straight line on this plot, its slope encoding the square root
+(Module 0.5's log scale doing the work). Going from 100 to 10,000 flips — 100× the data — steadies the
+estimate only 10×. Diminishing returns, quantified.*
+
 ## Watch one get worked
 
 *Poll A asks 100 people; 58% support X. Poll B asks 2,500 people; 52% support X. Which do you trust?*

@@ -60,6 +60,13 @@ print(z.mean(), z.std())       # 0.0 and 1.0 — centre 0, spread 1. Job done.
 `(x - x.mean())` subtracts the mean from *every element at once* — numpy applies operations
 across whole arrays. That one line is what "normalise your inputs" actually is.
 
+![Two scatter plots: raw income-vs-height data stretched into a thin horizontal smear because dollars dwarf centimetres, and the same data after z-scoring into a round, balanced cloud centred on the origin](img/02-normalise-scatter.png)
+
+*Why a network needs this. **Left:** income (tens of thousands) and height (≈180) plotted on equal
+axes — the dollar feature is so much bigger it flattens everything into a smear. A network "sees" this
+lopsidedness and trains badly. **Right:** z-score both (subtract mean, divide by σ) and they become a
+balanced cloud, centre 0, spread 1, each feature speaking at the same volume.*
+
 ## The classic traps
 
 - **Skipping the squares.** Average of raw deviations = 0 always. It tells you nothing.

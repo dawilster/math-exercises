@@ -42,6 +42,16 @@ Check: $\frac{1}{2} + \frac{1}{3} + \frac{1}{6} = \frac{3}{6} + \frac{2}{6} + \f
 $\leftarrow$ *move: rewrite over common denominator, then add tops.*
 Normalised numbers **always** sum to 1 — that's what makes them a probability distribution.
 
+And "summing to 1" can be a beautiful thing to watch. Take half a cake, then half of what's left,
+then half of *that*, forever:
+
+![A bar chart of the running total ½, ½+¼, ½+¼+⅛, … climbing step by step and pressing up against a dashed line at 1, never quite crossing it](img/04-cake-series.png)
+
+*Infinitely many fractions — $\tfrac12 + \tfrac14 + \tfrac18 + \cdots$ — and their running total creeps
+up on **exactly 1**, never overshooting. Each piece covers half the remaining gap, so you close in on
+the whole cake without ever passing it. Adding forever needn't blow up; sometimes it settles on a
+number. That quiet idea (a "convergent series") is the seed of the calculus in Module 3.*
+
 ## The Python connection
 
 ```python

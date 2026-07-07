@@ -23,6 +23,17 @@ get enforced.
 - Then the money shot: overlay the **theoretical normal curve** — a formula written by
   mathematicians with pen and paper — on your simulated pile. They will match. Eerily.
 
+The reward you're building — order rising visibly out of pure chance:
+
+![Three histograms of where balls land, for 100, 2,000 and 100,000 balls: ragged and lumpy at 100, and sharpening into a clean symmetric bell by 100,000](img/05-galton-emergence.png)
+
+![A histogram of 100,000 simulated balls with the pen-and-paper Gaussian curve laid over it, the two matching almost exactly](img/05-galton-theory.png)
+
+*Left: one ball is unpredictable, but as the count grows the pile sharpens into the **same bell every
+time**. Right: overlay the Gaussian a mathematician derived by hand — μ = 6, σ = √3 — and it lands right
+on your simulated pile. That's the central limit theorem (Module 4.3) enforced in front of you: a sum of
+coin flips *always* becomes this curve.*
+
 **Open the notebook: `05-galton-board.ipynb`.**
 
 ---

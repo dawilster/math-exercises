@@ -33,6 +33,9 @@ def render(input_md: Path, output_html: Path, katex_url: str | None = None,
         "--standalone",
         "--toc", "--toc-depth=2",     # contents at the top of every page
         "--css", css_url or str(CSS_FILE),
+        # resolve relative image paths (e.g. img/foo.png) against the lesson's own dir,
+        # not the CWD — so --embed-resources can inline them for print/e-reader.
+        f"--resource-path={input_md.resolve().parent}",
         "--metadata", f"pagetitle={input_md.stem.replace('-', ' ').title()}",  # browser-tab title only, no header block
         "--metadata", "lang=en-AU",
     ]

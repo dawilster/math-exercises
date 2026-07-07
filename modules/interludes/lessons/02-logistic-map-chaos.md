@@ -26,6 +26,21 @@ born from one quadratic you could solve in your sleep.
 - Run the **butterfly effect**: two populations that differ by 0.000000001 at the start,
   completely unrecognisable from each other within 40 steps.
 
+The destination — one of the most beautiful images in mathematics, and it's ~15 lines of your code:
+
+![The bifurcation diagram: a single line that splits into 2, then 4, then 8 branches and dissolves into a speckled band of chaos as the growth rate r increases, with faint windows of order inside the chaos](img/02-bifurcation.png)
+
+*Read it left to right as you turn up the growth rate $r$: one stable population, then it **splits**
+(2 values it flips between), splits again (4), again (8), faster and faster — then at $r\approx3.57$ it
+shatters into **chaos**. Look closely and there are pale vertical "windows" where order briefly returns.
+All from $x \to rx(1-x)$.*
+
+![Two population trajectories starting a billionth apart, tracking each other perfectly for about 30 steps then diverging into completely different paths; below, their gap on a log scale climbing as a straight line](img/02-butterfly.png)
+
+*The butterfly effect: two starts a **billionth** apart stay identical for ~30 steps, then diverge
+completely. The lower panel shows why — the gap grows exponentially (a straight line on Module 0.5's log
+scale). This is chaos: not randomness, but total sensitivity to where you began.*
+
 **Open the notebook: `02-logistic-map-chaos.ipynb`.**
 
 ---

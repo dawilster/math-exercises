@@ -37,6 +37,12 @@ $$x_3 = 2.56 - 0.1 \times 5.12 = 2.048 \qquad \leftarrow \text{move: same rule, 
 Each value is $0.8\times$ the last — it glides toward the true minimum at $x = 0$, never
 told where it is, only ever feeling the local slope.
 
+![The parabola f(x)=x² with red dots stepping down its right arm toward the bottom, bunched far apart at the top and closer together near the valley floor](img/05-descent-path.png)
+
+*Every footstep, plotted. Notice the steps are **big at the top** (steep slope → bold step) and
+**shrink toward the bottom** (shallow slope → tiny step). Nobody programmed that slow-down —
+it falls out of "step size = slope × learning rate". The algorithm brakes as it arrives.*
+
 ## The Python connection
 
 The entire algorithm:
@@ -51,17 +57,35 @@ print(x)                # ≈ 0.0007 — it found the valley
 ```
 
 Swap in a different `slope` line and it minimises a different function. Swap in a gradient
-and it minimises a surface. In the notebook you'll plot every footstep on the curve, then
-descend a 2-parameter bowl and watch the path curve down the contour map like water finding
-the valley.
+and it minimises a surface — same three lines, now stepping in two directions at once:
+
+![Contour map of a bowl-shaped loss surface L(w,b) with a red path starting at top-left and curving down through the rings to the marked minimum at (2,−1)](img/05-bowl-descent.png)
+
+*The two-input version, which is all a real network is. The rings are the loss surface seen from
+above; the red path is descent stepping in $w$ **and** $b$ at once, each step opposite the gradient
+$\nabla L$. Because this bowl is **stretched** (steep across, gentle along), it doesn't head straight
+for the middle — it overshoots the steep walls and **zig-zags** down the valley, each step crossing
+its contour at a right angle (3.4's rule again). That zig-zag is wasteful, and killing it is exactly
+what the fancier optimisers you'll meet later — momentum, Adam — are for. Millions of weights instead
+of two, and this is still the core of how GPT was trained. You'll build this path in the notebook and
+can move the starting point around the map.*
 
 ## What breaks it (the classic traps)
 
 - **Dropping the minus sign** → gradient *ascent*. Your loss climbs enthusiastically forever.
 - **Learning rate too big** → you overshoot the valley, land on the far wall, overshoot back…
-  with $\eta = 1.1$ on $x^2$ each step is *further* from the minimum: divergence. (You'll
+  with $\eta = 1.05$ on $x^2$ each step is *further* from the minimum: divergence. (You'll
   engineer this crash deliberately in the notebook. It's fun.)
 - **Learning rate too small** → perfectly correct, glacially slow. A thousand steps to cross a puddle.
+
+![Four panels of gradient descent on x² at learning rates 0.01, 0.1, 0.5, 1.05: crawling a short way, gliding to the bottom, bouncing side to side while still converging, and exploding outward off the top of the bowl](img/05-learning-rates.png)
+
+*The same algorithm, four learning rates — this one dial changes everything. **0.01**: correct but
+crawling, barely off the start after 15 steps. **0.1**: the Goldilocks glide from above. **0.9**:
+overshoots the valley and lands on the far wall, bouncing side to side — but each bounce is smaller,
+so it still spirals in. **1.05**: the bounces *grow* — each step lands further out than the last and
+it climbs the walls forever. Same math, wildly different fates. Picking $\eta$ is the first thing you
+tune on any real model.*
 - **Local valleys:** on bumpy surfaces you settle in the nearest dip, not necessarily the deepest.
   Where you *start* matters. Real ML training lives with this every day.
 

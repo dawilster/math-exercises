@@ -86,6 +86,19 @@ Ten seconds, and the fear is gone.
   "add the squares" and "square the sum" are wildly different numbers.
   (For $x = (1,2,3)$: $14$ vs $36$.)
 
+### 🌀 A glimpse of what a Σ can build
+
+A sum isn't only for totting up a bill. Add the right list of simple sine waves and a $\Sigma$
+*constructs* things:
+
+![Three curves: one lone sine wave, a sum of 3 sine waves already looking boxy, and a sum of 30 sine waves that has snapped into a near-perfect square wave](img/06-sigma-square-wave.png)
+
+*Each curve is $\sum_k \frac{\sin((2k-1)x)}{2k-1}$ for more and more terms. One sine is just a wave;
+three already look boxy; thirty snap into a **square wave** — flat tops and sharp corners, built
+entirely from smooth round sines. This is a Fourier series, the math behind MP3s, JPEGs, and how a
+neural net's layers add up simple pieces into complex shapes. All of it is one $\Sigma$ — a loop
+with an accumulator — doing its job.*
+
 > **Deep-end question to hold in your head during the worksheet:**
 > $\sum$ (sigma) repeats +. There's a twin, $\prod$ (capital pi), that repeats ×.
 > Given what 0.5 taught you about logs, what would $\log$ of a $\prod$ turn into?

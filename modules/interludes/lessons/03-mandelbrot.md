@@ -28,6 +28,17 @@ Square, add, repeat. For each point $c$ in the plane, iterate and ask one questi
 - Then **zoom into the boundary** and watch new worlds appear: seahorses, spirals,
   baby Mandelbrots — detail that literally never ends.
 
+The creature you were promised in Module 0 — and this time you'll understand every line that makes it:
+
+![The full Mandelbrot set: a large black cardioid bud with a circular bulb to its left, fringed by an infinitely intricate blue-and-purple filigree of buds and antennae](img/03-mandelbrot.png)
+
+![A deep zoom into the set's boundary called Seahorse Valley, revealing curling spiral tails and self-similar detail invisible in the whole-set view](img/03-seahorse.png)
+
+*Colour each point $c$ by how long $z\to z^2+c$ takes to fly off to infinity, and **this** appears —
+from seven characters of maths. Then zoom into the boundary (right) and new worlds unfold: seahorse
+tails, spirals, tiny perfect copies of the whole set. The detail never ends, no matter how far you zoom.
+In the notebook you steer the expedition.*
+
 **Open the notebook: `03-mandelbrot.ipynb`.**
 
 ---

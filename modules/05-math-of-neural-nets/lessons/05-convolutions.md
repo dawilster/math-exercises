@@ -68,6 +68,20 @@ The output is dark exactly where the image is flat and bright where the edge liv
 turns "where is the edge?" into arithmetic.** Rotate the kernel 90° and it finds horizontal edges;
 in a real CNN, training *learns* the kernel entries by backprop (5.3) — edge detectors emerge on their own.
 
+![A grayscale scene of a sun over hills, followed by four convolved versions: vertical-edge and horizontal-edge maps that light up the sun's rim and the ridge, a blurred copy, and a sharpened copy](img/05-conv-gallery.png)
+
+*The same 3×3-kernel trick on a real scene. **Vertical-edge** lights up the sun's left/right sides;
+**horizontal-edge** catches the ridge and the sun's top/bottom; **blur** is the ⅑-mean (Module 4.2's
+average) smearing detail; **sharpen** exaggerates every boundary. Four detectors, each just nine numbers
+slid across the image.*
+
+![The scene beside its edge-magnitude map, where only the sun's rim and the ridge line glow against black](img/05-edge-magnitude.png)
+
+*Combine the vertical and horizontal edge maps as a vector length (Module 2.1's Pythagoras at every
+pixel) and the scene collapses to **pure structure** — the sun's rim and the ridge, glowing. A CNN's
+first layer learns kernels like these *by itself* through backprop, then feeds their outputs to more
+kernels: features of features. That stack is how a network reads an X-ray or drives a car.*
+
 ## The Python connection
 
 Two honest loops — no libraries hiding the idea:

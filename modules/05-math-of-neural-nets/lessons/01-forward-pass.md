@@ -66,6 +66,13 @@ $$\hat{y} = \sigma(0) = \frac{1}{1+e^{0}} = \frac{1}{2} = 0.5$$
 The network's answer: **0.5** — a fifty-fifty shrug. It hasn't learned anything yet (the weights
 are arbitrary). Making that answer *better* is the rest of this module.
 
+![A blue-to-red heat map of the network's output over the whole 2-D plane, with straight-line creases where the ReLUs switch on and off, and a star marking the input (1,2)](img/01-untrained-surface.png)
+
+*The same forward pass, run at **every** point of the plane at once — the network's current "opinion"
+everywhere (blue ≈ 0, red ≈ 1). Two things to see: the output has **straight creases**, each one exactly
+where a ReLU flips on or off (the kinks from Module 1.5), and right now the map is arbitrary nonsense —
+our input (the star) sits on a boundary at 0.5. Training reshapes this whole surface.*
+
 ## The Python connection
 
 The entire forward pass is four lines of numpy — and you know what every one does:

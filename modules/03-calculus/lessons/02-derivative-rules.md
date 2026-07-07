@@ -27,6 +27,13 @@ have to do it again.
 Trust but verify: every one of these can be checked with your `derivative()` function from 3.1.
 In the notebook, we make `sympy` the referee.
 
+![The curve e^x drawn as a thick pale band, with its nudge-measured slope drawn as a thin red dashed line lying exactly on top of it](img/02-exp-is-own-slope.png)
+
+*The strangest rule, made obvious. For every other function the slope curve is a **different**
+shape from the function. For $e^x$ it's the same shape: measure the slope of $e^x$ everywhere
+(red dashed) and it lands right on $e^x$ itself (pale band). That's what "$e^x$ is its own
+derivative" looks like — the one function whose rate of growth equals its current height.*
+
 ## Watch one get played
 
 Differentiate $f(x) = 3x^4 - 5x + 7$:

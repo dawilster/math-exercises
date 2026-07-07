@@ -44,3 +44,4 @@ Reviews scheduled at roughly 1d → 3d → 7d → 21d after a miss or new skill.
 | Date | Focus |
 |---|---|
 | 2026-07-07 | System set up; Module 0 Lesson 1 created |
+| 2026-07-08 | Content-integrity sweep: pulled 68 load-bearing figures out of the notebooks and into all 39 lessons (why-first captions), built `tools/figs/` generators, fixed 2 renderer image-path bugs + 3 pedagogy bugs. No new learning content. |

@@ -27,6 +27,12 @@ $$\begin{pmatrix} 2 \\ 1 \end{pmatrix} + \begin{pmatrix} 1 \\ 3 \end{pmatrix} = 
 The number 3 in $3\vec{a}$ is called a **scalar** — a plain number, so named because it *scales* arrows.
 A negative scalar flips the arrow: $-\vec{a}$ points the opposite way.
 
+![Vector a and vector b drawn tip-to-tail — b starts where a ends — with the sum arrow a+b running straight from the origin to b's final tip](img/02-tip-to-tail.png)
+
+*Why the two views always agree: lay $\vec b$'s tail at $\vec a$'s tip and walk. Where you end up is
+$\vec a+\vec b$ — and its components are exactly the pairwise sums. "Add the numbers" and "walk the
+arrows tip-to-tail" are the same act, which is why you can compute with the list and trust the picture.*
+
 ## Worked example — king − man + woman
 
 Pretend embeddings are 2-D: component 1 = "royalty", component 2 = "gender (0 = male, 1 = female)".
@@ -45,6 +51,13 @@ Compute $\vec{king} - \vec{man} + \vec{woman}$:
 
 Real embeddings do this in 768 dimensions, but the *moves* are identical. Subtracting vectors
 isolates a **difference in meaning**; adding applies it somewhere else.
+
+![Arrows for king, man, woman and queen, with the computed arrow king−man+woman landing exactly on top of the queen arrow](img/02-king-queen.png)
+
+*The famous result, drawn. Subtracting $\vec{man}$ strips the "man-ness" off $\vec{king}$; adding
+$\vec{woman}$ paints "woman-ness" back on — and the result arrow lands **exactly on $\vec{queen}$**.
+No rule for gender was ever written; it fell out of the geometry. This is the two operations from
+today's lesson, running the algebra of meaning.*
 
 ## The Python connection
 

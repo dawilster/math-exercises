@@ -6,6 +6,14 @@
 
 Two of ML's most-typed lines: a loss plotted on a **log scale** (because it falls so fast a
 normal plot is useless), and a learning rate decayed **exponentially** ($\eta_t = \eta_0 e^{-kt}$).
+
+![The same decaying training-loss curve shown twice: on a normal y-axis it collapses into a flat smear along the bottom; on a log y-axis it becomes a clean straight line](img/05-log-unmasks-exponential.png)
+
+*Here's the exact scenario, upfront. **Left:** a training loss falling exponentially, plotted normally
+— after step 50 it's a useless smear on the floor and you can't tell if it's still improving.
+**Right:** the *same numbers* on a log y-axis (each tick ×10, not +10) straighten into a line you can
+actually read. Exponential curves become straight lines on a log scale — which is why essentially every
+loss curve you'll ever see is plotted this way. By the end of this lesson you'll know why.*
 Deeper still: classifiers are trained on **log-probabilities** — the "cross-entropy loss"
 you'll meet in Module 4 is literally a logarithm. Why? Probabilities *multiply*
 ($0.9 \times 0.8 \times \dots$), and long products of small numbers underflow to zero and

@@ -23,6 +23,12 @@ $$\text{a tiny 4×4 image:} \quad
 \end{pmatrix}
 \;=\; \text{a white square on black}$$
 
+![Three small grayscale images and the matrices behind them: a left-to-right brightness fade, an 8×8 checkerboard, and a tiny white-on-black smiley face](img/06-image-basics.png)
+
+*Three images that are nothing but numbers in a grid. The fade is one row of rising values stacked;
+the checkerboard is two lines of slicing; the smiley is a dozen pixels set to 1. Squint and you see a
+picture; look closely and it's a matrix — literally the same object.*
+
 And the operations you already own become photo edits:
 
 | Math you know | On an image it means |
@@ -32,8 +38,20 @@ And the operations you already own become photo edits:
 | Reversing row order | Flip upside-down |
 | $1 - $ every entry | Invert (photo negative) |
 
+![The smiley face shown five ways: original, dimmed by 0.4, colour-inverted, flipped upside-down, and mirrored left-right](img/06-edits-gallery.png)
+
+*Every one of these is arithmetic you already own. Dim = multiply by 0.4. Negative = $1-\text{img}$.
+Flip = reverse the rows (`[::-1]`). Mirror = reverse the columns. An Instagram filter is just a matrix
+operation with a marketing budget.*
+
 Colour is one more stacking trick: an **RGB image is three grayscale matrices** — a red one, a
 green one, a blue one — stored together with shape `(height, width, 3)`.
+
+![Three grayscale gradient matrices labelled R, G and B, and the colourful image that results when they are stacked together](img/06-rgb-stack.png)
+
+*Colour is just three of these matrices stacked — how much red, green and blue at each pixel. Three
+grayscale grids in, one colour image out, shape `(height, width, 3)`. Every photo on your phone is
+this: three matrices in a trench coat.*
 
 ## Worked example — brighten a dark image
 

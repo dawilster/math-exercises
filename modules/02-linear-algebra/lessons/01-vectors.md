@@ -26,6 +26,13 @@ And here's the move that makes it ML: *any* row of data is a vector.
 A house = (bedrooms, bathrooms, land in m²) = $\begin{pmatrix} 3 \\ 2 \\ 650 \end{pmatrix}$ — an arrow in 3-D "house space".
 A word embedding is the same thing with 768 numbers. You can't draw 768-D, but the arrow intuition still works — that's the whole trick.
 
+![Four labelled arrows in a 2-D 'taste space' with axes 'sci-fi hours' and 'comedy hours': Ana and Raj point almost the same way, Mei points off toward comedy, Drew sits between them](img/01-taste-space.png)
+
+*Four people as arrows, where the axes are "hours of sci-fi" and "hours of comedy". Ana and Raj
+**point almost the same way** — similar taste. Mei points off toward comedy; Drew splits the
+difference. This is exactly how a recommender or an LLM stores meaning: as directions in space.
+Lesson 2.3 turns "point almost the same way" into a single number.*
+
 ## Worked example — how long is an arrow?
 
 Find the length (the **magnitude**, written $|\vec{v}|$) of $\vec{v} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$:
@@ -38,6 +45,12 @@ $$|\vec{v}| = \sqrt{3^2 + 4^2} = 5$$
 
 That's just Pythagoras — the arrow is the hypotenuse of a 3-across, 4-up triangle.
 Works in any number of dimensions: square everything, add, root.
+
+![The arrow (3,4) drawn from the origin, with dashed lines showing the 3-across and 4-up legs of a right triangle whose hypotenuse is the arrow, length 5](img/01-magnitude-triangle.png)
+
+*The "length" of a vector is nothing new — it's the hypotenuse of the right triangle its components
+make. Square the legs, add, square-root: Pythagoras, which is why $\lvert\vec v\rvert$ works
+identically in 2-D, 3-D, or the 768-D of a word embedding.*
 
 ## The Python connection
 

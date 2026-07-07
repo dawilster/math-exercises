@@ -30,6 +30,13 @@ output that used to live at 5 and displays it at 2. Everything arrives 3 early �
 slides 3 to the **left**. Outside the brackets: what you see is what you get. Inside the brackets:
 opposite day.
 
+![Three parabolas: the base x², a copy shifted straight up by 3, and a copy shifted left by 3 — showing that +3 outside goes up but +3 inside goes the 'wrong' way, left](img/03-up-vs-left.png)
+
+*The whole lesson in one picture. $f(x)+3$ (change the **output**) lifts the parabola straight **up** —
+exactly what you'd expect. $f(x+3)$ (change the **input**) slides it **left**, the "wrong" way. Stare
+until "inside the brackets is opposite day" feels obvious, because this is the single most-failed idea
+in school algebra — and it's really just the pre-fetch above, drawn.*
+
 ## Watch one build
 
 Sketch $y = -(x - 3)^2 + 5$, starting from the zoo animal $y = x^2$:
@@ -56,8 +63,14 @@ And normalisation, which you'll do to every dataset you ever train on:
 z = (x - mu) / sigma    # shift the data so its centre is 0, stretch so its spread is 1
 ```
 
-Same moves, applied to data instead of a curve. In the notebook you'll *watch* a histogram
-slide and squash.
+Same moves, applied to data instead of a curve:
+
+![Two histograms side by side: raw heights piled around 175 cm, and the same data normalised so it's piled around 0 with spread 1 — same bell shape, moved and rescaled](img/03-normalise.png)
+
+*500 people's heights, before and after normalising. **Same shape**, new home: the raw pile centred on
+175 cm slides to centre **0** and squashes to spread **1**. That's just "shift then stretch" — this
+lesson's moves — applied to a whole dataset instead of a single curve. Networks train far better on the
+right-hand version, and now you know normalisation isn't a magic incantation, it's unit 1.3.*
 
 ## Classic traps
 

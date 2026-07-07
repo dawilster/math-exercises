@@ -23,6 +23,13 @@ $$f(g(2)) = f(5) = 25 \qquad \text{but} \qquad g(f(2)) = g(4) = 7$$
 **Order matters.** $f(g(x))$ and $g(f(x))$ are different machines. "Add 3 then square" ≠
 "square then add 3" — exactly like Module 0's order of operations, but at machine scale.
 
+![Two different parabolas: (x+3)² with its valley shoved left to x=−3, and x²+3 with its valley lifted up to y=3 — same two machines, opposite plumbing](img/04-order-matters.png)
+
+*Same two machines, opposite plumbing, two genuinely different curves. Bolt them $g$-then-$f$ and the
+valley slides **left** to $x=-3$; bolt them $f$-then-$g$ and the valley lifts **up** to $y=3$. If order
+didn't matter these would be one curve — they plainly aren't. (Which is which? Unit 1.3 tells you before
+the legend does.)*
+
 ## Building the combined blueprint
 
 You can compute a composition's blueprint once and for all: feed the *entire* blueprint of $g$
@@ -70,10 +77,25 @@ the algorithm that trains every model you've ever heard of. You now know the str
   $f(x) = \sqrt{x}$ and $g(x) = x - 5$, then $f(g(1)) = \sqrt{-4}$ — crash. A pipeline's domain
   is squeezed by every machine in it.
 
+### 🌀 When a machine eats its own output
+
+Feed a machine its own output, over and over — $f(f(f(\dots)))$. Two wildly different fates await:
+
+![A line of dots stepping from 0 and quickly levelling off at a dashed line y=2, the sequence settling to a fixed point](img/04-self-feeding.png)
+
+*The calm case: $f(x)=\tfrac{x}{2}+1$ started at 0 creeps up and **parks at 2** forever, because
+$f(2)=2$ — a "fixed point", where the machine stops changing anything. Obedient, predictable. Now watch
+the other kind:*
+
+![Two lines tracking the logistic machine from starting points a millionth apart: identical for about 30 steps, then flying apart into completely different jagged paths](img/04-chaos-glimpse.png)
+
+*The wild case: $f(x)=3.9x(1-x)$, run from two starts a **millionth** apart. They agree for ~30 steps,
+then diverge utterly. That's **chaos** — total sensitivity to the starting point — from a one-line
+machine simpler than the calm one. Same idea (a machine eating its own output), opposite universe. It
+has its own branch of maths, and its own Wonder Interlude waiting for you.*
+
 > **Deep-end question to hold in your head during the worksheet:**
-> what if a machine eats its own output — $f(f(f(\dots f(x))))$? Try $f(x) = \frac{x}{2} + 1$
-> starting from $x = 0$, by hand, five times. Where is it heading? Some self-feeding machines
-> settle down like this one… and some do something so wild it has its own branch of mathematics.
-> The notebook will show you.
+> compute $f(x) = \frac{x}{2} + 1$ from $x = 0$ by hand, five times, and watch it home in on 2.
+> *Why* 2? Set $f(x^\*) = x^\*$ and solve — the fixed point is the answer to a Module 0 balance game.
 
 **Now: worksheet `04-composing-functions` — pen and paper. Photograph into `scans/inbox/` when done.**

@@ -17,6 +17,11 @@ $$3x + 2 = 14$$
 
 That's a claim: "some mystery weight, tripled, plus a 2-gram weight, balances 14 grams."
 
+![A balance scale with the expression 3x+2 sitting in the left pan and 14 in the right pan, level because the two sides are equal](img/01-balance-scale.png)
+
+*Burn this picture in. The `=` is not "compute the answer" — it's a level beam. Everything in this
+module is about keeping that beam level while you rearrange what sits on it.*
+
 **A legal move is anything you do to BOTH pans that keeps the balance true.**
 
 | Move | Example | Why it's legal |
@@ -38,6 +43,14 @@ $$x = 4 \qquad \leftarrow \text{move: divide both pans by } 3$$
 
 Notice the *strategy*: peel away whatever is furthest from $x$, one legal move at a time.
 Like unwrapping a present — outermost layer first.
+
+There's a second way to *see* that same solution. Draw both sides as lines and ask where they cross:
+
+![Two lines on a graph — the sloped line y=3x+2 and the flat line y=14 — meeting at a single dot where x=4](img/01-lines-meet.png)
+
+*The left side $3x+2$ is a sloped line; the right side $14$ is a flat one. "Solve the equation" and
+"find where the two lines cross" are the **same question** — and they give the same answer, $x=4$.
+Algebra and geometry are two languages for one idea; you'll flip between them all through Module 1.*
 
 ## The Python connection
 

@@ -70,9 +70,18 @@ functions wide and hundreds deep, multiplying as it goes.
 - **Not seeing the pipeline:** $(x^2+1)^3$ is *not* handled by the power rule alone —
   first name the inner $x^2 + 1$, or the answer is wrong.
 
+![Sensitivity vs pipeline depth on a log scale: lines below 1 per stage plunge toward zero, the line at exactly 1 stays flat, lines above 1 rocket upward](img/03-vanishing-exploding.png)
+
+*Why deep networks were once un-trainable, in one picture. Each line is a pipe where every stage
+multiplies the sensitivity by the same amount. Just **below** 1 (0.8, 0.95) the product plunges to
+near-zero over 50 stages — the gradient **vanishes**, and the early layers get no signal to learn
+from. Just **above** 1 (1.05, 1.25) it rockets up — the gradient **explodes**. Only exactly 1
+holds steady. The whole art of training deep nets is keeping that per-stage multiplier near 1.
+(Note the log scale — Module 0.5 earning its keep.)*
+
 > **Deep-end question to hold in your head during the worksheet:**
 > a pipe 10 stages long, each stage with sensitivity $0.5$. What's the end-to-end sensitivity?
 > Now 100 stages. This tiny multiplication is why very deep networks once *couldn't* train —
-> look up "vanishing gradients" after the worksheet and enjoy recognising the math.
+> it's the plot above, and the phrase to look up afterward is "vanishing gradients".
 
 **Now: worksheet `03-chain-rule` — pen and paper. Photograph it into `scans/inbox/` when done.**

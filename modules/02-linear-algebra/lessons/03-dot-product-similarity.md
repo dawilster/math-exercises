@@ -29,6 +29,13 @@ $$\vec{a} \cdot \vec{b} = a_1 b_1 + a_2 b_2 + \dots$$
 (For the curious: the exact formula is $\vec{a}\cdot\vec{b} = |\vec{a}||\vec{b}|\cos\theta$, where
 $\theta$ is the angle between them. You don't need the trig — the table above *is* the intuition.)
 
+![A black reference arrow with 24 arrows fanning around it in a circle, coloured by their dot product with it: red where they point the same way, fading to pale where perpendicular, blue where opposite](img/03-dot-compass.png)
+
+*One black arrow, and 24 others coloured by their dot product with it. The pattern is the whole
+lesson: **red** (big positive) where they align, fading to **pale** at right angles (zero), to
+**blue** (negative) pointing opposite. The dot product is a similarity dial — and it found the
+geometry using nothing but multiply-and-add.*
+
 ## Worked example
 
 Compute $\begin{pmatrix} 2 \\ 3 \end{pmatrix} \cdot \begin{pmatrix} 4 \\ 1 \end{pmatrix}$:
@@ -76,9 +83,17 @@ New syntax: `@` is Python's "vector/matrix product" operator. `a * b` and `a @ b
 - **Big dot ≠ similar direction** if lengths differ wildly — use cosine similarity to compare fairly.
 - Zero doesn't mean "zero vectors" — it means **perpendicular**. Nonzero arrows can dot to 0.
 
+![A bar chart of the average absolute cosine similarity of random arrow pairs, falling from about 0.6 in 2-D to nearly 0 in 768-D](img/03-highdim-perpendicular.png)
+
+*The deep-end question, answered by experiment. Pick two arrows at random and measure how aligned
+they are, on average. In 2-D they collide constantly (≈0.6); by 768-D they're **almost always nearly
+perpendicular** (≈0.03). High-dimensional space is roomy — enough for tens of thousands of words to
+each get their own near-independent direction. That "blessing of dimensionality" is *why* embeddings
+work at all.*
+
 > **Deep-end question to hold in your head during the worksheet:**
 > in 2-D, only 1 direction is perpendicular to a given arrow. In 768-D, there's *enormous* room —
 > almost every random pair of arrows is nearly perpendicular. Why is that convenient
-> if you want thousands of words to each mean something *different*?
+> if you want thousands of words to each mean something *different*? (The plot above is the answer.)
 
 **Now: worksheet `03-dot-product-similarity` — pen and paper. Photograph it into `scans/inbox/` when done.**

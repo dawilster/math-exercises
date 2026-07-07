@@ -26,6 +26,12 @@ $$\text{forward} \;\to\; \text{loss} \;\to\; \text{backward} \;\to\; \text{step}
 $\eta$ (eta) is the **learning rate** — step size. Each trip through the loop is one **step**;
 a full pass over the dataset is an **epoch**. Loop until the loss stops falling.
 
+![A scatter plot of two interleaved crescent-moon clusters, blue and red, that clearly cannot be separated by any single straight line](img/04-moons-task.png)
+
+*The test we'll set the network: two interlocking moons. No straight line splits them — so a linear
+model (Module 1.5's collapsing tower) is helpless here. Only the kinks that activations buy can carve
+this boundary. Let's watch our four-move loop find it.*
+
 ## One full training step, by hand
 
 Take 5.3's gradients and step with $\eta = 0.1$. **The move (Module 3.5): new = old − η × gradient.**
@@ -61,8 +67,21 @@ for step in range(1000):
         w -= lr * g                          # Module 3.5  (-= means: subtract in place)
 ```
 
-In the notebook this trains on a 2D dataset no straight line can split — and you'll *watch* the
-decision boundary bend itself around the data, epoch by epoch.
+This trains on that two-moon dataset — and here is the whole thing learning:
+
+![A loss curve starting at 0.693 and falling steeply, then levelling off near zero as training proceeds](img/04-moons-loss.png)
+
+*The loss doing exactly what Module 3.5 promised: starting at **0.693** (coin-flip ignorance — every
+classifier's birthplace, from 5.2) and sliding down the hill as gradient descent nudges the weights,
+step after step, toward a network that's almost always right.*
+
+![Six panels showing the decision boundary at training steps 0, 200, 600, 1500, 3000 and 6000: it begins as a rough straight-ish split and progressively bends into a curve that perfectly follows the gap between the two moons](img/04-moons-boundary.png)
+
+*And this is the moment. The black line is where the network says "50/50"; blue/red is its confidence
+either side. At **step 0** it's a near-straight guess slicing through both moons. By **step 6000** it has
+**bent itself into exactly the curve that separates them** — a shape no straight line could make, built
+from ReLU kinks positioned by the weights your gradients moved. Nobody drew that boundary. The math found
+it. This is the entire idea of deep learning, and every operation in it is one you did by hand.*
 
 ## The classic traps
 

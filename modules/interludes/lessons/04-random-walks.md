@@ -22,6 +22,17 @@ mathematical ancestor of how **diffusion models paint images out of noise**.
   precise, provable rate: after $n$ steps, typical distance $\approx \sqrt{n}$.
 - Set walkers loose in 2D and draw Brownian motion — paths that look hand-drawn by nature.
 
+Where you're headed — pure noise, yet with a precise, provable shape:
+
+![200 random-walk paths fanning out from the origin like a translucent cloud, bounded above and below by two solid black ±√n curves that the spread hugs](img/04-walkers.png)
+
+![A single 30,000-step random walk in two dimensions, coloured by time, tracing a wandering, cloud-like path that looks hand-drawn by nature](img/04-brownian.png)
+
+*Left: release 200 walkers and the cloud spreads — not lawlessly, but at exactly $\pm\sqrt{n}$ (Module
+4.4's √n law, the same square root that governs sample wobble). Right: a 2-D walk is **Brownian motion**
+— the jitter of pollen in water that proved atoms exist, and the mathematical ancestor of how diffusion
+models paint images from noise, run backwards.*
+
 **Open the notebook: `04-random-walks.ipynb`.**
 
 ---

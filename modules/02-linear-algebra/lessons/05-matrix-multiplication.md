@@ -63,6 +63,12 @@ print(A @ B == B @ A)    # mostly False — order matters!
 
 - **$AB \neq BA$.** "Rotate then stretch" is a different machine from "stretch then rotate".
   Matrix multiplication is the first multiplication you've met where order changes the answer.
+
+![The house shape under S@R (rotate then stretch) versus R@S (stretch then rotate): the two results are visibly different shapes](img/05-matrix-order.png)
+
+*Proof that order matters, in one glance. **Rotate then stretch** and **stretch then rotate** are the
+same two machines composed in opposite orders — and they land the house in genuinely different places.
+That's $AB \neq BA$. Composition, from Module 1.4, remembers who went first.*
 - **`*` vs `@`** — element-wise vs true product. If your network is mysteriously broken, check this first.
 - **Shape mismatch:** $(2\times3)(2\times3)$ is illegal — inner numbers 3 and 2 don't match.
   numpy's error message will say exactly this; now you can read it.

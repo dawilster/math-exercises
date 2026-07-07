@@ -25,6 +25,16 @@ the arms of spiral galaxies.
   seed $n$ goes at radius $\sqrt{n}$, angle $n \times 137.5°$ — and watch a real
   flower appear on your screen.
 
+Here's where you're headed — build these yourself, don't just admire mine:
+
+![A logarithmic spiral coiling outward, each quarter-turn growing by the golden ratio](img/01-golden-spiral.png)
+
+![Two thousand dots placed by the rule 'seed n at radius √n, angle n×137.5°', forming the interlocking spirals of a real sunflower seed head](img/01-sunflower.png)
+
+*The spiral grows by φ every quarter-turn; the flower places each seed 137.5° further round than the
+last. One number, the golden angle, and a **sunflower** appears — the same pattern nature uses because
+φ is the hardest number to approximate with a fraction, so seeds never line up and waste space.*
+
 **Open the notebook: `01-fibonacci-golden-ratio.ipynb`. Build it yourself.**
 
 ---

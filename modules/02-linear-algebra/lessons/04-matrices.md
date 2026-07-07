@@ -23,6 +23,12 @@ a stack of data vectors, one per row.
 Feed the same matrix every point of a shape and it rotates, stretches, or skews the whole shape at once.
 Function-machine from Module 1.1 — but the input and output are vectors.
 
+![A little house shape shown before (grey) and after (red) three different matrices: one stretches it wide, one rotates it 90°, one shears it into a slant](img/04-house-transforms.png)
+
+*The same house, fed to three different matrix-machines. One matrix stretches it, one rotates it, one
+shears it — and each does so to **every corner at once** with a single multiplication. A matrix isn't
+just a table of numbers; it's a machine that reshapes space.*
+
 ## Worked example — feeding a vector to a matrix
 
 Compute $\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}\begin{pmatrix} 4 \\ 5 \end{pmatrix}$:
@@ -44,6 +50,12 @@ Where does a matrix send the two unit arrows $\begin{pmatrix}1\\0\end{pmatrix}$ 
 Run the worked-example steps and you'll find: **column 1 of the matrix is where $\begin{pmatrix}1\\0\end{pmatrix}$ lands,
 column 2 is where $\begin{pmatrix}0\\1\end{pmatrix}$ lands.** A matrix *is* the after-photo of the unit arrows.
 Want a machine that swaps x and y? Write down where the unit arrows should go: $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$. Done.
+
+![The two grey unit arrows (along x and along y) and, in colour, where the matrix sends them: the x-arrow lands at column 0 of the matrix, the y-arrow at column 1](img/04-unit-decoder.png)
+
+*The decoder, drawn. Feed the matrix the unit-x arrow and it lands on **column 0**; feed it unit-y and
+it lands on **column 1**. So to build any machine you want, just decide where the two unit arrows
+should go and write those as the columns. Reading a matrix = reading where the axes end up.*
 
 ## The Python connection
 

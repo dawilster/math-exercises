@@ -45,6 +45,15 @@ $$x = -2 \;\text{ or }\; x = -3 \qquad \leftarrow \text{move: subtract from both
 expanded shape hides. **Reshape until a move you know applies.** This sentence is the fix
 for the old wound.
 
+The factored form isn't just convenient — it's *readable off the graph*:
+
+![The parabola y=x²+6x+8 crossing the x-axis at exactly two points, x=−2 and x=−4, each labelled with the factor that produces it](img/03-factor-roots.png)
+
+*A parabola's **roots** are where it crosses the floor ($y=0$). The factored form
+$(x+2)(x+4)$ hands them to you for free: $(x+2)$ says "zero at $x=-2$", $(x+4)$ says "zero at
+$x=-4$". The expanded form $x^2+6x+8$ hides them completely. Same curve, but only one shape lets you
+read the answers straight off — that's what "different shapes make different moves available" means.*
+
 | Shape | Good for |
 |---|---|
 | Expanded: $x^2 + 5x + 6$ | adding to other expressions, comparing coefficients |

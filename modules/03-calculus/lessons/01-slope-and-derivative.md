@@ -24,6 +24,13 @@ The trick: zoom in. Take a tiny run $h$, measure the rise, divide. The smaller $
 the closer your answer gets to the true slope *at that point*. That true slope is the derivative,
 written $f'(x)$:
 
+![Four panels showing the secant line through x² pivoting onto the tangent as h shrinks from 2 to 0.1, slope going 8 → 7 → 6.5 → 6.1](img/01-secant-to-tangent.png)
+
+*Watch it happen: the dashed red line is the "shortcut" between two points on the curve — the slope
+your formula actually measures. With a big run ($h=2$) the shortcut cuts across the bend and
+overshoots (slope 8). Shrink $h$ and the far point slides back toward $x=3$, the shortcut pivots,
+and the slope closes in on the true value **6**. The derivative is where this pivoting settles.*
+
 $$f'(x) \approx \frac{f(x+h) - f(x)}{h} \quad \text{for tiny } h$$
 
 Read it as **sensitivity**: nudge the input by $h$, and the output moves by about $f'(x) \times h$.
@@ -41,6 +48,14 @@ $$= \frac{0.006001}{0.001} = 6.001 \qquad \leftarrow \text{move: subtract, then 
 
 The true answer is exactly $6$ — our tiny-$h$ estimate landed within a whisker.
 Try $x = 1$ and you'll get $\approx 2$. Try $x = 5$: $\approx 10$. See the pattern forming?
+
+![The parabola f(x)=x² with 61 red dots — the nudge-measured slope at each x — falling exactly on the straight line y=2x](img/01-derivative-is-2x.png)
+
+*Here's the pattern made visible. Measure the slope of $x^2$ at 61 different $x$-values (red dots)
+and they don't scatter — they trace a perfectly straight line, $y = 2x$. The slope of a curve is
+itself a **function**. That's the deep-end question below, already answered by the picture: the
+derivative of $x^2$ is $2x$. You'll regenerate this exact plot in the notebook and can swap $x^2$
+for any function you like.*
 
 ## The Python connection
 
@@ -67,6 +82,14 @@ derivative you'll ever compute by hand — and how we'll check every rule in the
 - **$h = 0$** — that's $\frac{0}{0}$, division by zero. The whole game is *tiny but not zero*.
 - **Confusing height with slope.** $f(3) = 9$ is where the curve *is*; $f'(3) = 6$ is how fast
   it's *climbing*. Different questions, different numbers.
+
+And it works on *any* function, not just parabolas. Measure the slope of a **wave** everywhere:
+
+![sin(x) drawn as a solid wave and its nudge-measured slope drawn as a dashed wave, identical in shape but shifted a quarter-turn to the left](img/01-sin-slope-is-cos.png)
+
+*The slope of a wave is another wave — the same shape, slid a quarter-turn left. Sine's slope is
+cosine. You don't need to know that yet; the point is that "nudge and measure" turns any curve into
+its slope-curve, no special rules required. That's the engine under everything to come.*
 
 > **Deep-end question to hold in your head during the worksheet:**
 > at $x = 1, 2, 3, 5$ the slope of $x^2$ came out $\approx 2, 4, 6, 10$.

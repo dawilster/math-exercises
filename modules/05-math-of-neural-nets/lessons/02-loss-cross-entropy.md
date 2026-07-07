@@ -40,6 +40,13 @@ confident and right ($\hat{y}=0.99$) → $L = 0.01$, nearly free. Confident and 
 ($\hat{y}=0.01$ when $y=1$) → $L = 4.6$, brutal. The log makes overconfident wrongness catastrophically
 expensive — precisely the behaviour we want to train away.
 
+![Two loss curves against the prediction ŷ when the truth is 1: MSE gently rises to about 1 as ŷ→0, while cross-entropy shoots up toward infinity](img/02-two-bills.png)
+
+*Two ways to bill the same wrongness. When the network is **confidently wrong** (ŷ→0 while the truth is
+1), MSE politely tops out near 1 — a weak complaint, and a weak gradient right when you need a loud one.
+Cross-entropy heads for **infinity**. That steep wall is exactly the teaching signal that makes
+classifiers learn, and why cross-entropy — not MSE — is the loss for probabilities.*
+
 ## Score our network, by hand
 
 From 5.1: $\hat{y} = 0.5$, truth $y = 1$.
@@ -66,6 +73,12 @@ $$p_i = \frac{e^{s_i}}{\sum_j e^{s_j}}$$
 
 Module 0.5's $e^x$ makes every score positive, Module 0.6's $\Sigma$ divides by the total so they
 sum to 1. Scores $(2, 0)$ → $\left(\frac{e^2}{e^2+e^0}, \frac{e^0}{e^2+e^0}\right) \approx (0.88, 0.12)$.
+
+![Two bar charts: four raw scores (some negative, different heights) on the left, and after softmax on the right — four positive bars that add to 1](img/02-softmax.png)
+
+*Softmax, drawn. Four raw scores — any numbers, even negative — go in; four probabilities that sum to 1
+come out. $e^x$ lifts everything positive (biggest score stays biggest), then dividing by the total
+normalises (Module 0.4). This is the exact output stage of every classifier, GPT included.*
 Then cross-entropy charges $-\ln(p_{\text{correct}})$, same as today. That's the entire output end
 of GPT. Full story in Module 6.
 

@@ -31,6 +31,14 @@ steepest uphill**, and its length says how steep. Picture the function as terrai
 map (like a topographic hiking map): the gradient arrow at any spot points straight up the hill —
 perpendicular to the contour line you're standing on.
 
+![Contour map of f(x,y)=x²+3xy with red gradient arrows on a grid, every arrow crossing its contour line at a right angle and pointing toward higher ground](img/04-gradient-uphill.png)
+
+*The blue rings are contours — lines of equal height, like on a hiking map. The red arrow at each
+point is the gradient $\nabla f$. Two things to *see* and never forget: every arrow crosses its
+contour at a **right angle** (that's the deep-end question, answered), and every arrow points
+toward **higher** ground, longer where the hill is steeper. At $(2,1)$ the arrow is
+$\nabla f = (7,6)$, exactly the numbers we compute below.*
+
 ## Watch one get played
 
 Gradient of $f(x, y) = x^2 + 3xy$ at the point $(2, 1)$:
@@ -56,8 +64,9 @@ df_dy = (f(2, 1 + h) - f(2, 1)) / h   # nudge y only  → ≈ 6.0
 print(df_dx, df_dy)                    # the gradient, measured
 ```
 
-In the notebook you'll draw a contour map of a loss surface and lay the gradient arrows on top —
-and *see* them point uphill, perpendicular to the contours.
+That's the picture above, and in the notebook you'll rebuild it yourself — draw the contour map,
+compute the arrows with the nudge trick, and lay them on top. Change the function and watch the
+whole arrow-field reshape.
 
 ## What breaks it (the classic traps)
 
@@ -67,6 +76,19 @@ and *see* them point uphill, perpendicular to the contours.
   minus sign in front of $\nabla$. Next lesson is exactly this.
 - **$\partial$ vs $d$:** same idea, different context. $d$ when there's one input,
   $\partial$ when there are several and you're wiggling just one. Papers switch freely.
+
+### 🌀 A glimpse of the deep end: not every flat spot is a valley
+
+Set every partial to zero and you've found a **flat** point — but flat doesn't mean *bottom*.
+Look at $f(x,y) = x^2 - y^2$:
+
+![Contour map of x²−y² with gradient arrows: along the x-axis they flee outward from the centre, along the y-axis they rush inward toward it — a saddle](img/04-saddle.png)
+
+*This is a **saddle** (shaped like a Pringle, or a horse's saddle): the origin is flat — gradient
+zero — yet it's a valley in one direction and a hilltop in the other. The arrows give it away: they
+*flee* the centre along $x$ but *arrive* at it along $y$. High-dimensional loss surfaces are riddled
+with saddles, and getting stuck near them is one of the real headaches of training big models. "Flat"
+is necessary for a minimum, but not sufficient — a lesson that costs GPU-years to relearn.*
 
 > **Deep-end question to hold in your head during the worksheet:**
 > why *must* the gradient be perpendicular to the contour line? Hint: a contour is the direction

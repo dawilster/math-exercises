@@ -22,6 +22,13 @@ its **shape**, and its **one-word personality**:
 | Logarithm | $y = \log x$ | fast rise, then flattens | diminishing | log-probabilities; "log loss" |
 | Reciprocal | $y = \frac{1}{x}$ | two swooping branches | blows up near 0 | $\frac{1}{n}$ averaging; LR schedules |
 
+![All five species on one set of axes: a straight line, a U-shaped parabola, an exploding exponential hockey-stick, a slowly-rising log curve, and the two swooping branches of 1/x](img/02-shape-zoo.png)
+
+*The whole zoo in one enclosure. Don't memorise points — memorise **silhouettes**. The straight
+line, the U-valley, the hockey-stick explosion, the slow-rising log, the two swooping reciprocal
+branches. Notice the log and reciprocal curves have **gaps** — those aren't drawing errors, they're
+the domain crashers from 1.1 made visible (log dies at $x\le0$, $1/x$ blows up at $0$).*
+
 Key field marks for spotting each in the wild:
 
 - **Linear**: constant slope $m$; crosses the $y$-axis at $b$. No curve at all.
@@ -38,6 +45,12 @@ $\log_2 x$ answers "2 to the power of *what* gives $x$?" — it's $2^x$ with que
 swapped. Their graphs are mirror images across the diagonal line $y = x$. One explodes, the other
 flattens. That's why logs appear in loss functions: they *tame* explosive quantities.
 
+![The exploding curve 2^x and the flattening curve log₂x drawn as reflections of each other across the dotted diagonal y=x](img/02-exp-log-mirror.png)
+
+*The same mirror you met in Module 0.2 (rearranging swaps input and output), now between the two
+loudest zoo animals. Fold the page along $y=x$ and the explosion lands exactly on the flattening
+curve. A log is an exponential run backwards — which is precisely why it defuses explosive numbers.*
+
 ## Worked example: predict before you plot
 
 Predict the shape of $y = 2^{-x}$ before reading on.
@@ -46,6 +59,13 @@ It's exponential ($x$ in the exponent), but the $-x$ runs it backwards: huge on 
 $x$ grows, $2^{-x} = \frac{1}{2^x}$ shrinks toward 0 without touching it. A falling slide that
 flattens along the floor. **That is the classic healthy loss curve** — error decaying toward zero.
 When you watch a model train, you're watching $e^{-x}$ happen.
+
+![A noisy but clearly exponential-decay curve falling fast then levelling off just above a dashed floor line, labelled as a healthy training run](img/02-healthy-loss-curve.png)
+
+*Here's one in the wild (with the little measurement wobble real runs always have). This is the
+picture you'll stare at more than any other in ML. You can now name its species on sight —
+exponential decay toward an asymptote — and the dashed floor is "as good as this model gets".
+Diagnosing training runs starts with recognising this silhouette and noticing when it's **wrong**.*
 
 ## The Python connection
 

@@ -22,6 +22,13 @@ sensitivities along the path**. So compute sensitivities starting at $L$ and wal
 reusing each result for the next step — one cheap sweep gives you every gradient. Backwards isn't
 mysterious; it's just **not repeating yourself**.
 
+![A row of six nodes x → z₁ → h → z₂ → ŷ → L with blue forward arrows on top labelled by each operation, and red backward arrows underneath labelled by each local derivative](img/03-backprop-pipeline.png)
+
+*The whole lesson on one line. **Forward** (blue, left to right): each arrow is an operation you did in
+5.1–5.2. **Backward** (red, right to left): each arrow is that operation's *local sensitivity*, and the
+chain rule says multiply them as you walk back. Compute once at $L$, reuse at every step — that reuse is
+the only thing the word "backpropagation" adds to "chain rule".*
+
 ## Hand-derive every gradient of our network
 
 From 5.1–5.2 (keep these forward values handy — backprop feeds on them):

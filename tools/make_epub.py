@@ -16,12 +16,17 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def make_epub(inputs: list[Path], output: Path, title: str) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
+    # let pandoc find each lesson's img/ dir so figures get pulled into the EPUB,
+    # even when inputs span several module directories.
+    resource_dirs = [ROOT] + [p.resolve().parent for p in inputs]
+    resource_path = ":".join(dict.fromkeys(str(d) for d in resource_dirs))
     cmd = [
         "pandoc",
         *[str(p) for p in inputs],
         "-o", str(output),
         "--mathml",
         "--toc",
+        f"--resource-path={resource_path}",
         "--metadata", f"title={title}",
         "--metadata", "author=William's Math System",
         "--metadata", "lang=en-AU",

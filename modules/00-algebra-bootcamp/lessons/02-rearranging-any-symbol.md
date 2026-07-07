@@ -40,6 +40,16 @@ which roots make sense.)
 Same strategy as 0.1: **peel away whatever is furthest from your target, one legal move
 at a time** — even when everything is a symbol.
 
+And here's what rearranging *looks* like. $A = \pi r^2$ and its rearrangement $r = \sqrt{A/\pi}$
+are the same relationship read two ways — so their graphs are mirror images:
+
+![The curve A=πr² and the curve r=√(A/π) plotted together, each the reflection of the other across the dotted diagonal line y=x](img/02-rearrange-reflection.png)
+
+*Rearranging for the other symbol **flips the graph across the diagonal** $y=x$ — inputs and outputs
+swap seats. Radius-in-area-out becomes area-in-radius-out. The relationship never changed; you just
+chose which variable stands in the spotlight. (This is the deep-end question below, already answered:
+no single form is more "true" — they're one truth seen from different sides.)*
+
 | Situation | Move that undoes it |
 |---|---|
 | target has something added: $x + b$ | subtract $b$ from both |

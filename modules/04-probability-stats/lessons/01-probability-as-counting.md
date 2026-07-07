@@ -22,6 +22,12 @@ counts**. If you roll a die 6,000 times, you'll get close to 1,000 sixes — not
 > **Probability is what the count settles to.** Simulate first, formalise second — that's this
 > whole module's method.
 
+![The running fraction of heads over 10,000 coin flips on a log x-axis: swinging wildly between 0 and 1 for the first few flips, then tightening onto a dashed line at 0.5](img/01-law-of-large-numbers.png)
+
+*This is what "probability ½" actually means. Early on the fraction of heads lurches all over the place
+— after 3 flips it might be 0 or 1. But as the flips pile up it's squeezed onto **0.5**. The probability
+isn't a promise about any one flip; it's the number the long-run count **settles to**.*
+
 ## Watch one get worked
 
 *What's the probability two dice sum to 7?*
@@ -39,6 +45,12 @@ $$P(\text{sum} = 7) = \frac{6}{36} = \frac{1}{6}$$
 The trap dodged in Step 1: the eleven possible *sums* (2 through 12) are **not** equally likely —
 there's only one way to roll a 2 but six ways to roll a 7. Count at the level where things ARE
 equally likely.
+
+![A histogram of the sum of two dice over a million rolls: a triangle peaking sharply at 7 and falling away to tiny bars at 2 and 12](img/01-dice-sum.png)
+
+*A million rolls, and the sums form a **triangle**, not a flat line. Seven towers over the rest
+because it has the most pairs (six of them); 2 and 12 are rare (one pair each). This is why Step 1
+insists you count *pairs*, not sums — the pairs are equally likely, the sums are emphatically not.*
 
 ## The Python connection
 

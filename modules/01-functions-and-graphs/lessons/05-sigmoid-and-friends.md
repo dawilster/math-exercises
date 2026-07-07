@@ -15,6 +15,13 @@ $y = mx + b$ — a hundred layers with the power of one. A deep network of pure 
 is an expensive ruler. The fix: slip a **nonlinear** machine between the linear ones. Those are the
 **activation functions**, and you already know their species from the zoo.
 
+![Two curves: five linear layers composed still make one straight line; the same five layers with a ReLU kink between them make a bent, multi-segment shape](img/05-linear-collapse.png)
+
+*Proof the collapse is real. **Five** linear layers bolted together (dark line) produce a single
+straight line — a ruler could do it, all that depth wasted. Slip a ReLU between each pair (red) and the
+same five layers suddenly bend and carry structure. This one picture is *why activation functions
+exist*: without a nonlinearity in the gaps, depth buys you nothing.*
+
 ## The one big idea
 
 Three activation functions run essentially all of modern AI:
@@ -28,6 +35,13 @@ Three activation functions run essentially all of modern AI:
 **Sigmoid is built entirely from zoo animals.** Read the blueprint inside-out (unit 1.4!):
 $x \to e^{-x}$ (exponential decay) $\to 1 + e^{-x}$ (shift up 1) $\to \frac{1}{1+e^{-x}}$
 (reciprocal). Three machines you already know, composed.
+
+![Sigmoid and tanh drawn as S-curves and ReLU drawn as a flat-then-ramp, with dashed guide lines at y=0, 1 and −1 marking their ranges](img/05-activation-trio.png)
+
+*The three of them, in person. **Sigmoid**: an S squashing everything into $(0,1)$, centred at
+$(0,\tfrac12)$. **Tanh**: the same S but living in $(-1,1)$, centred on the origin. **ReLU**: dead flat
+for negatives, then a straight ramp — with one all-important **kink** at 0. Note none of the S-curves
+ever quite touch their ceilings or floors (asymptotes), just like $2^x$ hugging its floor back in 1.2.*
 
 ## Walk the S-curve
 
@@ -47,6 +61,13 @@ ReLU looks insultingly simple — two straight pieces. But it is **not linear**:
 breaks the collapse. Compose shifted, scaled ReLUs and you can build kinks anywhere, and out of
 enough kinks, any wiggly curve you like. *Linear layers position the kinks; ReLU provides them.*
 That — honestly, that — is where a neural network's power to fit anything comes from.
+
+![A smooth target curve with a jagged approximation made of six straight ReLU segments tracking it closely, kink by kink](img/05-relu-approx.png)
+
+*Six ReLUs — each shifted and scaled (unit 1.3), then added (a tiny network by hand) — already trace a
+smooth target curve. Six kinks make a rough job; a real network uses **thousands**, and instead of me
+picking the weights, **training** finds them. That last sentence is, genuinely, deep learning — and
+it's what Module 3 will teach the machine to do by itself.*
 
 ## The Python connection
 
