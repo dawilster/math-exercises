@@ -34,6 +34,13 @@
     display:flex; align-items:center; justify-content:center; }
   .ring i{ width:1.5rem; height:1.5rem; border-radius:50%; background:var(--card);
     display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:800; font-style:normal; color:var(--soft); }
+  .topcont{ background:var(--accent); color:#fff; border:none; border-radius:999px; flex:none;
+    font-family:inherit; font-weight:700; font-size:.85rem; padding:.42rem .9rem; cursor:pointer;
+    display:inline-flex; align-items:center; gap:.3rem; white-space:nowrap; animation:contin .18s ease-out; }
+  .topcont:active{ transform:scale(.95); }
+  .topcont .sp{ font-size:.62rem; font-weight:600; opacity:.8; border:1px solid #ffffff88;
+    border-radius:4px; padding:0 .28rem; margin-left:.15rem; }
+  @keyframes contin{ from{ opacity:0; transform:translateY(-3px); } to{ opacity:1; } }
   .mbar{ height:5px; background:var(--line); }
   .mbar > div{ height:100%; background:linear-gradient(90deg,var(--accent),var(--purple)); transition:width .4s; }
 
@@ -720,8 +727,12 @@ function recordDay(){
    ============================================================ */
 const app = $('#app');
 let session = null;
+let pendingContinue = null;    // set while feedback is showing; navbar button + Space trigger it
 
-function go(view){ app.innerHTML=''; view(); }
+function showContinue(fn){ pendingContinue=fn; const c=$('#cont'); if(c) c.style.display='inline-flex'; }
+function advanceContinue(){ const fn=pendingContinue; pendingContinue=null; const c=$('#cont'); if(c) c.style.display='none'; if(fn) fn(); }
+
+function go(view){ app.innerHTML=''; pendingContinue=null; view(); }
 
 // ---------- HOME ----------
 function home(){
@@ -784,6 +795,9 @@ function play(){
   const strk=el('div','stat',`🔥 ${S.streak}`); strk.id='strk'; top.appendChild(strk);
   top.appendChild(el('div','stat',`✦ <span id="xp">${S.xp}</span>`));
   const sp=el('div','spacer'); top.appendChild(sp);
+  const cont=el('button','topcont'); cont.id='cont';
+  cont.innerHTML='Continue →<span class="sp">space</span>'; cont.style.display='none';
+  cont.onclick=advanceContinue; top.appendChild(cont);
   const ring=el('div','ring'); ring.id='dring'; ring.style.setProperty('--p', Math.min(100,S.daily.count/GOAL*100));
   ring.appendChild(el('i',null,`${S.daily.count}`)); top.appendChild(ring);
   app.appendChild(top);
@@ -806,6 +820,7 @@ function refreshTop(){
 
 function nextCard(){
   session.answered=false;
+  pendingContinue=null; const c=$('#cont'); if(c) c.style.display='none';
   const concept=drawConcept();
   const card=concept.gen();
   card._concept=concept;
@@ -984,8 +999,7 @@ function finishSolve(card, wrongPicks){
     ? `<b>✓ Clean solve</b>Minimum moves, no wrong turns — that's exactly the restructuring you're rebuilding.`
     : `<b>Solved</b>You got there. Watch the move order (cancel constants before dividing) and match the sign when you undo a term.`;
   controls.appendChild(panel);
-  const cont=el('button','btn primary wide','Continue →'); cont.onclick=()=>nextCard();
-  controls.appendChild(cont);
+  showContinue(()=>nextCard());
   buzz(perfect?[10,40,10,40,10]:12);
 }
 
@@ -994,9 +1008,7 @@ function showFeedback(correct, card, why){
   const panel=el('div','teach '+(correct?'good':'bad'));
   panel.innerHTML = `<b>${correct?'✓ Nice':'Not quite'}</b>` + (correct? card.teach : (why? why+'<br><br>'+card.teach : card.teach));
   controls.insertBefore(panel, controls.firstChild);
-  const cont=el('button','btn primary wide', 'Continue →');
-  cont.onclick=()=>nextCard();
-  controls.appendChild(cont);
+  showContinue(()=>nextCard());
   panel.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
@@ -1017,6 +1029,9 @@ function celebrate(name){
     document.body.appendChild(c); setTimeout(()=>c.remove(),2600); }
 }
 // ---------- boot ----------
+document.addEventListener('keydown', e => {
+  if((e.code==='Space' || e.key===' ') && pendingContinue){ e.preventDefault(); advanceContinue(); }
+});
 function boot(){ go(home); }
 if(window.katex) boot(); else window.addEventListener('load', boot);
 </script>
