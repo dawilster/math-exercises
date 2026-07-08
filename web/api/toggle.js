@@ -11,7 +11,12 @@ export default async function handler(req, res) {
     const { blobs } = await list({ prefix: 'dashboard-state.json' });
     if (blobs.length) {
       const url = blobs[0].downloadUrl || blobs[0].url;
-      state = await fetch(url, { cache: 'no-store' }).then(r => r.json());
+      // Private-store blobs require the token as a bearer header even to read —
+      // the URL itself isn't a pre-signed public link.
+      state = await fetch(url, {
+        cache: 'no-store',
+        headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+      }).then(r => r.json());
     }
     if (state.completed[id]) delete state.completed[id];
     else state.completed[id] = new Date().toISOString().slice(0, 10);
