@@ -151,12 +151,14 @@ _PANEL_TEMPLATE = """
     ul.className = "rules-list";
     tab.rules.forEach(function (r) {{
       var li = document.createElement("li");
-      var name = document.createElement("strong");
+      var name = document.createElement("div");
+      name.className = "rule-name";
       name.textContent = r.name;
-      var desc = document.createElement("span");
-      desc.textContent = " \\u2014 " + r.desc;
+      var detail = document.createElement("div");
+      detail.className = "rule-detail";
+      detail.textContent = r.desc;
       li.appendChild(name);
-      li.appendChild(desc);
+      li.appendChild(detail);
       ul.appendChild(li);
     }});
     body.appendChild(ul);
