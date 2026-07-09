@@ -109,6 +109,8 @@ _PANEL_TEMPLATE = """
 
   var POS_KEY = "rules-panel-pos";
   var OPEN_KEY = "rules-panel-open";
+  var SIZE_KEY = "rules-panel-size";
+  var MIN_W = 260, MIN_H = 200;
 
   var root = document.getElementById("rules-panel-root");
 
@@ -139,9 +141,14 @@ _PANEL_TEMPLATE = """
   var body = document.createElement("div");
   body.className = "rules-panel-body";
 
+  var resizeHandle = document.createElement("div");
+  resizeHandle.className = "rules-panel-resize";
+  resizeHandle.setAttribute("aria-label", "Drag to resize the rules panel");
+
   panel.appendChild(header);
   panel.appendChild(tabsRow);
   panel.appendChild(body);
+  panel.appendChild(resizeHandle);
   root.appendChild(toggle);
   root.appendChild(panel);
 
@@ -210,6 +217,15 @@ _PANEL_TEMPLATE = """
     panel.style.bottom = "auto";
   }}
 
+  // restore a resized size, clamped in case the viewport shrank since last time
+  var savedSize = null;
+  try {{ savedSize = JSON.parse(localStorage.getItem(SIZE_KEY)); }} catch (e) {{}}
+  if (savedSize && typeof savedSize.width === "number") {{
+    panel.style.maxHeight = "none";
+    panel.style.width = Math.min(savedSize.width, window.innerWidth - 16) + "px";
+    panel.style.height = Math.min(savedSize.height, window.innerHeight - 16) + "px";
+  }}
+
   // drag-to-reposition, mouse + touch
   var dragging = false, offX = 0, offY = 0;
   function startDrag(x, y) {{
@@ -250,6 +266,50 @@ _PANEL_TEMPLATE = """
     moveDrag(t.clientX, t.clientY);
   }}, {{ passive: true }});
   window.addEventListener("touchend", endDrag);
+
+  // drag-to-resize from the bottom-right corner, mouse + touch
+  var resizing = false, startW = 0, startH = 0, startX = 0, startY = 0;
+  function startResize(x, y) {{
+    var rect = panel.getBoundingClientRect();
+    resizing = true;
+    startW = rect.width;
+    startH = rect.height;
+    startX = x;
+    startY = y;
+    panel.style.maxHeight = "none";   // let explicit height take over from here on
+  }}
+  function moveResize(x, y) {{
+    if (!resizing) return;
+    var rect = panel.getBoundingClientRect();
+    var maxW = window.innerWidth - rect.left - 8;
+    var maxH = window.innerHeight - rect.top - 8;
+    var w = Math.min(Math.max(MIN_W, startW + (x - startX)), maxW);
+    var h = Math.min(Math.max(MIN_H, startH + (y - startY)), maxH);
+    panel.style.width = w + "px";
+    panel.style.height = h + "px";
+  }}
+  function endResize() {{
+    if (!resizing) return;
+    resizing = false;
+    var rect = panel.getBoundingClientRect();
+    localStorage.setItem(SIZE_KEY, JSON.stringify({{ width: rect.width, height: rect.height }}));
+  }}
+  resizeHandle.addEventListener("mousedown", function (e) {{
+    e.preventDefault();
+    startResize(e.clientX, e.clientY);
+  }});
+  window.addEventListener("mousemove", function (e) {{ moveResize(e.clientX, e.clientY); }});
+  window.addEventListener("mouseup", endResize);
+  resizeHandle.addEventListener("touchstart", function (e) {{
+    var t = e.touches[0];
+    startResize(t.clientX, t.clientY);
+  }}, {{ passive: true }});
+  window.addEventListener("touchmove", function (e) {{
+    if (!resizing) return;
+    var t = e.touches[0];
+    moveResize(t.clientX, t.clientY);
+  }}, {{ passive: true }});
+  window.addEventListener("touchend", endResize);
 }})();
 </script>
 """

@@ -205,8 +205,22 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
   border-bottom-color: #fff;
 }
 .rules-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;       /* let this child shrink so overflow-y scrolls instead of the panel growing */
   padding: .7rem .9rem;
   overflow-y: auto;
+}
+.rules-panel-resize {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  touch-action: none;
+  background:
+    linear-gradient(135deg, transparent 0 42%, #94a3b8 42% 50%, transparent 50% 62%,
+      #94a3b8 62% 70%, transparent 70% 82%, #94a3b8 82% 90%, transparent 90%);
 }
 .rules-list { list-style: none; margin: 0; padding: 0; }
 .rules-list li {
