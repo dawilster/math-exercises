@@ -126,10 +126,21 @@ computer vision, LLMs, stable diffusion).
   stretch beyond what was taught (deep-end).
 - **Hidden answers.** Give every worksheet problem an answer authored as a fenced div
   `::: answer` … `:::` (multi-line proof) or inline `[$x=8$]{.answer}`. These render **blurred**;
-  the reader hovers (desktop) or taps (e-reader) to reveal one, and a floating 🔓/🔒 toggle locks
+  the reader **taps** to reveal one (tap-only — no hover-to-peek), and a floating 🔓/🔒 toggle locks
   them against accidental peeking. Answers are auto-hidden when printed. Always name the *move*, not
   just the number. Mechanism: `tools/answers.html` + `.answer` rules in `tools/worksheet.css`,
   injected by `render.py` (so `build_site.py` picks it up for free).
+- **Deep-end scaffold ladder (non-negotiable for stretch problems).** William can't yet drive
+  stretch problems cold, and a blurred-answer alone is all-or-nothing. Every deep-end problem MUST
+  offer a graduated descent so he takes the *fewest* rungs he needs: `::: rephrase` (restate the
+  problem in plain words / concrete numbers / a picture — the "make it land" step, since his freeze
+  is at *understanding what's asked*, not arithmetic), then two-ish `::: hint` blocks (each reveals
+  the **least next thing**, easiest first), then `::: steps` (a numbered worked solution — each step
+  is `**bold move description**` in the `--move` secondary colour on its own line, then the resulting
+  equation beneath it; why then what, line by line). All tap-to-reveal and lockable; labels stay
+  visible so the ladder is discoverable. On print, rephrase+hints stay (they scaffold the paper
+  attempt); steps are hidden like the answer key. This is worked-example / faded-scaffolding
+  pedagogy — as he gains fluency, fade the ladder (fewer hints, then rephrase-only, then cold).
 - Notebooks: `modules/NN-name/notebooks/NN-slug.ipynb` — runnable top-to-bottom, seeded exercises with
   `# YOUR TURN` cells.
 - Dates are absolute (YYYY-MM-DD), Melbourne time.

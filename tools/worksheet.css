@@ -3,6 +3,7 @@
   --ink: #1a1a2e;
   --accent: #2563eb;
   --soft: #64748b;
+  --move: #7c3aed;   /* secondary colour: the "which move am I making" narration in worked steps */
 }
 html { font-size: 16px; }
 body {
@@ -80,16 +81,70 @@ div.answer { display: block; padding: .55rem .85rem; margin: .5rem 0; }
   -webkit-user-select: auto;
   user-select: auto;
 }
-@media (hover: hover) {                            /* desktop hover-to-peek */
-  body:not(.answers-locked) .answer:hover {
-    filter: none;
-    -webkit-user-select: auto;
-    user-select: auto;
-  }
-}
+/* Tap-only, everywhere: no hover-to-peek (a stray cursor shouldn't spoil an answer). */
 body.answers-locked .answer { cursor: not-allowed; }
 body.answers-locked .answer,
 body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides reveal */
+
+/* ── Scaffold ladder for stretch problems ───────────────────────────────────
+   A graduated descent so a problem is never all-or-nothing: tap 🔍 to restate
+   the question, 💡 for one hint at a time, ✅ only when you've wrestled. Each
+   block shows an always-visible LABEL; only its content blurs until tapped.
+   Authoring (in the worksheet .md):
+       ::: rephrase
+       Plain-words / concrete-numbers restatement of the problem.
+       :::
+       ::: hint
+       One nudge — reveals the least next thing. Use several, easiest first.
+       :::
+       ::: steps
+       1. **Name the move (shows in the --move colour).** Resulting line $x=…$.
+       2. **Next move.** $…$
+       :::                                                                     */
+ol > li { counter-reset: hint; }                 /* hints renumber inside each problem */
+.rephrase, .hint, .steps {
+  position: relative;
+  margin: .6rem 0;
+  padding: 1.75rem .9rem .7rem;
+  border-radius: 10px;
+  border: 1px solid;
+}
+.rephrase::before, .hint::before, .steps::before {
+  position: absolute;
+  top: .45rem; left: .9rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.rephrase { background: #ecfeff; border-color: #a5f3fc; }
+.rephrase::before { content: "🔍 In plain words"; color: #0e7490; }
+.hint { background: #fffbeb; border-color: #fde68a; counter-increment: hint; }
+.hint::before { content: "💡 Hint " counter(hint); color: #b45309; }
+.steps { background: #f0fdf4; border-color: #bbf7d0; }
+.steps::before { content: "✅ Worked solution — step by step"; color: #15803d; }
+
+/* Content blurs until the block is tapped; the label (::before) stays sharp. */
+.rephrase > *, .hint > *, .steps > * {
+  filter: blur(6px);
+  transition: filter .18s ease;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.rephrase.revealed > *, .hint.revealed > *, .steps.revealed > * {
+  filter: none;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+body.answers-locked .rephrase > *,
+body.answers-locked .hint > *,
+body.answers-locked .steps > * { filter: blur(6px); cursor: not-allowed; }
+
+/* Worked steps: the MOVE narration on its own line in the secondary colour,
+   the resulting equation directly under it — line by line, why then what. */
+.steps ol, .steps ul { margin: .2rem 0 0; padding-left: 1.4rem; }
+.steps li { margin-bottom: .7rem; }
+.steps li strong { display: block; color: var(--move); font-weight: 700; }
 
 .answers-toggle {
   position: fixed;
@@ -259,5 +314,8 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
   blockquote, pre { break-inside: avoid; }
   .answers-toggle { display: none; }
   .answer { display: none !important; }        /* never print the answer key */
+  .steps { display: none !important; }         /* nor the worked solution */
+  /* but DO print rephrase + hints, unblurred — they scaffold the paper attempt */
+  .rephrase > *, .hint > * { filter: none !important; -webkit-user-select: auto; user-select: auto; }
   .rules-toggle, .rules-panel { display: none !important; }
 }

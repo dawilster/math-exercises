@@ -57,7 +57,7 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
 
    ::: answer
    $(2-5)+(5-5)+(5-5)+(8-5) = -3+0+0+3 = 0$ — move: unroll each deviation, then add.
-   Deviations from the mean always cancel to zero (proved in problem 16).
+   Deviations from the mean always cancel to zero (proved in problem 13).
    :::
 
 8. Write in Σ notation: "the sum of the squares of the first ten counting numbers."
@@ -86,50 +86,11 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
 
 ---
 
-## Part C — Spot the illegal move
-
-Circle the broken line and name the rule it broke.
-
-11. Claimed evaluation, with $x = (1, 2, 3)$:
-    - line 1: $\sum_{i=1}^{3} x_i^2$
-    - line 2: $(1 + 2 + 3)^2 = 36$   *(added, then squared)*
-
-    ::: answer
-    Line 2 is broken — a power doesn't distribute over a sum: $\left(\sum x_i\right)^2 \neq \sum x_i^2$
-    in general. Correct: $1+4+9 = 14$, not $36$.
-    :::
-
-12. Claimed Python translation of $\sum_{i=1}^{10} i$:
-    - line 1: `total = 0`
-    - line 2: `for i in range(1, 10):`
-    - line 3: `    total = total + i`
-    *(Run it in your head: what does it actually compute?)*
-
-    ::: answer
-    It actually computes $\sum_{i=1}^{9} i = 45$, not $\sum_{i=1}^{10} i = 55$ — Python's
-    `range(1, 10)` stops **before** 10, so $i=10$ never runs. Off-by-one; should be `range(1, 11)`.
-    :::
-
-13. Claimed simplification:
-    - line 1: $\sum_{i=1}^{n} 2 x_i = 2 \sum_{i=1}^{n} x_i$   *(pulled the constant out)*
-    - line 2: $\sum_{i=1}^{n} (x_i + 3) = 3 + \sum_{i=1}^{n} x_i$   *(pulled the constant out)*
-    *(One of these two lines is legal, one is broken. Which, and why? Unroll a tiny case
-    with $n = 2$ to find out.)*
-
-    ::: answer
-    Line 1 is legal — a multiplicative constant factors out of every term the same way (each
-    term is literally $2$ times $x_i$). Line 2 is broken — the $+3$ is added **once per term**,
-    $n$ times total, not once: with $n=2$, $(x_1+3)+(x_2+3) = x_1+x_2+6$, not $x_1+x_2+3$.
-    Correct: $\sum_{i=1}^{n}(x_i+3) = n\cdot 3 + \sum_{i=1}^{n} x_i$.
-    :::
-
----
-
 ## Part D — Deep end
 
 *Beyond what was taught. Struggle is the workout — unroll tiny cases whenever stuck.*
 
-14. The **MSE loss** — how wrong a model is, averaged over $N$ examples, where $y_i$ is the
+11. The **MSE loss** — how wrong a model is, averaged over $N$ examples, where $y_i$ is the
     true answer and $\hat{y}_i$ the model's guess:
     $$L = \frac{1}{N}\sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
     Compute $L$ by hand for $y = (3, 5, 7)$, $\hat{y} = (2, 5, 9)$. Then answer: why square
@@ -142,7 +103,7 @@ Circle the broken line and name the rule it broke.
     individual guesses are badly wrong. Squaring also punishes big misses harder than small ones.
     :::
 
-15. Little Gauss, age 8, computed $1 + 2 + \dots + 100$ in seconds by pairing the first and
+12. Little Gauss, age 8, computed $1 + 2 + \dots + 100$ in seconds by pairing the first and
     last numbers. Find his trick, then write the formula for $\displaystyle\sum_{i=1}^{n} i$ and
     check it against your problem 1.
 
@@ -152,7 +113,7 @@ Circle the broken line and name the rule it broke.
     Check: $n=5$ gives $\frac{5\cdot 6}{2} = 15$, matching problem 1.
     :::
 
-16. Using the distributive law (0.3), show step by step that
+13. Using the distributive law (0.3), show step by step that
     $\displaystyle\sum_{i=1}^{n}(x_i - \bar{x}) = 0$ for ANY list — proving your problem-7 surprise.
     *(Moves: split the Σ over the minus, then ask what $\sum \bar{x}$ adds up to when
     $\bar{x}$ is the same constant every pass… and what $n\bar{x}$ equals by the definition
@@ -165,7 +126,7 @@ Circle the broken line and name the rule it broke.
     Substituting: $\sum x_i - \sum x_i = 0$.
     :::
 
-17. Write the lesson's neural-net loss $L = -\frac{1}{N}\sum_{i=1}^{N} \log p_i$ as a Python
+14. Write the lesson's neural-net loss $L = -\frac{1}{N}\sum_{i=1}^{N} \log p_i$ as a Python
     loop, on paper. Every symbol in it is now yours: the fraction (0.4), the log (0.5),
     the Σ (0.6). Then answer: the $p_i$ are probabilities the model gives to correct
     answers. Why does the minus sign make $L$ a number worth *minimising*?
@@ -183,7 +144,7 @@ Circle the broken line and name the rule it broke.
 
 ## Part E — Python check (at the computer, after the pen work)
 
-18. Referee Parts A and B:
+15. Referee Parts A and B:
 
 ```python
 x = [2, 5, 5, 8]
@@ -195,7 +156,7 @@ xbar = sum(x) / len(x)
 print(sum(xi - xbar for xi in x))        # problem 7 — surprised on paper, confirmed here?
 ```
 
-19. Check the double Σ (problem 10) as nested loops:
+16. Check the double Σ (problem 10) as nested loops:
 
 ```python
 w = [[1, 2],

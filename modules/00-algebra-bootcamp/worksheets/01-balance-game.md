@@ -69,59 +69,31 @@ Solve for $x$, naming each move. Strategy: peel the outermost layer first.
 
 ---
 
-## Part C — Spot the illegal move
-
-Each "solution" below contains exactly one broken move. Circle the broken line and write
-*what rule it broke*.
-
-9. Claimed solution of $3x + 6 = 18$:
-   - line 1: $3x + 6 = 18$
-   - line 2: $x + 6 = 6$   *(divided by 3)*
-   - line 3: $x = 0$
-
-   ::: answer
-   Line 2 is broken. Dividing a side by 3 means dividing **every term**:
-   $\frac{3x + 6}{3} = x + 2$, not $x + 6$. They only divided the $3x$. Correct: $x = 4$.
-   :::
-
-10. Claimed solution of $5x - 4 = 21$:
-    - line 1: $5x - 4 = 21$
-    - line 2: $5x = 17$   *(subtracted 4 from the left, added 4... somewhere)*
-    - line 3: $x = \frac{17}{5}$
-
-    ::: answer
-    Line 2 is broken. To undo $-4$ you **add 4 to both sides** → $5x = 25$.
-    They did $21 - 4 = 17$ (subtracted on the right instead of adding), breaking "same move both sides".
-    Correct: $x = 5$.
-    :::
-
----
-
 ## Part D — Deep end
 
 *These use ideas we haven't formally covered. Attempt them anyway — struggling here is the workout.
 Wrong attempts with named moves are worth more than blank space.*
 
-11. $2(x + 3) = 16$   *(two different move-orders both work — can you find both?)*
+9. $2(x + 3) = 16$   *(two different move-orders both work — can you find both?)*
 
     ::: answer
     $x = 5$. Order A: $\div 2$ first → $x + 3 = 8$, then $-3$. Order B: expand → $2x + 6 = 16$,
     $-6$: $2x = 10$, $\div 2$. Same answer either way.
     :::
 
-12. $\frac{20}{x} = 5$   *(the $x$ is in the basement. What move gets it out?)*
+10. $\frac{20}{x} = 5$   *(the $x$ is in the basement. What move gets it out?)*
 
     ::: answer
     $x = 4$. Move: $\times x$ both sides to lift it out of the basement → $20 = 5x$, then $\div 5$.
     :::
 
-13. $3x + 4 = x + 10$   *(mystery weights on BOTH pans. The moves still work.)*
+11. $3x + 4 = x + 10$   *(mystery weights on BOTH pans. The moves still work.)*
 
     ::: answer
     $x = 3$. Move: $-x$ both sides to gather $x$ on one pan → $2x + 4 = 10$, $-4$: $2x = 6$, $\div 2$.
     :::
 
-14. Solve for $a$: $\;v = a t$   *(no numbers at all — just symbols. Same game, same moves.
+12. Solve for $a$: $\;v = a t$   *(no numbers at all — just symbols. Same game, same moves.
     This is 90% of what reading ML papers requires.)*
 
     ::: answer
@@ -132,7 +104,7 @@ Wrong attempts with named moves are worth more than blank space.*
 
 ## Part E — Python check (at the computer, after the pen work)
 
-15. For each answer in Part B, verify it in Python the way the lesson showed:
+13. For each answer in Part B, verify it in Python the way the lesson showed:
 
 ```python
 x = ???          # your answer to problem 5
@@ -141,5 +113,5 @@ print(2 * x + 5 == 17)   # should print True
 
 Write next to each Part B problem: ✓ if Python said `True`.
 
-> **Bonus thought:** problem 14 can't be checked with one `==` line because there are no numbers.
+> **Bonus thought:** problem 12 can't be checked with one `==` line because there are no numbers.
 > How *would* you check it? (Hint: pick random numbers for $v$ and $t$…)

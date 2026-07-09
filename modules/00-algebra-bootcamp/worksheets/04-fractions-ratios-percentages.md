@@ -95,53 +95,11 @@ Name every move.
 
 ---
 
-## Part C — Spot the illegal move
-
-Circle the broken line and name the rule it broke.
-
-12. Claimed addition:
-    - line 1: $\frac{1}{2} + \frac{1}{3}$
-    - line 2: $\frac{2}{5}$   *(added tops, added bottoms)*
-
-    ::: answer
-    Line 2 is broken. You can't add fractions by adding numerators and denominators
-    separately — that only works once the denominators already match. Move needed: common
-    denominator $6$ ($\frac{1}{2}=\frac{3}{6}$, $\frac{1}{3}=\frac{2}{6}$). Correct:
-    $\frac{3}{6}+\frac{2}{6}=\frac{5}{6}$.
-    :::
-
-13. Claimed simplification:
-    - line 1: $\frac{x + 6}{6}$
-    - line 2: $x$   *(cancelled the 6s)*
-
-    ::: answer
-    Line 2 is broken. You can only cancel a common **factor** that multiplies the whole top
-    and bottom — here the $6$ in the numerator is added, not multiplied, so it can't be
-    cancelled against the $6$ on the bottom. Correct: $\frac{x+6}{6} = \frac{x}{6}+1$, which
-    doesn't simplify further to $x$.
-    :::
-
-14. Claimed percentage logic:
-    - line 1: a model's error rate rose from 10% to 15%
-    - line 2: "so the error rate increased by 5%"
-    *(Careful: 5 percentage POINTS, yes. But by what percentage did the error rate itself
-    grow? Which claim would a headline print?)*
-
-    ::: answer
-    Line 2 is broken. Going from $10\%$ to $15\%$ is a rise of $5$ **percentage points**, not
-    a $5\%$ increase. The percentage *increase* in the error rate itself is
-    $\frac{15-10}{10}=0.5=50\%$ — a much bigger jump than "5%" suggests. A headline chasing
-    drama would print "$50\%$ worse", which is technically the correct relative-change figure
-    but easy to conflate with the $5$-point rise.
-    :::
-
----
-
 ## Part D — Deep end
 
 *Beyond what was taught. Struggle is the workout — attempt everything, name your moves.*
 
-15. A jacket is discounted 30%, then the sale price gets 10% tax added.
+12. A jacket is discounted 30%, then the sale price gets 10% tax added.
     What single percentage of the original do you pay? Does the order
     (discount-then-tax vs tax-then-discount) matter? Test both.
 
@@ -151,7 +109,7 @@ Circle the broken line and name the rule it broke.
     are just multiplied factors, and multiplication commutes ($0.7\times1.1=1.1\times0.7$).
     :::
 
-16. Normalise the symbols $(a, b, c)$: what does each become, and — using 0.4's common-
+13. Normalise the symbols $(a, b, c)$: what does each become, and — using 0.4's common-
     denominator move with pure symbols — prove the three results sum to exactly 1.
 
     ::: answer
@@ -160,7 +118,7 @@ Circle the broken line and name the rule it broke.
     $\frac{a+b+c}{a+b+c}=1$.
     :::
 
-17. In one class of 20 students, 15 passed. In another class of 80 students, 44 passed.
+14. In one class of 20 students, 15 passed. In another class of 80 students, 44 passed.
     What percentage passed **overall**? Why is the answer NOT the average of 75% and 55%?
     *(This trap — averaging averages — corrupts real ML evaluations all the time.)*
 
@@ -170,7 +128,7 @@ Circle the broken line and name the rule it broke.
     size-weighted average, not a simple average of the two rates.
     :::
 
-18. Solve for $x$: $\;\frac{2}{x} + \frac{1}{3} = 1$
+15. Solve for $x$: $\;\frac{2}{x} + \frac{1}{3} = 1$
     *(A 0.2 basement problem wearing 0.4 clothes. Clear the clutter first.)*
 
     ::: answer
@@ -183,7 +141,7 @@ Circle the broken line and name the rule it broke.
 
 ## Part E — Python check (at the computer, after the pen work)
 
-19. Python has exact fractions — let them referee Part B:
+16. Python has exact fractions — let them referee Part B:
 
 ```python
 from fractions import Fraction         # exact fractions, no decimal fuzz
@@ -193,7 +151,7 @@ print(Fraction(3, 4) / Fraction(1, 2))     # problem 6
 print(Fraction(1, 4) + Fraction(2, 3))     # problem 7
 ```
 
-20. Check your normalisation (problem 10) the ML way:
+17. Check your normalisation (problem 10) the ML way:
 
 ```python
 scores = [6, 10, 4]

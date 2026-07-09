@@ -92,102 +92,123 @@ Name every move.
 
 ---
 
-## Part C — Spot the illegal move
-
-Circle the broken line and name the rule it broke.
-
-13. Claimed simplification:
-    - line 1: $\log(x + y)$
-    - line 2: $\log x + \log y$   *(split the log)*
-
-    ::: answer
-    Line 2 is broken. The log rule splits **products** into sums ($\log(ab) = \log a + \log b$) —
-    there is no rule for splitting a **sum** inside a log. $\log(x+y)$ cannot be simplified further;
-    it is *not* equal to $\log x + \log y$ in general.
-    :::
-
-14. Claimed evaluation:
-    - line 1: $4^0$
-    - line 2: $0$   *("anything times zero is zero")*
-
-    ::: answer
-    Line 2 is broken. It confuses the exponent $0$ with multiplying *by* zero — but $4^0$ means
-    "no multiplications", not "times zero". Move: $a^0 = 1$ (pattern $4^2=16, 4^1=4, 4^0=1$,
-    each step $\div 4$). Correct: $4^0 = 1$.
-    :::
-
-15. Claimed simplification:
-    - line 1: $2^3 \cdot 2^4$
-    - line 2: $2^{12}$   *(multiplied the exponents)*
-
-    ::: answer
-    Line 2 is broken. Multiplying exponents is the move for a **power of a power**, $(a^m)^n = a^{mn}$
-    — but this is a **product of same-base powers**, which means $a^m \cdot a^n = a^{m+n}$ (add them).
-    Correct: $2^3 \cdot 2^4 = 2^7 = 128$.
-    :::
-
-16. Claimed solution of $2^x = 10$:
-    - line 1: $2^x = 10$
-    - line 2: $x = 5$   *(divided 10 by 2)*
-
-    ::: answer
-    Line 2 is broken. Dividing undoes multiplication, not an exponent — $x$ is stuck in the
-    exponent's seat, so the move needed is $\log_2$ both sides, not $\div 2$. Correct:
-    $x = \log_2 10 \approx 3.32$.
-    :::
-
----
-
 ## Part D — Deep end
 
-*Beyond what was taught. Struggle is the workout — name your moves even when guessing.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a
+ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time
+(each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take
+the fewest rungs you can — the struggle before each tap is where the learning happens. Always
+name your moves, even when guessing.*
 
-17. Solve for $t$ (symbols only): $\;\eta = \eta_0 \, e^{-kt}$ — the exponential learning-rate
-    decay from the lesson. *(Use $\ln$, the base-$e$ log, as your "what exponent?" move.
-    Expect a minus sign to deal with.)*
+13. Solve for $t$ (symbols only): $\;\eta = \eta_0 \, e^{-kt}$ — the exponential learning-rate
+    decay from the lesson.
 
-    ::: answer
-    $t = \dfrac{1}{k}\ln\!\dfrac{\eta_0}{\eta}$ — moves: $\div \eta_0$ both sides ($\frac{\eta}{\eta_0} = e^{-kt}$),
-    then $\ln$ both sides to undo the $e^{(\cdot)}$ ($\ln\frac{\eta}{\eta_0} = -kt$), then $\div(-k)$.
+    ::: rephrase
+    $t$ is trapped up in the exponent of $e$. "Solve for $t$" just means: make legal moves
+    until the equation reads $t = (\text{stuff with no } t)$. It's problem 11 ($5\cdot2^x=80$)
+    wearing symbols — same shape, with $e$ where the $2$ was and $\ln$ as the "what exponent?" tool.
     :::
 
-18. Without a calculator, put these in size order: $\;\log_2 100$, $\;\log_{10} 100$, $\;\log_2 8$.
-    *(Bracket each between two whole numbers first, e.g. "2⁶ = 64 < 100 < 128 = 2⁷, so…")*
-
-    ::: answer
-    $\log_{10} 100 = 2$ (exact) < $\log_2 8 = 3$ (exact) < $\log_2 100 \approx 6.64$
-    (bracket: $2^6 = 64 < 100 < 128 = 2^7$, so it's between 6 and 7).
-    Order: $\log_{10}100 < \log_2 8 < \log_2 100$.
+    ::: hint
+    $t$ is stuck in an exponent. What single tool pulls a variable *down* out of an exponent?
+    (The base here is $e$, so its matching "what exponent?" log is $\ln$.)
     :::
 
-19. You fold a sheet of paper in half, then in half again, and again — thickness doubles
+    ::: hint
+    Before $\ln$ does anything useful, get $e^{-kt}$ **alone** on one side first. What's
+    multiplying it that you can divide away?
+    :::
+
+    ::: steps
+    1. **Divide both sides by $\eta_0$** — isolates the exponential. $\dfrac{\eta}{\eta_0} = e^{-kt}$
+    2. **Take $\ln$ of both sides** — undoes $e^{(\cdot)}$, pulling the exponent down. $\ln\dfrac{\eta}{\eta_0} = -kt$
+    3. **Divide by $-k$** — unwraps $t$; flip the fraction to absorb the minus sign. $t = \dfrac{1}{k}\ln\dfrac{\eta_0}{\eta}$
+    :::
+
+14. Without a calculator, put these in size order: $\;\log_2 100$, $\;\log_{10} 100$, $\;\log_2 8$.
+
+    ::: rephrase
+    Each log asks "**what power?**" — $\log_2 100$ means "2 to the *what* is 100?". You don't
+    need exact values, only which is biggest. Two of these land on exact whole numbers; only
+    one needs bracketing between two whole numbers.
+    :::
+
+    ::: hint
+    Nail the two easy ones first. $\log_{10} 100$: ten to the what is 100? $\log_2 8$: two to
+    the what is 8? Both are exact.
+    :::
+
+    ::: hint
+    For $\log_2 100$, trap it: find the power of 2 just *below* 100 and just *above* it.
+    $2^6 = 64$, $2^7 = 128$ — so $\log_2 100$ sits between 6 and 7, already bigger than the other two.
+    :::
+
+    ::: steps
+    1. **Evaluate the exact ones.** $\log_{10} 100 = 2$ (since $10^2=100$); $\log_2 8 = 3$ (since $2^3=8$).
+    2. **Bracket the hard one.** $2^6 = 64 < 100 < 128 = 2^7$, so $\log_2 100 \approx 6.64$ — between 6 and 7.
+    3. **Order smallest → largest.** $\log_{10}100 \;<\; \log_2 8 \;<\; \log_2 100$.
+    :::
+
+15. You fold a sheet of paper in half, then in half again, and again — thickness doubles
     each fold. Paper is about $0.1$ mm thick. Write the thickness after $n$ folds as a
-    formula, then find how many folds reach the Moon ($384{,}000$ km). Use logs — express
-    the exact answer, then estimate it with $2^{10} \approx 10^3$.
+    formula, then find how many folds reach the Moon ($384{,}000$ km). Express the exact
+    answer with a log, then estimate it using $2^{10} \approx 10^3$.
 
-    ::: answer
-    Thickness after $n$ folds: $0.1 \cdot 2^n$ mm. The Moon is $384{,}000$ km $= 3.84\times10^{11}$ mm,
-    so $0.1 \cdot 2^n = 3.84\times10^{11} \Rightarrow 2^n = 3.84\times10^{12}$, giving the exact answer
-    $n = \log_2(3.84\times10^{12}) \approx 41.8$ — so $42$ folds. Estimate check: $2^{10}\approx10^3$
-    means $2^{40}\approx10^{12}$, and $3.84\times10^{12}\approx4\times10^{12}=2^2\cdot10^{12}\approx2^{42}$
-    — same ballpark, $n\approx42$.
+    ::: rephrase
+    "Doubles each fold" = repeated $\times 2$ = an exponent. Start at $0.1$ mm: after 1 fold
+    $0.2$, after 2 folds $0.4$, … after $n$ folds → a formula in $n$. "How many folds reach the
+    Moon" then means: set that formula equal to the Moon's distance and solve for $n$ — same
+    finish as problem 11. **Watch the units** — get everything into mm before comparing.
     :::
 
-20. Prove the log rule from the exponent rule: if $x = a^m$ and $y = a^n$, show step by step
+    ::: hint
+    Thickness after $n$ folds: start at $0.1$ mm and double $n$ times → $0.1 \times 2^n$ mm.
+    :::
+
+    ::: hint
+    Convert the Moon's distance to mm ($384{,}000$ km $\times 1000$ for m $\times 1000$ for mm),
+    set your formula equal to it, then it's a "solve $2^n = \text{big number}$" problem — finish with $\log_2$.
+    :::
+
+    ::: steps
+    1. **Formula: double $n$ times from $0.1$ mm.** thickness $= 0.1 \cdot 2^n$ mm
+    2. **Convert the Moon to mm and set equal.** $384{,}000\text{ km} = 3.84\times10^{11}$ mm, so $0.1 \cdot 2^n = 3.84\times10^{11}$
+    3. **Isolate the power** ($\times 10$, i.e. $\div 0.1$). $2^n = 3.84\times10^{12}$
+    4. **$\log_2$ both sides** — the exact answer. $n = \log_2(3.84\times10^{12}) \approx 41.8 \Rightarrow \textbf{42 folds}$
+    5. **Estimate check with $2^{10}\approx10^3$.** so $2^{40}\approx10^{12}$, and $3.84\times10^{12}\approx2^2\cdot10^{12}\approx2^{42}$ — same ballpark, $n\approx42$. ✓
+    :::
+
+16. Prove the log rule from the exponent rule: if $x = a^m$ and $y = a^n$, show step by step
     why $\log_a(xy) = \log_a x + \log_a y$. *(Three lines. This is a real proof — your first.)*
 
-    ::: answer
-    Line 1: $xy = a^m \cdot a^n = a^{m+n}$ (move: $a^m\cdot a^n = a^{m+n}$).
-    Line 2: by definition, $\log_a(xy)$ is "what exponent gives $xy$?" — and line 1 shows that's $m+n$,
-    so $\log_a(xy) = m + n$.
-    Line 3: but $m = \log_a x$ and $n = \log_a y$ (given), so $\log_a(xy) = \log_a x + \log_a y$. $\blacksquare$
+    ::: rephrase
+    A "proof" here just means: start from what you're *told* is true and make legal moves until
+    the thing you want to show appears. You're given $x=a^m$ and $y=a^n$. The target has a log
+    of a **product** $(xy)$ — and you already know a rule for multiplying same-base powers.
+    Follow the exponents.
+    :::
+
+    ::: hint
+    Multiply $x$ and $y$ using their $a^{(\cdots)}$ forms. Which exponent rule fires when you
+    multiply same-base powers?
+    :::
+
+    ::: hint
+    Once $xy = a^{(\text{something})}$, translate back into log language: $\log_a(xy)$ *is* that
+    exponent. Then swap the exponents back for the logs you were given.
+    :::
+
+    ::: steps
+    1. **Multiply the two forms** ($a^m\cdot a^n = a^{m+n}$). $xy = a^m \cdot a^n = a^{m+n}$
+    2. **Read it as a log** — "what exponent gives $xy$?" is $m+n$. $\log_a(xy) = m + n$
+    3. **Swap exponents back for logs** ($m=\log_a x,\; n=\log_a y$). $\log_a(xy) = \log_a x + \log_a y \;\blacksquare$
     :::
 
 ---
 
 ## Part E — Python check (at the computer, after the pen work)
 
-21. Referee Parts A–B:
+17. Referee Parts A–B:
 
 ```python
 import numpy as np
@@ -197,7 +218,7 @@ print(np.log2(32), np.log10(1000))               # problems 8–9
 print(np.log2(80 / 5))                           # problem 11 — should match your x
 ```
 
-22. Watch THE trick fail and then get rescued (why logs run ML):
+18. Watch THE trick fail and then get rescued (why logs run ML):
 
 ```python
 import numpy as np

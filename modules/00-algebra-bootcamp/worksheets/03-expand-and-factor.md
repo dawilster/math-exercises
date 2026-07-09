@@ -84,52 +84,12 @@ Expand (problems 1–2) or factor (problems 3–4). Name the move each time.
 
 ---
 
-## Part C — Spot the illegal move
-
-Each line of working contains exactly one broken move. Circle it and name the rule it broke.
-
-11. Claimed expansion:
-    - line 1: $(x + 3)^2$
-    - line 2: $x^2 + 9$   *(squared each thing)*
-
-    ::: answer
-    Line 2 is broken — the freshman's dream: $(a+b)^2 \neq a^2 + b^2$. You can't square
-    each term separately; you must distribute $(x+3)(x+3)$ fully.
-    Correct: $x^2 + 6x + 9$.
-    :::
-
-12. Claimed solution of $x^2 - 5x = 0$:
-    - line 1: $x^2 - 5x = 0$
-    - line 2: $x - 5 = 0$   *(divided both sides by x)*
-    - line 3: $x = 5$
-    *(Hint: line 2's move is legal only under a condition — and breaking it lost one of the
-    two solutions. Which solution went missing?)*
-
-    ::: answer
-    Line 2 is broken. Dividing both sides by $x$ is only legal if $x \neq 0$ — and here $x=0$
-    is one of the actual solutions, so that move silently threw it away.
-    Correct move: factor instead, $x(x-5) = 0$, then zero product: $x = 0$ or $x = 5$.
-    The missing solution was $x = 0$.
-    :::
-
-13. Claimed simplification:
-    - line 1: $\frac{3x + 6}{3}$
-    - line 2: $x + 6$   *(cancelled the 3s)*
-
-    ::: answer
-    Line 2 is broken. Dividing by 3 must apply to **every** term in the numerator:
-    $\frac{3x}{3} + \frac{6}{3} = x + 2$, not $x + 6$. They divided the $3x$ term but left the
-    $6$ untouched. Correct: $x + 2$.
-    :::
-
----
-
 ## Part D — Deep end
 
 *Beyond what was taught — this is where the workout lives. Attempt everything; name your
 moves even when unsure. A wrong path with named moves teaches more than a blank page.*
 
-14. Solve $(x + 2)(x - 3) = 6$.
+11. Solve $(x + 2)(x - 3) = 6$.
     *(Trap from the lesson's deep-end question: you can NOT split this while the right side
     is 6. What single 0.1 move makes the zero-product move legal?)*
 
@@ -141,7 +101,7 @@ moves even when unsure. A wrong path with named moves teaches more than a blank 
     Zero product: $x = 4$ or $x = -3$.
     :::
 
-15. Expand $(a + b)^2$ with pure symbols, then use your result to compute $31^2$ **in your
+12. Expand $(a + b)^2$ with pure symbols, then use your result to compute $31^2$ **in your
     head** by writing it as $(30 + 1)^2$. Show the three pieces.
 
     ::: answer
@@ -149,7 +109,7 @@ moves even when unsure. A wrong path with named moves teaches more than a blank 
     Move: same double-handshake expansion as problem 7, just with symbols first.
     :::
 
-16. Factor $2x^2 + 10x + 12$.   *(Two stages: pull out a common number first, then factor
+13. Factor $2x^2 + 10x + 12$.   *(Two stages: pull out a common number first, then factor
     what's left.)*
 
     ::: answer
@@ -157,7 +117,7 @@ moves even when unsure. A wrong path with named moves teaches more than a blank 
     Stage 2 — move: factor the trinomial (2 and 3 add to 5, multiply to 6): $2(x+2)(x+3)$.
     :::
 
-17. Expand $(x + y)(x - y)$, then use the pattern to compute $102 \times 98$ in your head.
+14. Expand $(x + y)(x - y)$, then use the pattern to compute $102 \times 98$ in your head.
 
     ::: answer
     $(x+y)(x-y) = x^2 - y^2$ — move: difference of squares.
@@ -168,7 +128,7 @@ moves even when unsure. A wrong path with named moves teaches more than a blank 
 
 ## Part E — Python check (at the computer, after the pen work)
 
-18. Let sympy referee every Part B answer:
+15. Let sympy referee every Part B answer:
 
 ```python
 import sympy as sp

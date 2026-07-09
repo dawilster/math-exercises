@@ -8,8 +8,11 @@
      Styling lives in worksheet.css (.answer / .answers-toggle). -->
 <script>
 (function () {
-  var answers = document.querySelectorAll(".answer");
-  if (!answers.length) return;                 // no answers on this page → no toggle
+  // .answer = short answer key; .rephrase/.hint/.steps = the scaffold ladder on
+  // stretch problems. All share one tap-to-reveal + lock model.
+  var SEL = ".answer, .rephrase, .hint, .steps";
+  var answers = document.querySelectorAll(SEL);
+  if (!answers.length) return;                 // nothing revealable → no toggle
 
   var KEY = "ws-answers-locked";
   var stored = localStorage.getItem(KEY);
@@ -22,7 +25,7 @@
   function render() {
     document.body.classList.toggle("answers-locked", locked);
     if (locked) {                              // locking re-hides anything open
-      document.querySelectorAll(".answer.revealed")
+      document.querySelectorAll(".revealed")
         .forEach(function (a) { a.classList.remove("revealed"); });
     }
     btn.setAttribute("aria-pressed", String(locked));
@@ -49,10 +52,10 @@
     btn.classList.add("pulse");
   }
 
-  // tap / click a blurred answer to toggle it (works on touch e-readers, not just hover)
+  // tap / click a blurred block to toggle it (works on touch e-readers, not just hover)
   document.addEventListener("click", function (e) {
     if (e.target.closest(".answers-toggle")) return;
-    var a = e.target.closest(".answer");
+    var a = e.target.closest(SEL);
     if (!a) return;
     if (locked) { pulseToggle(); return; }      // tapped while locked — point at the unlock button
     a.classList.toggle("revealed");
