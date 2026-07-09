@@ -135,7 +135,9 @@ named moves are worth more than blank space.*
 
 15. The learning-rate schedule $\eta = \frac{\eta_0}{1 + kt}$ says how a network's step size
     shrinks over time. Solve for $\mathbf{t}$: *given a target learning rate, when do we reach it?*
-    (Treat $\eta_0$ and $k$ as knowns. Read $\eta$ as just another symbol — "eta".)
+    (Treat $\eta_0$ and $k$ as knowns. Read $\eta$ as just another symbol — "eta". Once you clear
+    the basement you'll have a bracket to multiply out — arriving early is 0.3's distributive law,
+    $a(b+c) = ab+ac$: multiply the outside term onto *every* term inside.)
 
     ::: answer
     $t = \dfrac{\eta_0 - \eta}{\eta k}$ — moves: $\times(1+kt)$ both sides → $\eta(1+kt) = \eta_0$, expand → $\eta + \eta k t = \eta_0$,

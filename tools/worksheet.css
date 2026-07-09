@@ -121,6 +121,104 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
   50% { transform: scale(1.12); box-shadow: 0 4px 20px rgba(185, 28, 28, .45); }
 }
 
+/* ── "Rules so far" pinned reference panel ──────────────────────────────────
+   Floating, draggable, tabbed (one tab per module reached so far). Logic +
+   data in tools/rules_panel.py, injected the same way as answers.html. */
+.rules-toggle {
+  position: fixed;
+  left: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 60;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: .85rem;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: var(--accent);
+  padding: .5rem .85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .18);
+}
+.rules-panel {
+  display: none;
+  position: fixed;
+  left: 1rem;
+  bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  z-index: 61;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(28rem, calc(100vh - 6rem));
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .2);
+  flex-direction: column;
+  overflow: hidden;
+}
+.rules-panel.open { display: flex; }
+.rules-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .6rem .8rem;
+  background: #eff6ff;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.rules-panel-header:active { cursor: grabbing; }
+.rules-panel-close {
+  border: none;
+  background: none;
+  color: var(--soft);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: .2rem .3rem;
+}
+.rules-panel-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  padding: .5rem .6rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.rules-tab-btn {
+  font-family: inherit;
+  font-size: .78rem;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: var(--soft);
+  border-radius: 999px 999px 0 0;
+  padding: .35rem .7rem;
+  cursor: pointer;
+}
+.rules-tab-btn.active {
+  background: #fff;
+  color: var(--accent);
+  border-color: #c7d2fe;
+  border-bottom-color: #fff;
+}
+.rules-panel-body {
+  padding: .7rem .9rem;
+  overflow-y: auto;
+}
+.rules-list { list-style: none; margin: 0; padding: 0; }
+.rules-list li {
+  font-size: .86rem;
+  line-height: 1.45;
+  padding: .5rem 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+.rules-list li:last-child { border-bottom: none; }
+.rules-list strong { color: var(--ink); }
+.rules-list span { color: var(--soft); }
+
 @media print {
   body { max-width: none; padding: 0; font-size: 12pt; }
   h1 { font-size: 16pt; }
@@ -132,4 +230,5 @@ body.answers-locked .answer.revealed { filter: blur(7px); }  /* lock overrides r
   blockquote, pre { break-inside: avoid; }
   .answers-toggle { display: none; }
   .answer { display: none !important; }        /* never print the answer key */
+  .rules-toggle, .rules-panel { display: none !important; }
 }

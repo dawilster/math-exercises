@@ -11,7 +11,10 @@ Usage:
 import argparse
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
+
+from rules_panel import render_panel_html
 
 TOOLS_DIR = Path(__file__).resolve().parent
 KATEX_DIR = TOOLS_DIR / "katex"
@@ -41,11 +44,24 @@ def render(input_md: Path, output_html: Path, katex_url: str | None = None,
     ]
     if ANSWERS_JS.exists():
         cmd += [f"--include-after-body={ANSWERS_JS}"]  # self-activates only if the page has .answer
+
+    panel_tmp = None
+    panel_html = render_panel_html(input_md)   # "rules so far" panel, or None off-curriculum
+    if panel_html:
+        panel_tmp = tempfile.NamedTemporaryFile("w", suffix=".html", delete=False)
+        panel_tmp.write(panel_html)
+        panel_tmp.close()
+        cmd += [f"--include-after-body={panel_tmp.name}"]
+
     if katex_url:
         cmd += [f"--katex={katex_url}"]
     else:
         cmd += ["--embed-resources", f"--katex={KATEX_DIR.as_uri()}/"]
-    subprocess.run(cmd, check=True)
+    try:
+        subprocess.run(cmd, check=True)
+    finally:
+        if panel_tmp:
+            Path(panel_tmp.name).unlink(missing_ok=True)
     print(f"rendered: {output_html}  ({output_html.stat().st_size // 1024} KB)")
 
 
