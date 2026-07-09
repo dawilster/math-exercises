@@ -124,19 +124,41 @@ Each trace contains exactly one broken move. Circle the broken line and name wha
 
 ## Part D — Deep end
 
-*Ideas we haven't formally covered. Attempt anyway — named wrong moves beat blank space.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 12. **The collapse.** Take Part B's network but DELETE both activations (no ReLU, no sigmoid).
     Compute the single matrix $M = W_2 W_1$ and the single bias $c = W_2\mathbf{b}_1 + b_2$, then verify
     $M\mathbf{x} + c$ gives the same answer as tracing the two layers on $\mathbf{x} = \begin{pmatrix} 2 \\ 1 \end{pmatrix}$.
     You've just proven: *without activations, "deep" is a lie — any stack of linear layers is one layer.*
 
-    ::: answer
-    $M = W_2 W_1 = \begin{pmatrix} 3(1) + (-1)(0.5) & 3(-2) + (-1)(1) \end{pmatrix} = \begin{pmatrix} 2.5 & -7 \end{pmatrix}$.
-    $c = W_2\mathbf{b}_1 + b_2 = \big(3(1) + (-1)(-2)\big) + (-2) = 5 - 2 = 3$.
-    Check on $\mathbf{x} = \begin{pmatrix}2\\1\end{pmatrix}$: $M\mathbf{x} + c = 2.5(2) + (-7)(1) + 3 = 5 - 7 + 3 = 1$,
-    matching the two-layer trace ($\mathbf{z}_1 = \begin{pmatrix}1\\0\end{pmatrix}$ with no ReLU, then
-    $z_2 = 3(1) - 1(0) - 2 = 1$). Move: collapsing two linear layers into one matrix and one bias.
+    ::: rephrase
+    "Delete both activations" = run the pipeline as pure linear moves: layer 1 is just
+    $W_1\mathbf{x} + \mathbf{b}_1$, layer 2 is just $W_2(\cdots) + b_2$, no ReLU or sigmoid in
+    between. The claim to check: those two linear layers equal **one** linear layer — a single
+    matrix $M$ and single bias $c$. You find $M$ and $c$ by substituting layer 1 *into* layer 2
+    and collecting terms, then plug in $\mathbf{x}=\begin{pmatrix}2\\1\end{pmatrix}$ to confirm
+    both routes give the same number. This is the lesson's "forgetting the activation" trap, made
+    concrete.
+    :::
+
+    ::: hint
+    Write layer 2 fed by layer 1 with nothing in between:
+    $z_2 = W_2\big(W_1\mathbf{x} + \mathbf{b}_1\big) + b_2$. Now you need to reshape this into the
+    form $M\mathbf{x} + c$.
+    :::
+
+    ::: hint
+    Distribute $W_2$ across the bracket: $W_2 W_1\mathbf{x} + W_2\mathbf{b}_1 + b_2$. The part
+    riding on $\mathbf{x}$ is your $M = W_2 W_1$; everything with no $\mathbf{x}$ is your
+    $c = W_2\mathbf{b}_1 + b_2$.
+    :::
+
+    ::: steps
+    1. **Write both layers, activations removed.** $z_2 = W_2\big(W_1\mathbf{x} + \mathbf{b}_1\big) + b_2$
+    2. **Distribute $W_2$, group the $\mathbf{x}$-term.** $z_2 = (W_2 W_1)\mathbf{x} + (W_2\mathbf{b}_1 + b_2)$
+    3. **Compute $M = W_2 W_1$** (each row of $W_2$ dot the columns of $W_1$). $M = \begin{pmatrix} 3(1) + (-1)(0.5) & 3(-2) + (-1)(1) \end{pmatrix} = \begin{pmatrix} 2.5 & -7 \end{pmatrix}$
+    4. **Compute $c = W_2\mathbf{b}_1 + b_2$.** $c = \big(3(1) + (-1)(-2)\big) + (-2) = 5 - 2 = 3$
+    5. **Check on $\mathbf{x}=\begin{pmatrix}2\\1\end{pmatrix}$.** $M\mathbf{x} + c = 2.5(2) + (-7)(1) + 3 = 5 - 7 + 3 = 1$ — matches the two-layer trace ($\mathbf{z}_1 = \begin{pmatrix}1\\0\end{pmatrix}$ no ReLU, then $z_2 = 3(1) - 1(0) - 2 = 1$). Move: collapsing two linear layers into one matrix and one bias.
     :::
 
 13. **Wake the dead neuron.** In the lesson's network, hidden neuron 1 computes
@@ -144,21 +166,62 @@ Each trace contains exactly one broken move. Circle the broken line and name wha
     Then describe the *set* of all such inputs — what shape does the boundary
     $0.5x_1 - x_2 + 0.5 = 0$ make in the plane? (Module 1.2 knows.)
 
-    ::: answer
-    E.g. $(x_1, x_2) = (0, 0)$: $0.5(0) - 0 + 0.5 = 0.5 > 0$ — ON (outputs $0.5$). Any point below the line
-    $x_2 = 0.5x_1 + 0.5$ turns it on. The boundary $0.5x_1 - x_2 + 0.5 = 0$ is a **straight line**
-    (slope $0.5$, intercept $0.5$) — the neuron is a half-plane detector.
+    ::: rephrase
+    ReLU passes a positive number straight through and clamps anything $\le 0$ to zero. So this
+    neuron is "ON" (nonzero output) exactly when the *inside*, $0.5x_1 - x_2 + 0.5$, is
+    **positive**. "Switch it on" therefore just means: find any $(x_1, x_2)$ making that
+    expression $> 0$ — try the easiest point you can think of. Then "the set of all such inputs"
+    is a whole region of the plane, and its edge is where the inside equals $0$ — a Module 1.2
+    line equation.
+    :::
+
+    ::: hint
+    You don't need ReLU's output value, only its sign switch: it fires when its input is strictly
+    positive. So solve the single condition $0.5x_1 - x_2 + 0.5 > 0$. Test the origin $(0,0)$.
+    :::
+
+    ::: hint
+    For the boundary shape, set the inside to zero: $0.5x_1 - x_2 + 0.5 = 0$. Rearrange it into
+    $x_2 = m x_1 + b$ form — that $y = mx + b$ pattern from Module 1.2 is a straight line.
+    :::
+
+    ::: steps
+    1. **ReLU on $\Rightarrow$ input positive.** require $0.5x_1 - x_2 + 0.5 > 0$
+    2. **Test the origin.** $0.5(0) - 0 + 0.5 = 0.5 > 0$ — ON, outputs $0.5$
+    3. **Find the boundary** (set the inside to $0$). $0.5x_1 - x_2 + 0.5 = 0$
+    4. **Rearrange to slope-intercept.** $x_2 = 0.5x_1 + 0.5$ — a **straight line** (slope $0.5$, intercept $0.5$); "ON" is the half-plane below it. The neuron is a half-plane detector.
     :::
 
 14. A network goes $3 \to 4 \to 2$. Write the shape of every object in the forward pass:
     $\mathbf{x}$, $W_1$, $\mathbf{b}_1$, $\mathbf{h}$, $W_2$, $\mathbf{b}_2$, output. How many numbers
     (weights + biases) does this network own in total?
 
-    ::: answer
-    $\mathbf{x}$: $3{\times}1$. $W_1$: $4{\times}3$. $\mathbf{b}_1$: $4{\times}1$. $\mathbf{h}$: $4{\times}1$.
-    $W_2$: $2{\times}4$. $\mathbf{b}_2$: $2{\times}1$. output: $2{\times}1$.
-    Total numbers: $W_1 (12) + \mathbf{b}_1 (4) + W_2 (8) + \mathbf{b}_2 (2) = 26$ — move: each layer's
-    weight count is $(\text{out}) \times (\text{in})$, plus one bias per output neuron.
+    ::: rephrase
+    "$3 \to 4 \to 2$" is the neuron count at each stage: $3$ inputs, a hidden layer of $4$
+    neurons, $2$ outputs. Each arrow is one layer — "multiply, shift, squash." You just need the
+    shape (rows $\times$ cols) of every object as data flows through, plus a final headcount of
+    individual numbers. The one rule that decides every weight matrix is Part C problem 11 /
+    Module 2.5: a layer turning an (in)-vector into an (out)-vector has weight shape
+    $(\text{out}) \times (\text{in})$.
+    :::
+
+    ::: hint
+    Start with the first layer: it maps a $3$-vector to a $4$-vector, so its weight is
+    $(\text{out}) \times (\text{in}) = 4 \times 3$, and it has one bias per output neuron
+    (a $4$-vector). Apply the same reasoning to the $4 \to 2$ layer.
+    :::
+
+    ::: hint
+    To count numbers: a matrix holds $\text{rows} \times \text{cols}$ of them, a bias holds one
+    per output neuron. Add up $W_1, \mathbf{b}_1, W_2, \mathbf{b}_2$ (inputs and activations own no
+    numbers).
+    :::
+
+    ::: steps
+    1. **Input shape.** $\mathbf{x}: 3{\times}1$
+    2. **First layer maps $3 \to 4$** (weight is $(\text{out}){\times}(\text{in})$). $W_1: 4{\times}3, \quad \mathbf{b}_1: 4{\times}1, \quad \mathbf{h}: 4{\times}1$
+    3. **Second layer maps $4 \to 2$.** $W_2: 2{\times}4, \quad \mathbf{b}_2: 2{\times}1, \quad \text{output}: 2{\times}1$
+    4. **Count every number** (rows$\times$cols per matrix, one per bias). $W_1(12) + \mathbf{b}_1(4) + W_2(8) + \mathbf{b}_2(2) = 26$
     :::
 
 ---

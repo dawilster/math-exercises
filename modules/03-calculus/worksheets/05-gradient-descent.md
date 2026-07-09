@@ -132,38 +132,92 @@ Circle the broken line, name what broke.
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 12. Two-parameter bowl: $f(w, b) = w^2 + b^2$, so $\nabla f = (2w, 2b)$.
     From $(w, b) = (4, 2)$ with $\eta = 0.25$, run TWO full updates of
     $(w, b) \leftarrow (w, b) - \eta \nabla f$. Plot the three points on a rough sketch
     with contour circles. What shape is the path making toward the origin?
 
-    ::: answer
-    $(4,2) \to (2,1) \to (1,0.5)$. Move: $(w,b) \leftarrow (w,b) - \eta(2w,2b) = (1-2\eta)(w,b)
-    = 0.5(w,b)$ each step (with $\eta = 0.25$). Path: a straight line through the origin — the
-    bowl is symmetric in $w$ and $b$, so the gradient always points directly at the centre.
+    ::: rephrase
+    Same downhill rule as Part B — but now you carry **two** numbers at once. The gradient
+    $(2w, 2b)$ is just "the slope in the $w$-direction and the slope in the $b$-direction, side
+    by side". So run problem 5's descent twice in parallel: step $w$ by its slope, step $b$ by
+    its slope, each update. First move: apply $x_{\text{new}} = x - \eta f'(x)$ to $w$ and to $b$
+    separately.
+    :::
+
+    ::: hint
+    You have one copy of the update rule per coordinate. Update $w$ using slope $2w$, and
+    *independently* update $b$ using slope $2b$ — they don't interact.
+    :::
+
+    ::: hint
+    With $\eta = 0.25$ each coordinate becomes $(1 - 2\eta) = 0.5$ times itself. So the whole
+    move is just "**halve both numbers**" each step.
+    :::
+
+    ::: steps
+    1. **Update each coordinate by its own slope.** $(w,b) \leftarrow (w,b) - 0.25(2w,2b) = (1-2\eta)(w,b) = 0.5\,(w,b)$
+    2. **First step from $(4,2)$** — halve both. $(4,2) \to (2,1)$
+    3. **Second step from $(2,1)$** — halve again. $(2,1) \to (1,0.5)$
+    4. **Read the path.** The three points $(4,2),(2,1),(1,0.5)$ lie on a straight line through the origin — the bowl is symmetric in $w$ and $b$, so the gradient always points directly at the centre.
     :::
 
 13. From lesson 3.5's deep end: for $f(x)=x^2$ the update collapses to
     $x_{\text{new}} = (1 - 2\eta)\,x$. Using Module 0 algebra, find the range of $\eta$ for which
     $|1 - 2\eta| < 1$ (steps shrink). What happens exactly at $\eta = 0.5$? At $\eta = 1$?
 
-    ::: answer
-    $0 < \eta < 1$ — move: $|1-2\eta|<1 \iff -1<1-2\eta<1 \iff -2<-2\eta<0 \iff 0<\eta<1$
-    ($\div(-2)$ flips both inequalities). At $\eta=0.5$: the factor is $0$, so it lands exactly
-    on the minimum in one step (problem 6). At $\eta=1$: the factor is $-1$, so
-    $x_{\text{new}} = -x$ — it bounces forever between $x$ and $-x$, the boundary between
-    shrinking and diverging.
+    ::: rephrase
+    Every step multiplies your position by the *fixed* number $(1-2\eta)$. For the position to
+    shrink toward $0$, that multiplier has to be smaller than $1$ **in size** — which is exactly
+    what $|1-2\eta| < 1$ says. So this isn't calculus at all: it's a pure Module 0 absolute-value
+    inequality. Unwrap the $|\cdots|$ into a double inequality and solve for $\eta$, then plug the
+    two special $\eta$ values into the multiplier to see what it does.
+    :::
+
+    ::: hint
+    An absolute-value inequality $|A| < 1$ means $A$ is trapped between $-1$ and $1$. Write it as
+    $-1 < 1 - 2\eta < 1$.
+    :::
+
+    ::: hint
+    Solve the double inequality for $\eta$: subtract $1$ from all three parts, then divide by
+    $-2$ — and remember dividing by a negative **flips both** inequality signs.
+    :::
+
+    ::: steps
+    1. **Unwrap the absolute value.** $-1 < 1 - 2\eta < 1$
+    2. **Subtract $1$ from all three parts.** $-2 < -2\eta < 0$
+    3. **Divide by $-2$ (flips both signs).** $0 < \eta < 1$
+    4. **Check $\eta = 0.5$.** $1 - 2(0.5) = 0$, so $x_{\text{new}} = 0 \cdot x = 0$ — lands exactly on the minimum in one step (problem 6).
+    5. **Check $\eta = 1$.** $1 - 2(1) = -1$, so $x_{\text{new}} = -x$ — bounces forever between $x$ and $-x$: the boundary between shrinking and diverging.
     :::
 
 14. Sketch a wavy curve with two valleys, one deeper than the other. Mark two starting points
     that end up in *different* valleys under gradient descent. One sentence: why can't the
     algorithm "see" the deeper valley from inside the shallow one?
 
-    ::: answer
-    Gradient descent only ever feels the **local slope** at its current $x$ — it has no memory or
-    view of the rest of the curve, so once it's inside a valley the slope always points back down
-    to that valley's own bottom, with no way to sense a deeper valley beyond the hump separating
-    them.
+    ::: rephrase
+    Nothing to compute here — this is a "what can gradient descent actually *see*?" question. Sketch
+    a curve with two dips (right one deeper), drop a ball at two spots, ask whether they always roll
+    to the same bottom. Look back at the rule $x_{\text{new}} = x - \eta f'(x)$: the only thing it
+    ever reads about the whole landscape is $f'(x)$ — the slope *right where it stands*.
+    :::
+
+    ::: hint
+    The update never evaluates the curve anywhere except your current $x$ — it feels one local
+    slope and steps. It has no memory of where it's been and no view of what's ahead.
+    :::
+
+    ::: hint
+    So place your two starting dots on **opposite sides of the hump** separating the valleys — each
+    one feels a slope pointing back down into its own dip.
+    :::
+
+    ::: steps
+    1. **Mark two starts across the ridge.** A dot in the left (shallow) valley and a dot in the right (deep) valley; each feels a local slope pointing back down into the valley it started in.
+    2. **Why it's blind.** Gradient descent only ever feels the **local slope** at its current $x$ — no memory, no view of the rest of the curve — so once inside a valley the slope always points back to that valley's own bottom, with no way to sense a deeper valley beyond the hump between them.
     :::
 
 ---

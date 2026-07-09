@@ -133,31 +133,87 @@ Each "solution" contains exactly one broken move. Circle it, name the broken rul
 
 ## Part D — Deep end
 
-*Attempt with named moves; struggle is the workout.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 17. Find *all* $x$ where $f(x) = x^3 - 12x$ has derivative zero. (Differentiate, set $f'(x) = 0$,
     solve with balance-game moves.) These are the flat spots — the hilltops and valley floors.
 
-    ::: answer
-    $f'(x) = 3x^2 - 12$ — move: power rule. Setting $3x^2 - 12 = 0$: $+12$, $\div 3$ →
-    $x^2 = 4$, then $\sqrt{\phantom{x}}$ both sides → $x = \pm 2$.
+    ::: rephrase
+    "Derivative zero" = *flat spot* = the slope is $0$ there. So this is a two-part job:
+    first **find the slope function** $f'(x)$ (that's just Part B power-rule work), then
+    **ask where that slope equals $0$** — which turns into a balance-game equation
+    $f'(x) = 0$ to solve for $x$, exactly like the solving you did in Module 0.
+    :::
+
+    ::: hint
+    Step one is pure Part B: differentiate $x^3 - 12x$ term by term with the power rule.
+    Don't touch "set to zero" yet — just get $f'(x)$.
+    :::
+
+    ::: hint
+    Now set your $f'(x) = 0$ and solve for $x$ with balance moves. It ends at $x^2 = 4$ —
+    and remember a square root gives **two** answers, $+$ and $-$.
+    :::
+
+    ::: steps
+    1. **Power rule, term by term.** $f'(x) = 3x^2 - 12$
+    2. **Set the slope to zero.** $3x^2 - 12 = 0$
+    3. **$+12$ both sides, then $\div 3$.** $x^2 = 4$
+    4. **Square-root both sides — keep both signs.** $x = \pm 2$ (the hilltop and the valley floor)
     :::
 
 18. $L(w) = (w - 3)^2$ is a tiny loss function with one weight. Expand it (Module 0.3), then
     differentiate. For what $w$ is $L'(w) = 0$? Check: is that the $w$ that makes the loss
     smallest? You just trained a one-weight model by algebra.
 
-    ::: answer
-    $L(w) = w^2 - 6w + 9 \Rightarrow L'(w) = 2w - 6$ — move: expand, then power rule termwise.
-    $2w - 6 = 0 \Rightarrow w = 3$. Yes — $L(3) = 0$, the smallest a squared term can ever be.
+    ::: rephrase
+    Same flat-spot hunt as problem 17, but there's a warm-up move first: the power rule
+    wants a *sum of powers* like $w^2 - 6w + 9$, not a bracket $(w-3)^2$. So **expand first**
+    (that's the FOIL/expand move from Module 0.3), *then* it's differentiate-and-set-to-zero.
+    The "loss function" story: $L'(w)=0$ marks the bottom of the bowl — the best weight.
+    :::
+
+    ::: hint
+    You can't power-rule a bracket directly. Multiply $(w-3)(w-3)$ out into three terms first.
+    :::
+
+    ::: hint
+    Once expanded, differentiate term by term, set $L'(w)=0$, and solve the (now linear)
+    equation for $w$.
+    :::
+
+    ::: steps
+    1. **Expand the square** ($(w-3)(w-3)$). $L(w) = w^2 - 6w + 9$
+    2. **Power rule term by term** ($9$ is constant → $0$). $L'(w) = 2w - 6$
+    3. **Set the slope to zero and solve.** $2w - 6 = 0 \Rightarrow w = 3$
+    4. **Check it's really the minimum.** $L(3) = 0$ — the smallest a squared term can ever be, so $w=3$ is the valley floor.
     :::
 
 19. The derivative of $e^x$ is $e^x$. Using only the rules on this sheet, show that
     $g(x) = 5e^x$ is *also* its own derivative, but $h(x) = e^x + 1$ is not.
 
-    ::: answer
-    $g'(x) = 5e^x$ — move: exponential rule, coefficient rides along — so $g'(x) = g(x)$.
-    $h'(x) = e^x$ — move: exponential rule + constant → 0 — but $h(x) = e^x + 1 \ne e^x = h'(x)$.
+    ::: rephrase
+    "Is its own derivative" just means: differentiate it, and check whether the answer is the
+    *exact same expression* you started with. So do two ordinary derivatives — $g'(x)$ and
+    $h'(x)$ — then compare each to its original. No new rules; it's Part A's $e^x$ rule plus
+    "coefficient rides along" and "constant → 0", read carefully.
+    :::
+
+    ::: hint
+    Differentiate $g(x) = 5e^x$ (exponential rule, the $5$ rides along) and place $g'(x)$ next
+    to $g(x)$ — same or not?
+    :::
+
+    ::: hint
+    Now $h(x) = e^x + 1$: differentiate term by term. Watch what the $+1$ becomes — that's the
+    whole point of the comparison.
+    :::
+
+    ::: steps
+    1. **Differentiate $g$** (exponential rule, coefficient $5$ rides along). $g'(x) = 5e^x$
+    2. **Compare to $g$.** $g'(x) = 5e^x = g(x)$ ✓ — still its own derivative.
+    3. **Differentiate $h$** (exponential rule on $e^x$, constant $+1 \to 0$). $h'(x) = e^x$
+    4. **Compare to $h$.** $h(x) = e^x + 1 \ne e^x = h'(x)$ ✗ — the $+1$ vanished, so it's *not* its own derivative.
     :::
 
 20. Guess time: using the pattern of the power rule, what do you *think* $\frac{d}{dx}(x \cdot x^2)$
@@ -165,10 +221,29 @@ Each "solution" contains exactly one broken move. Circle it, name the broken rul
     multiply" and the true answer agree? (This failed experiment is why a *product rule* exists —
     Claude will show you when a derivation needs it.)
 
-    ::: answer
-    Guess ("differentiate each factor and multiply"): $1 \cdot 2x = 2x$. True answer:
-    $x \cdot x^2 = x^3 \Rightarrow$ power rule gives $3x^2$. They disagree ($2x \ne 3x^2$) —
-    "differentiate factors and multiply" isn't a legal move, which is why a product rule exists.
+    ::: rephrase
+    This one asks you to *deliberately try a wrong move and catch it*. Route 1: guess that
+    you can differentiate each factor separately and multiply the results. Route 2: the safe
+    move you already own — collapse $x \cdot x^2$ into a single power first (add exponents,
+    Module 0), then power-rule it. Then hold the two answers side by side: if they disagree,
+    the guessed move is illegal. That's a mini-experiment, not a memorised fact.
+    :::
+
+    ::: hint
+    Route 2 is trustworthy: use the exponent rule $x \cdot x^2 = x^{1+2}$ to get one power,
+    then differentiate that with the power rule.
+    :::
+
+    ::: hint
+    Now build the tempting-but-wrong Route 1: differentiate $x$ (gives $1$) and $x^2$ (gives
+    $2x$) separately and multiply them. Compare the two numbers.
+    :::
+
+    ::: steps
+    1. **Guessed move: differentiate each factor, multiply.** $\dfrac{d}{dx}(x)\cdot\dfrac{d}{dx}(x^2) = 1 \cdot 2x = 2x$
+    2. **Safe move: collapse to one power first** (add exponents). $x \cdot x^2 = x^3$
+    3. **Power rule on the true form.** $\dfrac{d}{dx}(x^3) = 3x^2$
+    4. **Compare — they disagree.** $2x \ne 3x^2$, so "differentiate factors and multiply" is *not* a legal move — which is exactly why a separate **product rule** has to exist.
     :::
 
 ---

@@ -137,50 +137,113 @@ Each training log contains exactly one broken move. Circle it; name what broke.
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 12. **The averaging question.** With a batch of $n$ examples, the training loss is
     $\bar{L} = \frac{1}{n}\sum_{i=1}^{n} L_i$ (Module 0.6 + 4.2). One example in the batch is
     mislabelled junk with a huge loud gradient. Compare stepping on the average vs stepping on the
     junk example alone — which loop is steadier, and why? (Module 4.4's noise-in-sampling instincts apply.)
 
-    ::: answer
-    Stepping on the average is steadier. Averaging divides the junk example's huge gradient by $n$
-    along with everyone else's, diluting its influence instead of letting it alone dictate the step.
-    Stepping on the junk example alone applies its full, oversized gradient directly, producing a
-    large, erratic jump — the same overshoot risk as problem 11's too-large effective step.
+    ::: rephrase
+    "Steadier" means smaller, less erratic steps. Picture the batch as $n$ sensible examples plus
+    one junk one screaming a huge gradient. Two recipes: **(A)** average all $n$ gradients, then
+    take one step; **(B)** step on the junk example's gradient alone. The real question is: how
+    much can that one loud example yank the weights in each recipe? Tie it to problem 11 — a step
+    that's too big overshoots.
+    :::
+
+    ::: hint
+    Write down what "step on the average" does to the junk gradient specifically: the $\frac{1}{n}$
+    out front of $\bar{L} = \frac{1}{n}\sum_i L_i$ lands on *every* example's gradient, junk included.
+    :::
+
+    ::: hint
+    A gradient's size sets the step's size (the step move is $\eta \times g$). So compare the junk
+    example's influence when it's one voice out of $n$ versus when it's the *only* voice.
+    :::
+
+    ::: steps
+    1. **Write the batch step.** the junk term enters averaged: $\frac{1}{n}\, g_{\text{junk}}$
+    2. **Compare the lone step.** stepping on junk alone uses the full $g_{\text{junk}}$ — that's $n\times$ the influence
+    3. **Name the consequence.** the lone step's oversized gradient → a large, erratic jump (problem 11's overshoot), while the average dilutes junk by $n$ → **stepping on the average is steadier**
     :::
 
 13. **After your Part B step, both hidden neurons are off** for this input, so the network's answer
     is $\sigma(b_2)$ — a constant. For a dataset where the answer is *always* "no" ($y = 0$ for
     everything), is this constant network actually bad? For what kind of dataset would it be a disaster?
 
-    ::: answer
-    Not bad at all here: the constant output $\sigma(-2.15) \approx 0.10$ is already close to $0$,
-    so it scores a low loss ($\approx 0.105$, problem 7) on every example, since every true label
-    really is $0$. It would be a disaster on any dataset where the label sometimes flips to "yes"
-    ($y=1$) — a constant network can't distinguish inputs at all, so it would confidently say "no"
-    every time and pay a large loss ($-\ln(0.10) \approx 2.3$) on every positive case, e.g. missing
-    every real case in a rare-disease screening dataset.
+    ::: rephrase
+    Two questions bundled. First: the network now ignores its input entirely and always outputs
+    $\sigma(-2.15) \approx 0.10$ (problem 6). Is $0.10$ a good answer? — but good *for what*? If the
+    truth is always $y = 0$, then always guessing $\approx 0$ might be fine — check the loss.
+    Second: invent a dataset where "always $0.10$" is terrible. Reuse the loss formula from
+    problem 7 / lesson 5.2.
+    :::
+
+    ::: hint
+    For the always-"no" dataset, score the constant $\hat{y} \approx 0.10$ against $y = 0$ — you
+    already computed this exact number in problem 7.
+    :::
+
+    ::: hint
+    For the disaster case, ask what a fixed output does when a true label is $y = 1$. Plug
+    $\hat{y} = 0.10$ into the $y = 1$ loss, $-\ln(\hat{y})$, and see what it costs.
+    :::
+
+    ::: steps
+    1. **Score the constant on the all-"no" data.** every $y = 0$, so loss $= -\ln(1 - 0.10) = -\ln(0.9) \approx 0.105$ per example — low, so **not bad**
+    2. **Break it: let some labels be $y = 1$.** a constant network can't tell inputs apart, so it still emits $\hat{y} \approx 0.10$ on a true "yes"
+    3. **Price the mistake.** for $y = 1$, loss $= -\ln(0.10) \approx 2.3$ on every positive case — a disaster on rare-positive data (e.g. rare-disease screening)
     :::
 
 14. **Learning-rate schedule.** Trainers often shrink $\eta$ over time, e.g. $\eta_t = 0.5 \times 0.9^t$
     (Module 0.5's exponential decay). Give one reason big-early is good and one reason small-late
     is good. (Think: rolling a marble into a narrow valley.)
 
-    ::: answer
-    Big-early: far from the minimum, a big step covers ground fast, rolling the marble quickly down
-    the outer slope instead of crawling. Small-late: near the minimum, a big step overshoots and can
-    bounce back and forth or diverge (problem 11's failure mode) — shrinking $\eta$ lets the marble
-    settle into the bottom of the valley instead of leaping over it.
+    ::: rephrase
+    You're arguing for a design, not solving. Take the marble analogy literally: rolling toward the
+    bottom of a valley. *Early* = the marble is far up the outer slope; *late* = it's near the
+    bottom of a narrow groove. Ask what step size you'd want in each spot. Problem 11 already showed
+    what a too-big step does near the bottom.
+    :::
+
+    ::: hint
+    Early on, the weights are far from the minimum. What's the downside of a *tiny* step $\eta$ when
+    you still have a long way to travel?
+    :::
+
+    ::: hint
+    Late on, you're close to the bottom of a narrow valley. Recall problem 11: what does a step
+    that's too big do right near the minimum?
+    :::
+
+    ::: steps
+    1. **Big-early reason.** far from the minimum → a big $\eta$ covers ground fast, rolling the marble quickly down the outer slope instead of crawling
+    2. **Small-late reason.** near the minimum → a big $\eta$ overshoots and bounces or diverges (problem 11's failure mode); shrinking $\eta$ lets the marble settle into the valley floor instead of leaping over it
     :::
 
 15. When should the loop *stop*? Propose two different stopping rules and one risk for each.
 
-    ::: answer
-    (1) Fixed number of epochs: simple, but arbitrary — risks stopping while still improving
-    (underfit) or long after the useful learning is done (wasted compute, possible overfitting).
-    (2) Early stopping on validation loss (stop once it stops improving for a patience window):
-    tracks the thing you actually care about, but validation loss is noisy — risks stopping too
-    soon on a random bad batch, or too late if the patience window is set too generously.
+    ::: rephrase
+    Open-ended design — no single right answer, you're proposing. A "stopping rule" is a concrete
+    condition that ends the `for step in range(...)` loop from the lesson. Think: what could you
+    *watch* to know the loop is done? Give two different watchable signals, and for each, one way it
+    can mislead you. The lesson's own rule was "loop until the loss stops falling."
+    :::
+
+    ::: hint
+    The simplest rule needs no measurement at all — just count. What's the obvious downside of
+    fixing that count in advance, before you've seen how training goes?
+    :::
+
+    ::: hint
+    A smarter rule watches a number and stops when it plateaus. Which loss should you watch —
+    training or a held-out set — and what makes that number unreliable?
+    :::
+
+    ::: steps
+    1. **Rule 1 — fixed number of epochs.** stop after a preset count; simple, but the count is arbitrary → risks underfitting (stopped while still improving) or wasted compute / overfitting (learning long done)
+    2. **Rule 2 — early stopping on validation loss.** stop once held-out loss hasn't improved for a patience window; tracks the thing you care about, but validation loss is noisy → risks stopping too soon (a random bad batch) or too late (patience set too generously)
     :::
 
 ---

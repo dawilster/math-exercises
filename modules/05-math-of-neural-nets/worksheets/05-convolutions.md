@@ -146,27 +146,64 @@ Circle the broken move; name the rule it broke.
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 12. **The blur.** Apply the all-$\frac{1}{9}$ kernel to the centre position of
     $\begin{pmatrix} 0 & 0 & 0 \\ 0 & 9 & 0 \\ 0 & 0 & 0 \end{pmatrix}$ (a single bright pixel).
     What happened to the spike? Which Module 4.2 statistic did this kernel compute, and why does
     averaging = blurring?
 
-    ::: answer
-    Only one valid position (the centre): $\frac19(0{+}0{+}0{+}0{+}9{+}0{+}0{+}0{+}0) = 1$. The
-    spike of $9$ got spread into $1$ — diluted by its eight dark ($0$) neighbours. This is the
-    **mean** (Module 4.2): averaging = blurring because it replaces every pixel with the average
-    of its neighbourhood, smoothing away sharp spikes.
+    ::: rephrase
+    "Apply the kernel to the centre position" is just the Part A move — lay the kernel on the
+    patch beneath it, multiply matching entries, add them up (one dot product). A $3{\times}3$
+    kernel on a $3{\times}3$ image has only $3-3+1=1$ valid spot: dead centre. So compute that
+    single number, then notice what happened to the bright spike of $9$. Tie it back to the
+    lesson's ⅑-mean "blur" panel.
+    :::
+
+    ::: hint
+    Name the tool: it's one dot product (the Part A "multiply matching, then sum" move) at the
+    single legal position. Multiply each kernel entry by the pixel under it, add all nine.
+    :::
+
+    ::: hint
+    First move: eight of the nine pixels are $0$, so every term vanishes except the centre —
+    $\frac19 \times 9$. Work that out, then compare it to the original spike of $9$.
+    :::
+
+    ::: steps
+    1. **Count valid positions ($n-k+1$).** $3-3+1=1$ → only the centre.
+    2. **Dot product of kernel and patch.** $\frac19(0{+}0{+}0{+}0{+}9{+}0{+}0{+}0{+}0)$
+    3. **Sum — the eight zeros drop out.** $=\frac19(9)=1$
+    4. **Read the result.** The spike of $9$ got diluted to $1$ by its eight dark neighbours; this is the **mean** (Module 4.2), and averaging = blurring because it replaces each pixel with its neighbourhood average, smoothing away sharp spikes.
     :::
 
 13. **Design your own detector.** Invent a $3{\times}3$ kernel that responds strongly to a lone
     bright pixel surrounded by darkness, and weakly (ideally 0) to any flat region. *(Hint: for
     silence on flat regions, what must the kernel's entries sum to?)*
 
-    ::: answer
-    e.g. $\begin{pmatrix} -1 & -1 & -1 \\ -1 & 8 & -1 \\ -1 & -1 & -1 \end{pmatrix}$ — move: make
-    the entries sum to $0$ so a flat patch of value $v$ gives $8v - 8v = 0$ (silence), while a
-    lone bright centre pixel gives a large $8\times(\text{spike})$ response with no cancelling
-    neighbours to drag it down.
+    ::: rephrase
+    You're *inventing* a kernel here, not computing one. Two demands: shout at a lone bright dot,
+    stay silent (≈0) on any flat region. The lesson's edge kernels all share one trick — their
+    entries sum to zero, so a flat patch cancels to nothing (exactly like problem 10, where
+    $1{+}0{-}1{+}1{+}0{-}1{+}1{+}0{-}1 = 0$). Reuse that trick: entries that sum to $0$, but with
+    a strongly positive centre to react to the bright pixel.
+    :::
+
+    ::: hint
+    For a flat patch of value $v$ to give $0$, what must the nine kernel entries sum to? (A flat
+    patch pulls out $v \times (\text{sum of all entries})$.)
+    :::
+
+    ::: hint
+    First move: put a large positive number in the centre (say $+8$) so it fires on a bright
+    centre pixel, then choose the eight surrounding entries so the whole grid still sums to $0$.
+    :::
+
+    ::: steps
+    1. **Force flat-region silence: entries must sum to $0$.** a flat patch $v$ gives $v\times(\text{sum})$, so set sum $=0$.
+    2. **Centre large-positive to react to a bright dot.** put $+8$ in the middle.
+    3. **Balance it with $-1$s around.** $\begin{pmatrix} -1 & -1 & -1 \\ -1 & 8 & -1 \\ -1 & -1 & -1 \end{pmatrix}$: flat patch → $8v-8v=0$ (silence); lone bright centre → $8\times(\text{spike})$ with no cancelling neighbours.
     :::
 
 14. In a CNN, the kernel entries are **weights, learned by backprop** (5.3). A convolution output
@@ -175,21 +212,49 @@ Circle the broken move; name the rule it broke.
     A fully-connected layer mapping all 784 pixels to ONE output uses how many? Write one sentence
     on what convolution buys you.
 
-    ::: answer
-    Convolution: $9$ distinct weights (the kernel entries), reused at every position. Fully
-    connected: $784$ weights, one per pixel, none shared. Convolution buys you the same tiny
-    detector applied everywhere instead of a unique weight per pixel — far fewer parameters for
-    the same-sized input.
+    ::: rephrase
+    Two counting questions, no hard math. "How many distinct weights" means: how many separate
+    numbers would you have to store and learn? For the kernel, remember the lesson's drumbeat —
+    *same weights, every location* — so you only count the little grid once. For the
+    fully-connected layer, every one of the $784$ pixels gets its own private weight into the
+    output. Count each, then say in one line what the difference buys.
+    :::
+
+    ::: hint
+    The kernel is a $3{\times}3$ grid — how many entries? That's the entire weight count, because
+    the same entries are reused at every stop (no new weights per position).
+    :::
+
+    ::: hint
+    The fully-connected count: one weight per input pixel feeding the single output. How many
+    pixels are in a $28{\times}28$ image?
+    :::
+
+    ::: steps
+    1. **Count the kernel entries (reused everywhere).** $3\times3 = 9$ distinct weights.
+    2. **Count fully-connected weights: one per pixel.** $28\times28 = 784$ weights, none shared.
+    3. **One sentence.** Convolution buys you the same tiny 9-number detector applied everywhere instead of a unique weight per pixel — far fewer parameters for the same-sized input.
     :::
 
 15. What might TWO convolutions in a row see — e.g. an edge detector applied to the *output* of an
     edge detector? No computation needed; speculate in a sentence. (This "features of features"
     idea is literally why deep vision networks are deep.)
 
-    ::: answer
-    Not raw edges anymore but "edges of edges" — combinations like corners, curves, or short
-    line segments; stacking convolutions builds increasingly complex features layer by layer,
-    which is exactly why deep vision networks are deep.
+    ::: rephrase
+    No computation — just reason it through. The first convolution turns the photo into an
+    **edge map**: bright lines where edges are, dark everywhere else. Now the second detector
+    doesn't see the photo at all — it scans *that edge map*. So ask: what does "find edges in a
+    picture of edges" turn up? Picture what shape forms where two edge-lines meet or one bends.
+    :::
+
+    ::: hint
+    The key move is naming the second layer's input: it's the first detector's output (bright
+    lines), not raw pixels. What shape appears where two edges meet, or where a line curves?
+    :::
+
+    ::: steps
+    1. **Name the second layer's input.** it sees the edge map, not the raw image.
+    2. **Reason about what that detects.** "edges of edges" — combinations like corners, curves, or short line segments; stacking convolutions builds increasingly complex features layer by layer, which is exactly why deep vision networks are deep.
     :::
 
 ---

@@ -109,42 +109,105 @@ Each claim contains one broken idea. Name it.
 
 ## Part D — Deep end
 
-*Not covered yet. Attempt anyway — reason from counting.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 13. Two fair dice. $P(\text{at least one six}) = ?$
     *(Hint: sometimes it's easier to count the outcomes where it DOESN'T happen.)*
 
-    ::: answer
-    $P(\text{no six on either die}) = \frac{5}{6} \times \frac{5}{6} = \frac{25}{36}$, so
-    $P(\text{at least one six}) = 1 - \frac{25}{36} = \frac{11}{36}$.
-    Move: complement trick — count the "doesn't happen" outcomes, subtract from 1.
+    ::: rephrase
+    "At least one six" is a wide net — it catches one six, or two. Counting all those cases
+    directly is fiddly. So flip the question to the *one* thing you don't want: **no six
+    anywhere**. That's the hint printed under the problem — count when it DOESN'T happen. Same
+    "count at the easy level" move as Part B, just applied to the opposite event.
+    :::
+
+    ::: hint
+    Reach for the **complement**: instead of adding up every "at least one" case, count the
+    single opposite event (no six at all) and subtract from 1.
+    :::
+
+    ::: hint
+    First move: find $P(\text{no six on one die})$, then both dice have to miss at once.
+    :::
+
+    ::: steps
+    1. **Flip to the complement.** $P(\text{at least one six}) = 1 - P(\text{no six on either die})$
+    2. **Count "no six" on each die, both must miss (multiply).** $P(\text{no six}) = \frac{5}{6} \times \frac{5}{6} = \frac{25}{36}$
+    3. **Subtract from 1.** $P(\text{at least one six}) = 1 - \frac{25}{36} = \frac{11}{36}$
     :::
 
 14. A fair coin is flipped 3 times. $P(\text{at least one head}) = ?$ Use the same trick.
 
-    ::: answer
-    $P(\text{no heads}) = \left(\frac{1}{2}\right)^3 = \frac{1}{8}$, so
-    $P(\text{at least one head}) = 1 - \frac{1}{8} = \frac{7}{8}$.
-    Move: complement trick again.
+    ::: rephrase
+    Same shape as problem 13 — "at least one" again, so reach for the same trick. The opposite
+    of "at least one head" is "**zero heads**", i.e. all three land tails. There's exactly one
+    way for that to happen, so it's the easy side to count.
+    :::
+
+    ::: hint
+    Use the **complement** again: what's the single opposite of "at least one head"?
+    :::
+
+    ::: hint
+    First move: that opposite is "all three tails" — compute $P(\text{all tails}) = \left(\frac{1}{2}\right)^3$.
+    :::
+
+    ::: steps
+    1. **Flip to the complement.** $P(\text{at least one head}) = 1 - P(\text{no heads})$
+    2. **"No heads" = all three tails (multiply the three $\frac12$'s).** $P(\text{no heads}) = \left(\frac{1}{2}\right)^3 = \frac{1}{8}$
+    3. **Subtract from 1.** $P(\text{at least one head}) = 1 - \frac{1}{8} = \frac{7}{8}$
     :::
 
 15. Three fair coins. Which is more likely: all three match, or they don't all match?
     By how much?
 
-    ::: answer
-    $P(\text{all match}) = P(HHH) + P(TTT) = \frac{1}{8} + \frac{1}{8} = \frac{2}{8} = \frac{1}{4}$.
-    $P(\text{don't all match}) = 1 - \frac{1}{4} = \frac{3}{4}$ — three times more likely, a gap of
-    $\frac{3}{4} - \frac{1}{4} = \frac{1}{2}$. Move: complement trick, since "match" is the easier side to count.
+    ::: rephrase
+    "All three match" means $HHH$ or $TTT$ — only 2 of the 8 possible outcomes. That's the small,
+    easy side to count (just like the complement trick you just used twice). "Don't all match"
+    is everything else. So count the easy side, get the other by subtracting from 1, then compare
+    the two.
+    :::
+
+    ::: hint
+    Which side is easier to count directly — "all match" or "don't all match"? List the 8 equally
+    likely outcomes and pick off the matching ones.
+    :::
+
+    ::: hint
+    $P(\text{all match}) = P(HHH) + P(TTT)$. Once you have that, the other side is its **complement**,
+    $1 - P(\text{all match})$.
+    :::
+
+    ::: steps
+    1. **Count the easy side: all match is $HHH$ or $TTT$.** $P(\text{all match}) = \frac{1}{8} + \frac{1}{8} = \frac{2}{8} = \frac{1}{4}$
+    2. **Complement gives the other side.** $P(\text{don't all match}) = 1 - \frac{1}{4} = \frac{3}{4}$
+    3. **Compare — subtract for the gap.** $\frac{3}{4} - \frac{1}{4} = \frac{1}{2}$, so "don't all match" is three times as likely
     :::
 
 16. An LLM assigns the next token: "the" 0.40, "a" 0.25, "his" 0.15, everything else shares 0.20.
     If it samples 1,000 completions of this sentence, roughly how many start with "the" or "a"?
     What rule did you just use about combining probabilities of *different* outcomes?
 
-    ::: answer
-    $P(\text{"the" or "a"}) = 0.40 + 0.25 = 0.65$, so roughly $650$ of the $1{,}000$ completions.
-    Move: addition rule for mutually exclusive outcomes — $P(A \text{ or } B) = P(A) + P(B)$ when
-    $A$ and $B$ can't both happen.
+    ::: rephrase
+    Two moves stacked. First: the first token is "the" or "a" — two *different* outcomes that
+    can't both happen at once, so you need $P(\text{"the" or "a"})$. Second: turning that into a
+    count over 1,000 samples is exactly problem 9 (die rolled 3,000 times $\to$ 500 sixes) —
+    expected count $=$ probability $\times$ number of tries.
+    :::
+
+    ::: hint
+    The first token is either "the" or "a" — never both at once. When two outcomes can't co-occur,
+    how do you get the probability of "one **or** the other"?
+    :::
+
+    ::: hint
+    Add the two probabilities to get $P(\text{"the" or "a"})$, then scale it to 1,000 completions
+    the same way as problem 9 ($\times$ number of tries).
+    :::
+
+    ::: steps
+    1. **Add the two probabilities (mutually exclusive $\to$ addition rule).** $P(\text{"the" or "a"}) = 0.40 + 0.25 = 0.65$
+    2. **Scale to 1,000 completions (expected count, like problem 9).** $0.65 \times 1{,}000 = 650$
     :::
 
 ---

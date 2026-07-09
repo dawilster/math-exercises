@@ -124,46 +124,112 @@ Circle the broken line, name what broke.
 
 ## Part D — Deep end: read the loss surface
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 12. Sketch rough contour circles for $f(x, y) = x^2 + y^2$ (they're circles centred at the
     origin — label contours $f = 1, 4, 9$). Draw the gradient arrow at $(2, 0)$, at $(0, 3)$,
     and at $(1, 1)$ (direction only). What do all three arrows do relative to the contour
     they sit on?
 
-    ::: answer
-    All three arrows point straight outward, perpendicular (normal) to the contour circle
-    they sit on — move: $\nabla f = (2x, 2y) = 2(x, y)$ points radially outward here, and a
-    gradient is always perpendicular to its contour line, pointing toward increasing $f$.
+    ::: rephrase
+    This one asks you to *draw*, not crunch. The "circles" $f = 1, 4, 9$ are just rings of
+    equal height — the topographic map from the lesson. At each of the three spots you draw
+    the little uphill arrow (the gradient). The real question is only: does that arrow lie
+    *along* the ring or *across* it? Look back at the lesson figure where every red arrow
+    crossed its contour at a right angle — that's the pattern you're checking here.
+    :::
+
+    ::: hint
+    You have a formula for the gradient of $x^2 + y^2$: $\nabla f = (2x, 2y)$. Compute it at
+    each of the three points — that vector *is* the arrow's direction.
+    :::
+
+    ::: hint
+    Notice $(2x, 2y) = 2(x, y)$: every arrow is just a scaled copy of the line from the origin
+    out to that point. Where does a spoke from a circle's centre sit relative to the circle?
+    :::
+
+    ::: steps
+    1. **Write the gradient.** $\nabla f = (2x, 2y)$
+    2. **Evaluate at each point (direction only).** $\nabla f(2,0) = (4,0)$, $\nabla f(0,3) = (0,6)$, $\nabla f(1,1) = (2,2)$
+    3. **Read the pattern.** each equals $2(x, y)$ — points radially outward from the origin.
+    4. **Name what that means.** the arrow is perpendicular (normal) to the contour circle it sits on, pointing toward increasing $f$.
     :::
 
 13. On your sketch: standing at $(2, 2)$, a friend proposes walking in direction $(-1, 1)$.
     Roughly what happens to the height? (Hint: is that direction along a contour, uphill,
     or downhill?)
 
-    ::: answer
-    The height barely changes (to first order): $\nabla f(2,2) = (4,4)$, and
-    $(4,4)\cdot(-1,1) = -4 + 4 = 0$ — move: dot the gradient with the step direction. A zero
-    dot product means the step is tangent to the contour (perpendicular to the gradient), so
-    it's neither uphill nor downhill there.
+    ::: rephrase
+    "What happens to the height" as you take a step = how steep that step is. One number
+    measures it: the **dot product** of the gradient with the step direction (Module 2's dot
+    product finally earning its keep). Positive means uphill, negative downhill, zero means
+    flat — along the contour. So: find the gradient here, then dot it with $(-1, 1)$.
+    :::
+
+    ::: hint
+    You need two vectors: the gradient at $(2,2)$, and the step $(-1,1)$. Find the gradient first.
+    :::
+
+    ::: hint
+    Dot the two together. The *sign* of that single number tells you uphill $(+)$, downhill
+    $(-)$, or along-the-contour $(0)$.
+    :::
+
+    ::: steps
+    1. **Gradient at the point.** $\nabla f(2,2) = (2\cdot 2,\; 2\cdot 2) = (4,4)$
+    2. **Dot it with the step direction.** $(4,4)\cdot(-1,1) = -4 + 4 = 0$
+    3. **Read the sign.** zero → the step is tangent to the contour (perpendicular to the gradient).
+    4. **Conclusion.** neither uphill nor downhill — the height barely changes, to first order.
     :::
 
 14. A loss surface has $\nabla L = (0.001, \; 40)$ at the current weights.
     In plain words: which weight is the training signal *screaming* about, and which one
     barely matters right now?
 
-    ::: answer
-    The training signal is screaming about the second weight (partial $= 40$) — steep
-    sensitivity there. The first weight (partial $= 0.001$) barely matters right now —
-    move: compare the magnitudes of the gradient's components; the larger one is the
-    direction a gradient-descent step will move the most.
+    ::: rephrase
+    The gradient is the list of each weight's *sensitivity* (from the lesson: $\nabla L$ =
+    "how much the loss reacts to nudging each weight"). A big component means the loss is very
+    sensitive to that weight — the signal is loud. So you're just comparing two numbers:
+    $0.001$ versus $40$.
+    :::
+
+    ::: hint
+    A gradient component's *size* (magnitude) is how loud the training signal is for that
+    weight. Which of $0.001$ and $40$ is bigger?
+    :::
+
+    ::: steps
+    1. **Compare the component magnitudes.** $0.001 \ll 40$
+    2. **Read sensitivity from size.** partial $= 40$ → loss is very sensitive to the second weight; partial $= 0.001$ → the first weight barely matters.
+    3. **Name it.** a gradient-descent step moves most along the largest component — the second weight is the one the training signal is screaming about.
     :::
 
 15. True or false, with one sentence: "if $\nabla f = (0,0)$ at a point, that point must be
     the lowest point of the surface." (Think about hilltops. And saddles, if you dare.)
 
-    ::: answer
-    False. $\nabla f = (0,0)$ only means *flat* — a critical point. It could be a minimum,
-    a maximum (hilltop), or a saddle. Move: zero gradient alone can't tell these apart; that
-    needs extra information (e.g. how the surface curves — second derivatives).
+    ::: rephrase
+    You're judging a claim, not computing. $\nabla f = (0,0)$ means every direction is flat
+    right here — no uphill lean anywhere nearby. The question is whether "flat" is the same as
+    "lowest". Picture the saddle from the lesson (the Pringle) and the top of a hill. One
+    counterexample is enough to make a "must" statement false.
+    :::
+
+    ::: hint
+    Think of the top of a hill: is the ground flat there? Is it the lowest point? That single
+    picture settles true vs false.
+    :::
+
+    ::: hint
+    Name the three kinds of flat spot the lesson mentioned — minimum, maximum, and the
+    Pringle-shaped one — to pin down what zero gradient actually guarantees (and what it doesn't).
+    :::
+
+    ::: steps
+    1. **Verdict.** False.
+    2. **What zero gradient does mean.** $\nabla f = (0,0)$ → the point is *flat*, a critical point.
+    3. **The counterexamples.** it could be a minimum, a maximum (hilltop), or a saddle (the lesson's Pringle).
+    4. **What's actually needed to tell them apart.** how the surface curves — second derivatives; zero gradient alone can't distinguish them.
     :::
 
 ---

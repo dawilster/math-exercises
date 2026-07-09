@@ -119,36 +119,92 @@ Each "solution" contains exactly one broken move. Circle it and write what rule 
 
 ## Part D — Deep end
 
-*Not fully covered yet. Attempt anyway — wrong attempts with named moves beat blank space.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 12. Do the nudge algebraically: simplify $\dfrac{(x+h)^2 - x^2}{h}$ using Module 0 moves
     (expand, cancel, divide). You'll get an expression with an $h$ still in it.
     Now imagine $h$ tiny — what's left? You've just *derived* the derivative of $x^2$.
 
-    ::: answer
-    Move: expand $(x+h)^2 - x^2 = 2xh + h^2$, factor out $h$, then $\div h$:
-    $\dfrac{h(2x+h)}{h} = 2x + h$. Shrink $h$ toward $0$ and you're left with $2x$ —
-    the derivative of $x^2$.
+    ::: rephrase
+    So far you've *estimated* slopes by plugging in a number for $h$ (Part B). This asks the
+    same thing but leaves $h$ as a **letter** — don't put a number in. You're simplifying the
+    slope formula $\frac{f(x+h)-f(x)}{h}$ with algebra until the messy $\div h$ is gone, then
+    picturing $h$ shrinking. It's the Part B nudge, run once with symbols instead of over and over
+    with numbers — and the payoff is a formula that works at *every* $x$ at once.
+    :::
+
+    ::: hint
+    First job is just the top: expand $(x+h)^2$ using the Module 0 rule
+    $(x+h)^2 = x^2 + 2xh + h^2$, then subtract the $x^2$. Watch what cancels.
+    :::
+
+    ::: hint
+    Now the whole numerator has an $h$ in every term — factor it out so you can cancel it against
+    the $\div h$ on the bottom. Only *then* imagine $h$ tiny.
+    :::
+
+    ::: steps
+    1. **Expand the top** ($(x+h)^2 = x^2+2xh+h^2$). $(x+h)^2 - x^2 = 2xh + h^2$
+    2. **Factor out $h$.** $2xh + h^2 = h(2x+h)$
+    3. **Cancel the $h$ against $\div h$.** $\dfrac{h(2x+h)}{h} = 2x + h$
+    4. **Shrink $h$ toward $0$** — the leftover $h$ vanishes. $2x + h \;\to\; 2x$, the derivative of $x^2$
     :::
 
 13. Repeat problem 12 for $f(x) = x^2 + 5$. Compare with problem 12's answer.
     Why did the $+5$ vanish? (Think: what does adding 5 do to the *shape* of the graph?)
 
-    ::: answer
-    Same result: $2x + h \to 2x$. The $+5$ vanishes at the very first move — in
-    $(x+h)^2 + 5 - (x^2+5)$ the two $5$s cancel immediately. A constant shifts the whole
-    graph up or down without changing its steepness anywhere, so it never affects the slope.
+    ::: rephrase
+    Exact same machine as problem 12, just carry a $+5$ along. Build the top of the slope
+    formula — $f(x+h) - f(x)$ — where now $f(x+h) = (x+h)^2 + 5$ and $f(x) = x^2 + 5$. Before
+    doing any real work, look hard at that subtraction: what happens to the two $5$s? The "why"
+    to chase is what a $+5$ does to the *shape* of the graph versus its *steepness*.
+    :::
+
+    ::: hint
+    Write out $f(x+h) - f(x) = \big[(x+h)^2 + 5\big] - \big[x^2 + 5\big]$ and subtract carefully
+    — one pair of terms kills itself off before you do anything else.
+    :::
+
+    ::: hint
+    With the $5$s gone the numerator is identical to problem 12's, so the rest of the moves
+    (factor $h$, cancel, shrink) are copy-paste. Then ask: adding 5 slides the parabola *up* —
+    does sliding a curve up or down tilt it anywhere?
+    :::
+
+    ::: steps
+    1. **Write the top and subtract** — the constants cancel at once. $\big[(x+h)^2+5\big]-\big[x^2+5\big] = (x+h)^2 - x^2$
+    2. **Same as problem 12 from here** (expand, factor $h$, cancel). $\dfrac{h(2x+h)}{h} = 2x + h$
+    3. **Shrink $h$ toward $0$.** $2x + h \;\to\; 2x$ — identical to problem 12
+    4. **Why the $+5$ vanished.** a constant shifts the whole graph up/down without changing its steepness anywhere, so it never touches the slope
     :::
 
 14. Sketch (roughly) $f(x) = x^2 - 4x$. Using your Part D answers, find the $x$ where the
     derivative equals $0$. What is special about that spot on your sketch — and why might a
     "loss valley" be exactly the place where a derivative is zero?
 
-    ::: answer
-    Same nudge moves give derivative $2x - 4$. Setting it to $0$: $x = 2$ — move: $+4$ both
-    sides then $\div 2$. That's the bottom (vertex) of the upward-opening parabola, where the
-    tangent is horizontal. A "loss valley" floor is exactly this: the point gradient descent is
-    hunting for, where the derivative is zero and you've stopped rolling downhill.
+    ::: rephrase
+    Two jobs. First find the derivative of $x^2 - 4x$ — run the same nudge machine as
+    problems 12–13 (or reuse the pieces: the $x^2$ gives $2x$, and the $-4x$ is a straight line
+    whose slope you already know). Second, "derivative equals $0$" from Part B/problem 8 means a
+    **flat spot** — set that derivative expression $= 0$ and solve for $x$ like any Module 0
+    linear equation. On the sketch, $x^2 - 4x$ is a happy (upward) parabola; the flat spot is its
+    lowest point.
+    :::
+
+    ::: hint
+    Get the derivative first. $x^2 \to 2x$; a line $-4x$ has constant slope $-4$ everywhere.
+    Add them: the derivative of $x^2 - 4x$ is $2x - 4$.
+    :::
+
+    ::: hint
+    "Where is the derivative $0$?" is now just $2x - 4 = 0$ — a one-line balance-game solve for $x$.
+    :::
+
+    ::: steps
+    1. **Differentiate each piece** ($x^2\to 2x$, slope of $-4x$ is $-4$). derivative $= 2x - 4$
+    2. **Set the derivative to $0$** (flat spot = horizontal tangent). $2x - 4 = 0$
+    3. **Solve: $+4$ both sides, then $\div 2$.** $x = 2$
+    4. **What's special there.** it's the bottom (vertex) of the upward parabola — the horizontal tangent — and that's exactly the floor of a "loss valley" gradient descent hunts for, where the derivative is zero and you've stopped rolling downhill
     :::
 
 ---

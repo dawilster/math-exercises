@@ -88,7 +88,7 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
 
 ## Part D — Deep end
 
-*Beyond what was taught. Struggle is the workout — unroll tiny cases whenever stuck.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 11. The **MSE loss** — how wrong a model is, averaged over $N$ examples, where $y_i$ is the
     true answer and $\hat{y}_i$ the model's guess:
@@ -96,21 +96,56 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
     Compute $L$ by hand for $y = (3, 5, 7)$, $\hat{y} = (2, 5, 9)$. Then answer: why square
     the differences instead of just summing them? *(Hint: problem 7.)*
 
-    ::: answer
-    Differences: $1, 0, -2$; squared: $1, 0, 4$; $L = \frac{1}{3}(1+0+4) = \frac{5}{3} \approx 1.67$.
-    Squaring (instead of summing raw differences) stops positive and negative errors from
-    cancelling — like problem 7's surprise, raw deviations sum to (near) zero even when
-    individual guesses are badly wrong. Squaring also punishes big misses harder than small ones.
+    ::: rephrase
+    The scary fraction-with-a-Σ is just "the **average of the squared errors**." It's a Part A
+    unroll with a $\frac{1}{N}$ out front (the mean, 0.4): for each example take *true minus guess*,
+    square it, add them all, divide by how many. The second question — "why square?" — is
+    problem 7 in disguise: remember what happened when you added *raw* deviations there.
+    :::
+
+    ::: hint
+    Ignore the "why" for now. $\frac{1}{N}\sum$ is just "the mean of" — same as problem 5. The
+    mean of *what* list? Build it term by term: for each $i$, compute $(y_i - \hat y_i)^2$.
+    :::
+
+    ::: hint
+    First move: line up the pairs and subtract, $y_i - \hat y_i$ for $i = 1, 2, 3$, *before* you
+    square anything.
+    :::
+
+    ::: steps
+    1. **Unroll the loop — differences $y_i - \hat y_i$.** $3-2 = 1,\quad 5-5 = 0,\quad 7-9 = -2$
+    2. **Square each term.** $1^2 = 1,\quad 0^2 = 0,\quad (-2)^2 = 4$
+    3. **Average them ($\tfrac{1}{N}$, here $N=3$).** $L = \frac{1}{3}(1+0+4) = \frac{5}{3} \approx 1.67$
+    4. **Why square — it stops errors cancelling.** Like problem 7's surprise, raw differences sum to (near) zero even when guesses are badly wrong; squaring makes every error positive, and punishes big misses harder than small ones.
     :::
 
 12. Little Gauss, age 8, computed $1 + 2 + \dots + 100$ in seconds by pairing the first and
     last numbers. Find his trick, then write the formula for $\displaystyle\sum_{i=1}^{n} i$ and
     check it against your problem 1.
 
-    ::: answer
-    Pair first+last: $1+100 = 101$, $2+99 = 101$, … 50 pairs of $101$ = $5050$. Formula:
-    $\displaystyle\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$ — move: the pairing trick, generalised.
-    Check: $n=5$ gives $\frac{5\cdot 6}{2} = 15$, matching problem 1.
+    ::: rephrase
+    Two jobs: (1) *find* the shortcut Gauss used, then (2) turn it into a formula for any $n$.
+    He didn't add $1+2+\dots+100$ one at a time — he paired numbers from the two *ends*. Try the
+    trick on a tiny case first, say $1+2+3+4$: pair the outer two and the inner two, and notice
+    what each pair totals.
+    :::
+
+    ::: hint
+    Pair the first with the last, the second with the second-last, and so on. In $1\dots100$,
+    what does $1+100$ make? And $2+99$?
+    :::
+
+    ::: hint
+    Every pair totals the same $101$, and $100$ numbers make $50$ pairs. To generalise to
+    $1\dots n$: each pair totals $n+1$, and there are $n/2$ pairs.
+    :::
+
+    ::: steps
+    1. **Pair from both ends.** $1+100 = 101,\quad 2+99 = 101,\quad \dots$ — every pair totals $101$.
+    2. **Count the pairs.** $100$ numbers $\Rightarrow 50$ pairs $\Rightarrow 50 \times 101 = 5050$.
+    3. **Generalise to $1\dots n$** ($n+1$ per pair, $n/2$ pairs). $\displaystyle\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$
+    4. **Check against problem 1.** $n=5$: $\frac{5\cdot 6}{2} = 15$. ✓
     :::
 
 13. Using the distributive law (0.3), show step by step that
@@ -119,11 +154,27 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
     $\bar{x}$ is the same constant every pass… and what $n\bar{x}$ equals by the definition
     of the mean.)*
 
-    ::: answer
-    $\sum_{i=1}^{n}(x_i - \bar x) = \sum_{i=1}^{n} x_i - \sum_{i=1}^{n} \bar x$ — move: split the
-    Σ over the minus. Since $\bar x$ is the same constant every pass, $\sum_{i=1}^{n} \bar x = n\bar x$.
-    By definition $\bar x = \frac{1}{n}\sum_{i=1}^{n} x_i$, so $n\bar x = \sum_{i=1}^{n} x_i$.
-    Substituting: $\sum x_i - \sum x_i = 0$.
+    ::: rephrase
+    "Show it's $0$ for ANY list" means: start from the sum and make legal Σ moves until $0$ falls
+    out — a proof, like the one you did in 0.5. This is problem 7's surprise made *general*: there
+    you saw the deviations cancel for one particular list; here you show it *must* happen for every
+    list. The lever is the distributive law (0.3): a Σ splits over a minus.
+    :::
+
+    ::: hint
+    Split the Σ over the subtraction: $\sum(x_i - \bar x)$ becomes *two* separate sums. Write them.
+    :::
+
+    ::: hint
+    In $\sum \bar x$ the same constant $\bar x$ is added $n$ times, so it equals $n\bar x$. Now use
+    the *definition* of the mean to see what $n\bar x$ is really equal to.
+    :::
+
+    ::: steps
+    1. **Split the Σ over the minus (distributive law, 0.3).** $\displaystyle\sum_{i=1}^{n}(x_i - \bar x) = \sum_{i=1}^{n} x_i - \sum_{i=1}^{n} \bar x$
+    2. **Sum a constant — $\bar x$ added $n$ times.** $\displaystyle\sum_{i=1}^{n} \bar x = n\bar x$
+    3. **Use the definition of the mean.** $\bar x = \tfrac{1}{n}\sum_{i=1}^{n} x_i \;\Rightarrow\; n\bar x = \sum_{i=1}^{n} x_i$
+    4. **Substitute back — the two sums are identical.** $\sum x_i - \sum x_i = 0 \;\blacksquare$
     :::
 
 14. Write the lesson's neural-net loss $L = -\frac{1}{N}\sum_{i=1}^{N} \log p_i$ as a Python
@@ -131,13 +182,28 @@ Use the list $x = (2, 5, 5, 8)$, so $x_1 = 2,\; x_2 = 5,\; x_3 = 5,\; x_4 = 8$.
     the Σ (0.6). Then answer: the $p_i$ are probabilities the model gives to correct
     answers. Why does the minus sign make $L$ a number worth *minimising*?
 
-    ::: answer
-    Loop: `total = 0`; `for i in range(N): total = total + log(p[i])`; then `L = -total / N`.
-    Move: unroll the Σ into an accumulating loop, same as every problem in Part A. Why the minus:
-    probabilities satisfy $0 < p_i \le 1$, so $\log p_i \le 0$ and the raw sum is negative —
-    flipping the sign makes $L \ge 0$. A confident, correct model pushes $p_i \to 1$, so
-    $\log p_i \to 0$ (tiny loss); a wrong or unsure model pushes $p_i \to 0$, so $\log p_i \to -\infty$
-    (huge loss). Minimising $L$ therefore forces the model toward high probability on the correct answers.
+    ::: rephrase
+    Two jobs. (1) "Write the Σ as a Python loop" is exactly the costume-change from the lesson,
+    same as every Part A problem: an accumulator starting at $0$, a `for` that adds one term each
+    pass, then the $-\frac{1}{N}$ applied at the end. (2) The "why minus" question: think about the
+    *size* of $\log p_i$ when $p_i$ is a probability (between $0$ and $1$) — positive or negative?
+    :::
+
+    ::: hint
+    For the loop: start `total = 0`, loop `i` over the examples adding `log(p[i])` each pass, and
+    handle the $-\frac{1}{N}$ *after* the loop finishes.
+    :::
+
+    ::: hint
+    For the minus: probabilities satisfy $0 < p_i \le 1$, so (from 0.5) $\log p_i$ is negative. That
+    makes the raw sum negative — so what does the leading minus sign do to it?
+    :::
+
+    ::: steps
+    1. **Unroll the Σ into an accumulating loop (same as Part A).** `total = 0` then `for i in range(N): total = total + log(p[i])`
+    2. **Apply the $-\tfrac{1}{N}$ after the loop.** `L = -total / N`
+    3. **Sign of each term.** $0 < p_i \le 1 \Rightarrow \log p_i \le 0$, so the raw sum is negative; the leading minus flips $L$ to $\ge 0$.
+    4. **Why it's worth minimising.** confident + correct $\Rightarrow p_i \to 1 \Rightarrow \log p_i \to 0$ (tiny loss); wrong or unsure $\Rightarrow p_i \to 0 \Rightarrow \log p_i \to -\infty$ (huge loss). Minimising $L$ forces the model toward high probability on the correct answers.
     :::
 
 ---

@@ -140,27 +140,64 @@ not a number. Photograph into `scans/inbox/` when done.*
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 14. An LLM's next-token distribution is: "blue" 0.5, "grey" 0.3, "green" 0.15, "purple" 0.05.
     a) At temperature → 0 (always take the most likely token), what does it output, every time?
     b) At normal temperature (sample according to the probabilities), out of 100 generations,
        roughly how many of each?
     c) One sentence: why might you want each mode — a legal contract vs a poem?
 
-    ::: answer
-    a) Always "blue" — it's the single most likely token, every time, with greedy/argmax decoding.
-    b) Roughly 50 "blue", 30 "grey", 15 "green", 5 "purple" — sampling matches the long-run
-    proportions.
-    c) A legal contract wants reliability and no surprises (greedy); a poem wants variety and
-    surprise (sampling).
+    ::: rephrase
+    This distribution is a weighted bag of marbles: 50 blue, 30 grey, 15 green, 5 purple out of
+    every 100. **Temperature → 0** means "always reach for the heaviest option"; **normal
+    temperature** means "actually draw from the bag by its weights". This is the lesson's
+    *temperature dial* — the same shuffling-vs-sampling randomness — made concrete. Part (c) just
+    asks: when do you want the reliable grab vs the varied draw?
+    :::
+
+    ::: hint
+    Temperature is the sampling dial from the lesson. Temp → 0 collapses it to "always pick the
+    top token" (greedy / argmax) — which single token has the highest probability here?
+    :::
+
+    ::: hint
+    For (b), "sample according to the probabilities" over many tries means the long-run counts
+    *match* the probabilities (law of large numbers, problem 3's idea). Multiply each probability
+    by the 100 generations.
+    :::
+
+    ::: steps
+    1. **Temp → 0: take the argmax.** The single highest probability is "blue" (0.5), so it outputs "blue" every time.
+    2. **Normal temp: counts follow the probabilities.** $100 \times$ each prob $\Rightarrow$ roughly 50 "blue", 30 "grey", 15 "green", 5 "purple".
+    3. **Match the mode to the need.** Greedy = reliable, no surprises (a legal contract); sampling = variety and surprise (a poem).
     :::
 
 15. You want to know the mean of a population with $\sigma = 20$. Sample means based on $n$ draws
     wobble with spread roughly $\frac{\sigma}{\sqrt{n}}$. How big must $n$ be for the sample mean
     to wobble by only ~1? By ~0.1?
 
-    ::: answer
-    Wobble $= \sigma/\sqrt{n} = 20/\sqrt{n}$. For wobble $\approx 1$: $\sqrt{n} = 20 \Rightarrow
-    n = 400$. For wobble $\approx 0.1$: $\sqrt{n} = 200 \Rightarrow n = 40{,}000$.
+    ::: rephrase
+    This is problem 6's idea wearing a formula. The spread $\sigma = 20$ is fixed; you get to
+    choose $n$ to make the sample mean's wobble as small as you want. "How big must $n$ be" just
+    means: set the wobble formula equal to your target and solve for $n$ — like solving
+    $20/\sqrt{n} = 1$. Same finish as any "isolate, then undo" problem.
+    :::
+
+    ::: hint
+    Write the wobble as $\dfrac{20}{\sqrt{n}}$ and set it equal to your target ($1$, then $0.1$).
+    The thing you're isolating is $\sqrt{n}$.
+    :::
+
+    ::: hint
+    Get $\sqrt{n}$ alone on one side, then **square both sides** to turn $\sqrt{n}$ into $n$.
+    :::
+
+    ::: steps
+    1. **Set wobble = target.** $\dfrac{20}{\sqrt{n}} = 1$
+    2. **Isolate $\sqrt{n}$** (multiply both sides by $\sqrt{n}$). $\sqrt{n} = 20$
+    3. **Square both sides** — undoes the root. $n = 400$
+    4. **Repeat for target $0.1$.** $\dfrac{20}{\sqrt{n}} = 0.1 \Rightarrow \sqrt{n} = 200 \Rightarrow n = 40{,}000$
     :::
 
 16. A gradient computed on a minibatch of 32 is a *sample estimate* of the full-dataset gradient.
@@ -168,12 +205,27 @@ not a number. Photograph into `scans/inbox/` when done.*
     practitioners not just use the biggest batch that fits? (Recall the lesson's deep-end
     question. Speculate freely — a reasoned guess beats silence.)
 
-    ::: answer
-    Doubling the batch ($n \to 2n$) shrinks wobble by $\sqrt{2} \approx 1.41\times$ — noticeably
-    but not dramatically steadier. Practitioners don't max out batch size because the return is a
-    square-root law: halving noise needs $4\times$ the batch (and $4\times$ the compute/memory per
-    step), while very large batches also cost more per update and can generalize worse — the
-    trade-off stops being worth it long before "the biggest that fits."
+    ::: rephrase
+    A minibatch gradient is a *sample estimate* of the true gradient, so it obeys the same
+    $1/\sqrt{n}$ wobble law as everything else this unit. "What does doubling the batch buy" =
+    plug $n \to 2n$ into that law and read off the steadiness factor. Then the judgment half:
+    weigh that gain against what a bigger batch *costs*. A reasoned guess beats silence here.
+    :::
+
+    ::: hint
+    Use the same $1/\sqrt{n}$ rule (problem 5). Doubling $n$ multiplies the wobble by
+    $1/\sqrt{2}$ — what steadiness factor is that?
+    :::
+
+    ::: hint
+    For "why not the biggest batch", invert the square-root law: how much *more* batch would it
+    take to halve the noise? Then add the per-step compute/memory cost of a huge batch.
+    :::
+
+    ::: steps
+    1. **Apply $1/\sqrt{n}$ to $n \to 2n$.** wobble shrinks by $\sqrt{2} \approx 1.41\times$ — noticeably but not dramatically steadier.
+    2. **Invert the law for the real cost.** halving the noise needs $4\times$ the batch (and $4\times$ the compute/memory per step).
+    3. **Name the trade-off.** square-root returns plus higher per-step cost (and worse generalization at very large batches) → the trade-off stops being worth it long before "the biggest that fits."
     :::
 
 ---

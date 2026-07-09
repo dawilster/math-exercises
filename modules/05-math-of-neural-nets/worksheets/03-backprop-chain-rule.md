@@ -144,16 +144,36 @@ Each derivation contains exactly one broken move. Circle it; name the rule it br
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 14. **Prove the beautiful shortcut** for the $y = 1$ case. Starting from
     $L = -\ln(\hat{y})$ and $\hat{y} = \sigma(z_2)$, chain
     $\frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_2}$ symbolically
     and simplify to $\hat{y} - 1$. Every move is Module 0 algebra — name them.
 
-    ::: answer
-    $\frac{\partial L}{\partial \hat{y}} = -\frac{1}{\hat{y}}$ and $\frac{\partial \hat{y}}{\partial z_2} = \hat{y}(1-\hat{y})$.
-    Chain rule (multiply the two): $-\frac{1}{\hat{y}} \cdot \hat{y}(1-\hat{y})$. Move: cancel the $\hat{y}$'s
-    (a $\frac{\hat{y}}{\hat{y}}=1$ move) → $-(1-\hat{y})$. Move: distribute the minus sign → $\hat{y} - 1$.
-    Since $y=1$ here, this is $\hat{y} - y$ — the same shortcut as the $y=0$ case.
+    ::: rephrase
+    "Prove" here just means: show that $\delta_2 = \hat{y}-y$ *falls out* of the chain rule — you're
+    not inventing anything. You already own both pieces: $\frac{\partial L}{\partial \hat{y}}$ is
+    problem 1's rule, and $\frac{\partial \hat{y}}{\partial z_2}$ is sigmoid's derivative from problem 2.
+    This is problem 4 (pure chain rule) wearing symbols: multiply the two local derivatives, then the
+    only work left is Module 0 algebra — cancel, then distribute a minus sign.
+    :::
+
+    ::: hint
+    Write both local derivatives side by side first: $\frac{\partial L}{\partial \hat{y}} = -\frac{1}{\hat{y}}$
+    (problem 1) and $\frac{\partial \hat{y}}{\partial z_2} = \hat{y}(1-\hat{y})$ (sigmoid's derivative).
+    :::
+
+    ::: hint
+    Chain rule = multiply them. Once you write $-\frac{1}{\hat{y}} \cdot \hat{y}(1-\hat{y})$, look for a
+    $\frac{\hat{y}}{\hat{y}}$ you can cancel.
+    :::
+
+    ::: steps
+    1. **Write the two local derivatives.** $\frac{\partial L}{\partial \hat{y}} = -\frac{1}{\hat{y}}, \quad \frac{\partial \hat{y}}{\partial z_2} = \hat{y}(1-\hat{y})$
+    2. **Chain rule — multiply them.** $\frac{\partial L}{\partial z_2} = -\frac{1}{\hat{y}} \cdot \hat{y}(1-\hat{y})$
+    3. **Cancel the $\hat{y}$'s** (a $\frac{\hat{y}}{\hat{y}}=1$ move). $= -(1-\hat{y})$
+    4. **Distribute the minus sign.** $= \hat{y} - 1 = \hat{y} - y$ (since $y=1$) — the same shortcut as the $y=0$ case.
     :::
 
 15. **Gradient check** (Module 3.1, the nudge). Your answer to problem 9 says
@@ -161,20 +181,49 @@ Each derivation contains exactly one broken move. Circle it; name the rule it br
     $0.01$ and everything was recomputed, roughly what would the new loss be? (Old loss:
     $-\ln(0.25) \approx 1.386$.)
 
-    ::: answer
-    $\Delta L \approx \text{gradient} \times \Delta w = 4.5 \times 0.01 = 0.045$. New loss $\approx 1.386 + 0.045 = 1.431$.
+    ::: rephrase
+    The gradient $4.5$ is a *promise*: "the loss changes about $4.5$ units for every $1$ unit I move
+    $W_{1,11}$" — exactly the nudge idea from Module 3.1. So a tiny step $\Delta w = 0.01$ changes the loss
+    by roughly $\text{gradient} \times \Delta w$. It's the slope-reads-rise move: $\text{rise} = \text{slope} \times \text{run}$.
+    You don't rerun the whole network — you trust the gradient for one small step.
+    :::
+
+    ::: hint
+    Local-linear approximation: $\Delta L \approx \text{gradient} \times \Delta w$. Compute that, then
+    add it onto the old loss.
+    :::
+
+    ::: steps
+    1. **Local-linear step: $\Delta L \approx \text{gradient} \times \Delta w$.** $\Delta L \approx 4.5 \times 0.01 = 0.045$
+    2. **Add to the old loss.** $L_{\text{new}} \approx 1.386 + 0.045 = 1.431$
     :::
 
 16. Suppose an input landed where BOTH hidden neurons were off. Write down $\frac{\partial L}{\partial W_1}$
     without computing anything. What would happen if *every* training input did this? (This failure
     has a name — "dying ReLU" — and now you can explain it at a dinner party.)
 
-    ::: answer
-    $\frac{\partial L}{\partial W_1} = \mathbf{0}$ (the full $2{\times}2$ zero matrix) — both entries of
-    $\text{ReLU}'(\mathbf{z}_1)$ are $0$, so $\delta_1 = \mathbf{0}$ regardless of what
-    $\frac{\partial L}{\partial \mathbf{h}}$ was, and $\delta_1 \mathbf{x}^\top = \mathbf{0}$. If every
-    input did this, $W_1$ and $\mathbf{b}_1$ would never update again — the unit is permanently dead,
-    since gradient descent has zero signal to ever move it back to positive $z$.
+    ::: rephrase
+    "Both neurons off" means both pre-activations in $\mathbf{z}_1$ are $\le 0$, so **both ReLU gates are
+    shut** (Step 6 — the gate). You don't need any numbers: just trace what a shut gate does to the
+    backward flow. In problems 8 and 10, one shut gate zeroed *one* entry of $\delta_1$ and everything
+    downstream of it. Now both are shut — so ask what that forces $\frac{\partial L}{\partial W_1} = \delta_1 \mathbf{x}^\top$ to be.
+    :::
+
+    ::: hint
+    The gate multiplies each entry of $\frac{\partial L}{\partial \mathbf{h}}$ by $\text{ReLU}'(\mathbf{z}_1)$.
+    Both gates shut $\Rightarrow \text{ReLU}'(\mathbf{z}_1) = (0, 0)$. What is $\delta_1$ then, no matter what
+    $\frac{\partial L}{\partial \mathbf{h}}$ was?
+    :::
+
+    ::: hint
+    With $\delta_1 = \mathbf{0}$, the outer product $\delta_1 \mathbf{x}^\top$ can only be one thing. Then ask:
+    if *every* input shuts the gates, when does $W_1$ ever get a nonzero update?
+    :::
+
+    ::: steps
+    1. **Both gates shut $\Rightarrow \text{ReLU}'(\mathbf{z}_1) = (0,0)$.** $\delta_1 = \frac{\partial L}{\partial \mathbf{h}} \odot \begin{pmatrix} 0 \\ 0 \end{pmatrix} = \mathbf{0}$ (regardless of $\frac{\partial L}{\partial \mathbf{h}}$)
+    2. **Outer product with a zero $\delta_1$.** $\frac{\partial L}{\partial W_1} = \delta_1 \mathbf{x}^\top = \mathbf{0}$ (the full $2{\times}2$ zero matrix); likewise $\frac{\partial L}{\partial \mathbf{b}_1} = \delta_1 = \mathbf{0}$
+    3. **Every input $\Rightarrow$ no signal, ever.** With gradient $\mathbf{0}$ on every example, $W_1$ and $\mathbf{b}_1$ never update again — the unit is permanently dead ("dying ReLU"), since gradient descent has zero signal to move it back to positive $z$.
     :::
 
 ---

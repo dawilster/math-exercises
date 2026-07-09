@@ -120,42 +120,112 @@ Data is kept small so the arithmetic stays friendly. Photograph into `scans/inbo
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 13. Take the data from problem 5 and add 10 to every value. Recompute $\mu$ and $\sigma$
     (shortcut allowed if you can justify it). What changed, what didn't, and why?
 
-    ::: answer
-    New data $11,12,16,17$: $\mu = 14$ (shifted by $+10$, same as the shift), but $\sigma = \sqrt{6.5}
-    \approx 2.55$ — **unchanged**. Move: shifting every value by a constant shifts $\mu$ by that
-    constant, but every deviation $(x_i-\mu)$ stays exactly the same, so spread doesn't change.
+    ::: rephrase
+    You're **sliding the whole dataset** along the number line by $+10$ — every point moves the same
+    distance. Before computing, predict: does the *centre* move? does the *spread* (how bunched the
+    points are relative to each other) change? Picture problem 5's four points on a ruler, then shove
+    the ruler 10 to the right: the balance point rides along, but do the gaps between points change?
+    :::
+
+    ::: hint
+    The tool is the deviation $(x_i - \mu)$. Ask what happens to *one* deviation when both the point
+    $x_i$ **and** the mean $\mu$ each go up by 10.
+    :::
+
+    ::: hint
+    First move: find the new mean (old $\mu$ plus the shift), then write out the new deviations and
+    watch the $+10$'s cancel.
+    :::
+
+    ::: steps
+    1. **Shift the mean by the same constant.** $\mu_{\text{new}} = 4 + 10 = 14$
+    2. **Recompute deviations — the shifts cancel.** $(x_i+10)-(\mu+10) = x_i - \mu$, still $-3,-2,2,3$
+    3. **Spread is untouched.** $\sigma = \sqrt{6.5} \approx 2.55$, exactly as in problem 5
     :::
 
 14. Now multiply every value in problem 5's data by 2. What happens to $\mu$, to $\sigma$,
     and to $\sigma^2$? *(Careful — one of these changes by more than you'd guess.)*
 
-    ::: answer
-    New data $2,4,12,14$: $\mu = 8$ (doubled), $\sigma = 2\sqrt{6.5} = \sqrt{26} \approx 5.10$ (doubled
-    too), but $\sigma^2 = 26$ — **quadrupled**, not doubled. Move: scaling by $k$ scales $\sigma$ by
-    $|k|$, but scales $\sigma^2$ by $k^2$ (it's built from *squared* deviations).
+    ::: rephrase
+    This is problem 13's twin, but instead of *sliding* you're **stretching** — every point $\times 2$,
+    so the data fans out. Predict all three: $\mu$, $\sigma$, $\sigma^2$. The warning in the question
+    points at $\sigma^2$: it's built from *squared* deviations, so a stretch hits it twice over.
+    :::
+
+    ::: hint
+    The tool is again the deviation $(x_i - \mu)$. Ask what one deviation becomes when you double
+    every value — then remember variance *squares* each deviation.
+    :::
+
+    ::: hint
+    First move: doubling the data doubles each deviation; but squaring a doubled deviation multiplies
+    it by $2^2 = 4$. That's where $\sigma^2$ grows faster than you'd guess.
+    :::
+
+    ::: steps
+    1. **Double the mean.** $\mu_{\text{new}} = 2 \cdot 4 = 8$
+    2. **Double every deviation.** $-6, -4, 4, 6$
+    3. **Square them — each grows $\times 4$.** $36, 16, 16, 36$ (sum $104$)
+    4. **Average → variance quadrupled.** $\sigma^2 = \frac{104}{4} = 26$ (was $6.5$; $\times 4$)
+    5. **Unsquare → std merely doubled.** $\sigma = \sqrt{26} = 2\sqrt{6.5} \approx 5.10$
     :::
 
 15. Using 13 and 14: your data has $\mu = 40$, $\sigma = 5$. Find $a$ and $b$ so that
     $x_{\text{new}} = a x + b$ has $\mu = 0$, $\sigma = 1$. What is this transformation called
     in ML, and where have you seen $\frac{x - \mu}{\sigma}$ before on this page?
 
-    ::: answer
-    $a = \frac{1}{\sigma} = \frac{1}{5}$, $b = -\frac{\mu}{\sigma} = -8$, giving
-    $x_{\text{new}} = \frac{x}{5} - 8 = \frac{x-40}{5}$ — that's the **z-score**, $\frac{x-\mu}{\sigma}$,
-    from problems 7 and 8. In ML this shift-and-scale move is called **standardisation**.
+    ::: rephrase
+    You want to transform data with $\mu=40, \sigma=5$ so it lands at $\mu=0, \sigma=1$. That's
+    combining both earlier moves: a **stretch** (problem 14: multiplying by $a$ scales $\sigma$ by
+    $|a|$) to fix the spread, and a **shift** (problem 13: adding $b$ moves $\mu$) to fix the centre.
+    You've already met the finished formula — it's the z-score $\frac{x-\mu}{\sigma}$ from problems 7–8.
+    :::
+
+    ::: hint
+    Split the job: $a$ controls the spread, $b$ controls the centre. Pin down $a$ first — choose it so
+    the new std equals 1.
+    :::
+
+    ::: hint
+    First move: set $\sigma_{\text{new}} = |a|\cdot 5 = 1$ to get $a$. Then pick $b$ so the new mean
+    $a\cdot 40 + b$ comes out to 0.
+    :::
+
+    ::: steps
+    1. **Scale to fix the spread.** $a = \frac{1}{\sigma} = \frac{1}{5}$ (so new $\sigma = \frac{1}{5}\cdot 5 = 1$)
+    2. **Shift to fix the centre.** $b = -\frac{\mu}{\sigma} = -\frac{40}{5} = -8$ (so new $\mu = \frac{40}{5} - 8 = 0$)
+    3. **Recognise the result.** $x_{\text{new}} = \frac{x}{5} - 8 = \frac{x-40}{5}$ — the **z-score** $\frac{x-\mu}{\sigma}$; in ML this move is **standardisation**
     :::
 
 16. Invent two different four-number datasets, both with $\mu = 5$ and both with $\sigma^2 = 8$.
     What does this tell you about how much two numbers can summarise?
 
-    ::: answer
-    E.g. $\{1,5,5,9\}$: $\mu=5$, deviations $-4,0,0,4$, $\sigma^2 = \frac{32}{4} = 8$. A totally
-    different shape, $\{5-2\sqrt2,\ 5-2\sqrt2,\ 5+2\sqrt2,\ 5+2\sqrt2\} \approx \{2.17, 2.17, 7.83,
-    7.83\}$, has the *same* $\mu=5,\ \sigma^2=8$ — infinitely many shapes share one mean and variance.
-    Move: two numbers *summarise*, they don't *reconstruct* — always ask what a statistic is hiding.
+    ::: rephrase
+    Run the machine **backwards**: instead of computing $\sigma^2$ from given data, build data to hit
+    a target $\sigma^2 = 8$. The easy trick is symmetry — a set like $\{5-d, 5, 5, 5+d\}$ is *guaranteed*
+    to have $\mu = 5$, so you only have to tune $d$ to land the variance. Then make a second set with a
+    different shape but the same two numbers. The point: many shapes, one summary.
+    :::
+
+    ::: hint
+    Use symmetry to get $\mu = 5$ for free: pick $\{5-d, 5, 5, 5+d\}$. Now the only unknown is $d$ —
+    choose it so the average squared deviation is 8.
+    :::
+
+    ::: hint
+    First move: try $\{1,5,5,9\}$ ($d=4$) — deviations $-4,0,0,4$ give $\sigma^2 = \frac{32}{4} = 8$.
+    Now cook a second, differently-shaped set that also averages a squared deviation of 8.
+    :::
+
+    ::: steps
+    1. **First dataset — symmetric, tune $d$ to the variance.** $\{1,5,5,9\}$: deviations $-4,0,0,4$, so $\sigma^2 = \frac{32}{4} = 8$
+    2. **Second dataset — different shape, same two numbers.** $\{5-2\sqrt2,\, 5-2\sqrt2,\, 5+2\sqrt2,\, 5+2\sqrt2\} \approx \{2.17, 2.17, 7.83, 7.83\}$: each deviation $\pm 2\sqrt2$, so $\sigma^2 = \frac{4\cdot 8}{4} = 8$
+    3. **Conclude.** infinitely many shapes share one $\mu, \sigma^2$ — two numbers *summarise* but don't *reconstruct*; always ask what a statistic is hiding
     :::
 
 ---

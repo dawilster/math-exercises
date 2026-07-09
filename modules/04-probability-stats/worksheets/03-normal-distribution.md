@@ -121,12 +121,33 @@ z-score, sketch, split into half-bands, add. Photograph into `scans/inbox/` when
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 14. $\mathcal{N}(0, 1)$ is the standard normal. Using Module 1.3 language, describe exactly what
     the transformation $x = 7z + 178$ does to it, and name the distribution you land on.
 
-    ::: answer
-    Move: a stretch by factor 7 (scales $\sigma$ from $1$ to $7$), then a shift by $+178$
-    (moves $\mu$ from $0$ to $178$). Lands on $\mathcal{N}(178, 7)$.
+    ::: rephrase
+    It's asking you to read a formula as two dial-turns from Module 1.3. Here $z$ is the
+    standard bell $\mathcal{N}(0,1)$, and the formula builds a new bell out of it: multiplying
+    $z$ by a number is the **stretch** dial ($\sigma$), and adding a number is the **shift**
+    dial ($\mu$). So read $7z + 178$ as "which dial does each piece turn, and to what?" — the
+    exact shift-and-stretch the lesson used to build the height bell from the standard one.
+    :::
+
+    ::: hint
+    The number *multiplying* $z$ controls the width (stretch → $\sigma$); the number *added*
+    controls the centre (shift → $\mu$). Which is which here?
+    :::
+
+    ::: hint
+    So the $\times 7$ makes $\sigma = 7$ and the $+178$ makes $\mu = 178$. Drop both into
+    $\mathcal{N}(\mu, \sigma)$.
+    :::
+
+    ::: steps
+    1. **Read the multiplier as the stretch dial.** scales $\sigma$ from $1$ to $7$
+    2. **Read the added constant as the shift dial.** moves $\mu$ from $0$ to $178$
+    3. **Name the landed distribution.** $\mathcal{N}(178, 7)$
     :::
 
 15. Diffusion models add noise as $x_{\text{noisy}} = x + \varepsilon$, $\varepsilon \sim \mathcal{N}(0, \sigma)$,
@@ -134,29 +155,82 @@ z-score, sketch, split into half-bands, add. Photograph into `scans/inbox/` when
     values will the noisy pixel land ~95% of the time? What about $\sigma = 0.5$? One sentence:
     why does big σ eventually destroy the image?
 
-    ::: answer
-    $\sigma = 0.1$: between $0.5 \pm 2(0.1) = 0.3$ and $0.7$. $\sigma = 0.5$: between
-    $0.5 \pm 2(0.5) = -0.5$ and $1.5$ — move: 95% within $\mu \pm 2\sigma$. Big $\sigma$ eventually
-    destroys the image because the noise spread swamps the true pixel value, drowning out the signal.
+    ::: rephrase
+    "95% of the time" is the flag for the middle band of 68/95/99.7: 95% of a bell's values sit
+    within $\mu \pm 2\sigma$. Here the pixel's true value $0.5$ is the centre $\mu$, and $\sigma$
+    is the noise size. So "between what two values 95% of the time" just means: compute
+    $\mu \pm 2\sigma$ — the very band you sketched in Part A. Do it once for each $\sigma$.
+    :::
+
+    ::: hint
+    The noisy pixel is centred on its true value, so $\mu = 0.5$. Which of 68/95/99.7 pairs with
+    "95% of the time," and how many $\sigma$ does that band reach out?
+    :::
+
+    ::: hint
+    95% ↔ within $\mu \pm 2\sigma$. So the two edges are $0.5 - 2\sigma$ and $0.5 + 2\sigma$ —
+    substitute each $\sigma$ in turn.
+    :::
+
+    ::: steps
+    1. **95% ↔ the $\pm 2\sigma$ band, centred on the true pixel.** interval $= 0.5 \pm 2\sigma$
+    2. **Substitute $\sigma = 0.1$.** $0.5 \pm 2(0.1) = 0.3$ to $0.7$
+    3. **Substitute $\sigma = 0.5$.** $0.5 \pm 2(0.5) = -0.5$ to $1.5$
+    4. **Say why big $\sigma$ destroys the image.** the noise spread swamps the true pixel value, drowning out the signal
     :::
 
 16. Sum of two dice: the possible totals 2–12 are not equally likely (4.1). Sketch the shape of
     the distribution of the sum of **ten** dice, mark its rough centre, and say what famous shape
     it's heading toward and *why* (which idea from the lesson?).
 
-    ::: answer
-    Centre $\approx 35$ ($10 \times 3.5$); it heads toward a **normal (bell)** shape — move: the
-    Central Limit Theorem — sums of many independent random variables tend toward normal,
-    regardless of the shape of what's being summed.
+    ::: rephrase
+    This is the lesson's opening picture run in reverse: one die is flat, ten dice pile into a
+    bell. Three things are wanted — (1) the rough centre of the pile, (2) the shape it approaches,
+    (3) which lesson idea forces that shape. The centre is just the *average roll* stacked ten
+    times; the shape and the "why" are the one big idea from the very top of the lesson.
+    :::
+
+    ::: hint
+    One die averages $3.5$ per roll. Ten independent dice — what's the typical total, and so
+    where does the pile centre?
+    :::
+
+    ::: hint
+    For the shape and the reason, recall the lesson's headline: add up many small independent
+    random things and the total is always ___. Name that theorem.
+    :::
+
+    ::: steps
+    1. **Centre: stack the average roll ten times.** $10 \times 3.5 = 35$
+    2. **Name the emerging shape.** a **normal (bell)** curve
+    3. **Name why — the lesson's one big idea.** the Central Limit Theorem: sums of many independent random variables tend toward normal, regardless of the shape of what's being summed
     :::
 
 17. If 68% of values are within 1σ, what fraction of values are within 1σ *above* the mean but
     NOT within 1σ below it… trick question — untangle what that sentence even asks, then answer.
 
-    ::: answer
-    $34\%$ — untangled: "within 1σ above the mean" already excludes being below the mean, so
-    the "NOT below it" clause adds nothing. It's just the upper half-band, $\mu$ to $\mu+1\sigma$,
-    which is half of $68\%$.
+    ::: rephrase
+    The sentence is deliberately tangled — untangle it *before* computing. "Within 1σ **above**
+    the mean" already means the strip from $\mu$ up to $\mu+1\sigma$; everything in it is above
+    the mean by construction. So "but NOT within 1σ below it" is describing something already
+    true — it adds nothing. Strip the noise and it's just problem 8's move: how big is the upper
+    half-band?
+    :::
+
+    ::: hint
+    Sketch it. Shade "within 1σ above the mean," then try to shade "within 1σ below the mean."
+    Do the two regions overlap at all?
+    :::
+
+    ::: hint
+    They don't overlap, so "NOT below" removes nothing. You're left with just the band $\mu$ to
+    $\mu+1\sigma$ — half of the $68\%$ band.
+    :::
+
+    ::: steps
+    1. **Untangle: the "NOT below" clause is empty.** "above the mean" already excludes "below the mean," so it adds nothing
+    2. **Reduce to the upper half-band.** the region is just $\mu$ to $\mu + 1\sigma$
+    3. **Halve the 68% band by symmetry.** $68\% / 2 = 34\%$
     :::
 
 ---

@@ -131,24 +131,63 @@ $\sigma(x) = \dfrac{1}{1 + e^{-x}} \qquad \mathrm{ReLU}(x) = \max(0, x)$
 
 ## Part D — Deep end
 
-*Beyond what was taught.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 13. The lesson's deep-end: compute $\mathrm{ReLU}(x) + \mathrm{ReLU}(-x)$ at $x = 3$, $x = -3$
     and $x = 0$. Sketch the result. What familiar machine have you built from two ReLUs?
 
-    ::: answer
-    $x=3$: $\mathrm{ReLU}(3)+\mathrm{ReLU}(-3) = 3+0 = 3$. $x=-3$: $0+3 = 3$. $x=0$: $0+0 = 0$.
-    That's $|x|$ — the absolute-value machine, built from two ReLUs (one keeps the positive
-    side, the other, fed $-x$, keeps the negative side, and both land above the axis).
+    ::: rephrase
+    No new machinery — this is just Part A problem 1 (running ReLU) three times, then adding
+    two results and looking at the pattern. The lesson planted this exact question ("what
+    machine is $\mathrm{ReLU}(x)+\mathrm{ReLU}(-x)$?"). First move: for each of the three
+    inputs, work out the two ReLU pieces *separately*, then add. Remember ReLU floors anything
+    $\le 0$ to $0$, so at any input one of the two terms usually dies — and the answers all
+    come out $\ge 0$. Once you have three points, plot them and join up: what shape appears?
+    :::
+
+    ::: hint
+    Feed each ReLU its own input: the first term reads $x$, the second reads $-x$. At $x=3$
+    that's $\mathrm{ReLU}(3)$ and $\mathrm{ReLU}(-3)$ — one survives, one floors to $0$.
+    :::
+
+    ::: hint
+    Do all three inputs, then plot the points $(3,\,?),\,(-3,\,?),\,(0,\,?)$ and connect them.
+    A V opening upward, symmetric about the $y$-axis — you've drawn this curve before.
+    :::
+
+    ::: steps
+    1. **Evaluate at $x=3$** — second ReLU floors. $\mathrm{ReLU}(3)+\mathrm{ReLU}(-3)=3+0=3$
+    2. **Evaluate at $x=-3$** — now the first ReLU floors. $0+3=3$
+    3. **Evaluate at $x=0$** — both floor. $0+0=0$
+    4. **Plot and name the shape.** points $(3,3),(-3,3),(0,0)$ trace a symmetric V — that's $|x|$, the absolute-value machine, one ReLU keeping the positive side and the other (fed $-x$) folding the negative side up above the axis.
     :::
 
 14. Sketch $y = \mathrm{ReLU}(x) - \mathrm{ReLU}(x - 2)$. *(Compute it at
     $x = -1, 0, 1, 2, 3, 4$ first. Flat, ramp, flat — you've just built a feature detector.)*
 
-    ::: answer
-    Values: $x=-1\to 0$, $x=0\to 0$, $x=1\to 1$, $x=2\to 2$, $x=3\to 2$, $x=4\to 2$. Flat at $0$
-    up to $x=0$, ramps linearly up to $2$ across $0 \le x \le 2$, flat at $2$ after that — a
-    "window" that only switches on for a specific input range: a feature detector.
+    ::: rephrase
+    Same game as problem 13 — evaluate a combination of ReLUs at each listed $x$, plot, read
+    the shape — but now it's a *subtraction* of two ReLUs. The second one, $\mathrm{ReLU}(x-2)$,
+    is just ReLU **shifted right by 2** (unit 1.3's horizontal shift): it stays asleep at $0$
+    until $x$ reaches $2$, then wakes up. First move: for each input, work out $\mathrm{ReLU}(x)$
+    and $\mathrm{ReLU}(x-2)$ in two separate columns, then subtract. The lesson's promise: flat,
+    then a ramp, then flat again — a "window" that only fires over one range.
+    :::
+
+    ::: hint
+    Make two columns — $\mathrm{ReLU}(x)$ and $\mathrm{ReLU}(x-2)$ — before subtracting.
+    $\mathrm{ReLU}(x-2)$ is $0$ for every $x$ below $2$ (its input is still negative there).
+    :::
+
+    ::: hint
+    So below $x=2$ the answer is just $\mathrm{ReLU}(x)$ (nothing subtracted yet); from $x=2$
+    on, both terms are live and grow at the same rate, so their difference stops climbing.
+    :::
+
+    ::: steps
+    1. **Tabulate both ReLUs, then subtract, at each $x$.** $x=-1,0\to 0-0=0$; $x=1\to 1-0=1$; $x=2\to 2-0=2$; $x=3\to 3-1=2$; $x=4\to 4-2=2$
+    2. **Read the shape from the values.** flat at $0$ up to $x=0$, ramps linearly to $2$ across $0\le x\le 2$, then flat at $2$
+    3. **Name the machine.** a "window" that only switches on across one input range — a feature detector.
     :::
 
 15. Show, with Module 0 fraction moves, that $\sigma(-x) = 1 - \sigma(x)$.
@@ -156,13 +195,32 @@ $\sigma(x) = \dfrac{1}{1 + e^{-x}} \qquad \mathrm{ReLU}(x) = \max(0, x)$
     name your moves.)* What does this symmetry mean for "probability of cat" vs
     "probability of not-cat"?
 
-    ::: answer
-    Start from $1 - \sigma(x)$ and write $1$ as $\frac{1+e^{-x}}{1+e^{-x}}$ (move: common
-    denominator) to get $1-\sigma(x) = \frac{(1+e^{-x})-1}{1+e^{-x}} = \frac{e^{-x}}{1+e^{-x}}$.
-    Multiply top and bottom by $e^{x}$ (move: $\times \frac{e^x}{e^x} = 1$) to clear the
-    negative exponent: $\frac{1}{e^{x}+1} = \frac{1}{1+e^{x}} = \sigma(-x)$. So
-    $\sigma(-x) = 1 - \sigma(x)$. Meaning: "probability of not-cat" is forced to be exactly
-    $1$ minus "probability of cat" — the two outputs sum to $1$, as real probabilities must.
+    ::: rephrase
+    "Show $A = B$" means: start from one side and make legal moves until it *becomes* the
+    other side — a real proof, like problem 16 back in worksheet 0.5. Here both sides are
+    fractions built from $e^{\pm x}$, so the whole job is fraction algebra from Module 0: get
+    them to literally match. Don't push symbols randomly — pick the messier-looking side,
+    $1-\sigma(x)$, and combine it into a *single* fraction; then make its exponent match the
+    $\sigma(-x)=\frac{1}{1+e^{x}}$ you're aiming at. First move: turn $1-\sigma(x)$ into one
+    fraction over a common denominator.
+    :::
+
+    ::: hint
+    Work on $1-\sigma(x) = 1 - \dfrac{1}{1+e^{-x}}$. To subtract, rewrite the $1$ as a fraction
+    over the *same* denominator $1+e^{-x}$ (common-denominator move) so the tops can combine.
+    :::
+
+    ::: hint
+    After combining you'll have $\dfrac{e^{-x}}{1+e^{-x}}$. The only obstacle to matching
+    $\sigma(-x)=\frac{1}{1+e^{x}}$ is the negative exponent — kill it by multiplying top and
+    bottom by $e^{x}$ (that's $\times\frac{e^x}{e^x}=1$, so it changes nothing but the form).
+    :::
+
+    ::: steps
+    1. **Common denominator** — write $1$ as $\frac{1+e^{-x}}{1+e^{-x}}$ so it can subtract. $1-\sigma(x) = \dfrac{(1+e^{-x})-1}{1+e^{-x}} = \dfrac{e^{-x}}{1+e^{-x}}$
+    2. **Multiply top and bottom by $e^{x}$** ($\times\frac{e^x}{e^x}=1$) — clears the negative exponent. $\dfrac{e^{-x}\cdot e^{x}}{(1+e^{-x})\,e^{x}} = \dfrac{1}{e^{x}+1}$
+    3. **Recognise the target.** $\dfrac{1}{1+e^{x}} = \sigma(-x)$, so $\sigma(-x) = 1-\sigma(x)$ $\;\blacksquare$
+    4. **Read the meaning.** "probability of not-cat" is forced to be exactly $1$ minus "probability of cat" — the two outputs sum to $1$, as real probabilities must.
     :::
 
 ---

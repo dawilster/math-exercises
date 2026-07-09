@@ -118,45 +118,120 @@ Each claim has exactly one mistake. Circle and correct it.
 
 ## Part D — Deep end
 
-*Beyond what was taught.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 14. Normalisation, the ML ritual: $z = \dfrac{x - 5}{2}$. Describe it as two graph-moves applied
     to data. If the original data was centred at 5 with spread 2, where is $z$ centred and what's
     its spread?
 
-    ::: answer
-    Two moves: subtract 5 (shift by $-5$ → centres the data at 0), then divide by 2
-    (squash by $\div 2$ → halves the spread). Result: $z$ is centred at $0$ with spread $1$.
+    ::: rephrase
+    Read the formula as two graph-moves done to *every* data point. It's the lesson's
+    normalisation ritual ($z = \frac{x-\mu}{\sigma}$: shift, then squash) with real numbers —
+    here $\mu = 5$, $\sigma = 2$. "Centred at 5, spread 2" is just where the pile of data sits
+    and how wide it is; the two moves relocate and resize that whole pile, exactly like the
+    heights histogram in the lesson.
+    :::
+
+    ::: hint
+    Read the formula in operation order: what happens to $x$ first (the top of the fraction),
+    then what happens to that (the divide)? Name each as one of the four graph-moves.
+    :::
+
+    ::: hint
+    The $-5$ on top is "add $-5$ to the input" — a shift. Ask: where does a pile centred at 5
+    land after you subtract 5 from every value?
+    :::
+
+    ::: steps
+    1. **Subtract 5** (shift by $-5$) — centres the pile at 0. $x - 5$
+    2. **Divide by 2** (squash by $\div 2$) — halves the spread. $z = \dfrac{x-5}{2}$
+    3. **Read off the result.** $z$ is centred at $0$ with spread $1$.
     :::
 
 15. The lesson's deep-end: show with an exponent rule (Module 0.5) that $e^{x+1} = e \cdot e^x$.
     So "shift left 1" and "stretch vertically by $e$" are the *same move* for this machine.
     Try the same trick on $y = x^2$: is $(x+1)^2$ a vertical stretch of $x^2$? Why not?
 
-    ::: answer
-    $e^{x+1} = e^x \cdot e^1 = e \cdot e^x$ (exponent rule $a^{m+n} = a^m a^n$) — confirms
-    shift left 1 = stretch $\times e$ for this machine. For $x^2$: expand
-    $(x+1)^2 = x^2 + 2x + 1$. That's not $a \cdot x^2$ for any constant $a$ — there's a
-    leftover $2x + 1$ term — so it is **not** a vertical stretch. The trick only works for
-    exponentials because $e^{x+c}$ factors into $e^c \cdot e^x$; polynomials don't factor
-    that way under a shift.
+    ::: rephrase
+    Two tasks in one. First: use a single Module 0.5 exponent rule to rewrite $e^{x+1}$ as
+    *a number* $\times\, e^x$ — and "a number times the output" is a vertical stretch, so the
+    one curve is both "shift left 1" and "stretch". Second: try the same trick on $(x+1)^2$ —
+    expand it and check whether it comes out as just $a \cdot x^2$. This is the lesson's
+    hold-in-your-head deep-end question, now on paper.
+    :::
+
+    ::: hint
+    For $e^{x+1}$: which exponent rule splits a *sum in the exponent* into a *product*? It's
+    $a^{m+n} = a^m \cdot a^n$ — apply it with $m = x$, $n = 1$.
+    :::
+
+    ::: hint
+    For $(x+1)^2$: don't eyeball it, expand it fully. A genuine vertical stretch of $x^2$ has
+    to look like $a \cdot x^2$ and nothing else. Does your expansion?
+    :::
+
+    ::: steps
+    1. **Split the exponent** ($a^{m+n} = a^m a^n$). $e^{x+1} = e^x \cdot e^1 = e \cdot e^x$
+    2. **Name it.** the constant $e$ multiplying $e^x$ *is* a vertical stretch $\times e$ — so shift-left-1 and stretch-$\times e$ are the same move for this machine.
+    3. **Test $x^2$: expand.** $(x+1)^2 = x^2 + 2x + 1$
+    4. **Compare to $a \cdot x^2$.** the leftover $2x + 1$ can't be absorbed into any constant $a$, so $(x+1)^2$ is **not** a vertical stretch of $x^2$. The trick works only because $e^{x+c}$ factors into $e^c \cdot e^x$; polynomials don't factor that way under a shift.
     :::
 
 16. Write the blueprint for: "$\frac{1}{x}$, flipped upside down, then shifted up 1."
     Then sketch it. Bonus: what are its two asymptotes?
 
-    ::: answer
-    Blueprint: $y = -\dfrac{1}{x} + 1$. Asymptotes: vertical $x = 0$ (unchanged by output
-    moves), horizontal $y = 1$ (the flip keeps it at $y = 0$, then $+1$ lifts it to $y = 1$).
+    ::: rephrase
+    "Write the blueprint" means: build the equation by stacking the named moves onto the zoo
+    animal $y = \frac1x$, in the stated order (flip first, then up 1) — exactly the "watch one
+    build" from the lesson. "Flipped upside down" is a flip of the *output*; "shifted up 1"
+    adds 1 to the *output*. Then track where the two asymptotes of $\frac1x$ (from worksheet
+    1.2) end up.
+    :::
+
+    ::: hint
+    Start from $y = \frac1x$. "Flipped upside down" (over the $x$-axis) is which of the four
+    moves — and does its minus sign go inside or outside the fraction?
+    :::
+
+    ::: hint
+    Now apply "up 1": add 1 to the whole output. For the asymptotes, remember output-moves
+    leave the vertical asymptote ($x = 0$) alone; the horizontal one rides along with the flip
+    and the $+1$.
+    :::
+
+    ::: steps
+    1. **Flip the output** ($-$ outside). $y = -\dfrac{1}{x}$
+    2. **Add 1 to the output** (shift up 1). $y = -\dfrac{1}{x} + 1$
+    3. **Locate the asymptotes.** vertical $x = 0$ (untouched by output moves); horizontal starts at $y = 0$, the flip keeps it at $0$, then $+1$ lifts it to $y = 1$.
     :::
 
 17. A machine's graph is a valley with vertex at $(-3, 7)$, opening downward… wait, valleys don't
     open downward. Fix the sentence, then write a blueprint whose graph is a *hill* with peak
     at $(-3, 7)$.
 
-    ::: answer
-    Fix: a valley (parabola) opens **upward**, not downward — a downward-opening parabola
-    is a hill. Blueprint for a hill peaking at $(-3, 7)$: $y = -(x + 3)^2 + 7$.
+    ::: rephrase
+    Two small tasks. First a vocabulary fix: the sentence calls something a "valley" that
+    "opens downward" — one of those two words is wrong, because valley and hill each have a
+    fixed opening direction. Second, build a blueprint (from $y = x^2$) whose graph is a hill
+    peaking at $(-3, 7)$ — the same three-move build as problem 8 and the lesson's "watch one
+    build".
+    :::
+
+    ::: hint
+    A parabola that opens **downward** is a hill (peak on top); one that opens **upward** is a
+    valley. Which word in the sentence contradicts the other?
+    :::
+
+    ::: hint
+    For the hill at $(-3, 7)$: to slide the vertex to $x = -3$ you need $x \to x + 3$ (opposite
+    day, inside the brackets); the leading $-$ makes it open downward; the $+7$ lifts the peak.
+    :::
+
+    ::: steps
+    1. **Fix the vocabulary.** a valley opens **upward** — a downward-opening parabola is a hill, so either call it a hill or say it opens upward.
+    2. **Shift the vertex to $x = -3$** ($x \to x + 3$, opposite day). $y = (x + 3)^2$
+    3. **Flip to a hill** ($-$ outside). $y = -(x + 3)^2$
+    4. **Lift the peak to 7** ($+7$). $y = -(x + 3)^2 + 7$
     :::
 
 ---

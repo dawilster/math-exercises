@@ -97,44 +97,112 @@ Name every move.
 
 ## Part D — Deep end
 
-*Beyond what was taught. Struggle is the workout — attempt everything, name your moves.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 12. A jacket is discounted 30%, then the sale price gets 10% tax added.
     What single percentage of the original do you pay? Does the order
     (discount-then-tax vs tax-then-discount) matter? Test both.
 
-    ::: answer
-    $77\%$ of the original — and the order does **not** matter. Discount then tax:
-    $0.7\times1.1 = 0.77$. Tax then discount: $1.1\times0.7=0.77$. Move: chained percentages
-    are just multiplied factors, and multiplication commutes ($0.7\times1.1=1.1\times0.7$).
+    ::: rephrase
+    You never *add or subtract* percentages here — you chain them as **multiply-by-a-factor**
+    moves. "30% off" means you keep 70% of the price → $\times 0.7$. "10% tax added" means you
+    pay 110% → $\times 1.1$. The question is: what single factor equals doing both? First move —
+    turn each percentage change into its multiplier.
+    :::
+
+    ::: hint
+    A percentage *change* becomes a multiplier: 30% off → $\times 0.7$ (you keep 70%); 10% added
+    → $\times 1.1$ (you pay 110%). Write both multipliers before you do anything else.
+    :::
+
+    ::: hint
+    Apply them one after the other to the original — that's just multiplying the two factors
+    together. For the "does order matter?" part, swap which factor goes first and compare.
+    :::
+
+    ::: steps
+    1. **Turn each change into a multiplier.** 30% off $\to \times 0.7$; 10% tax $\to \times 1.1$
+    2. **Chain them (discount then tax).** $0.7 \times 1.1 = 0.77 = 77\%$
+    3. **Swap the order (tax then discount).** $1.1 \times 0.7 = 0.77 = 77\%$ — identical, because multiplication commutes.
     :::
 
 13. Normalise the symbols $(a, b, c)$: what does each become, and — using 0.4's common-
     denominator move with pure symbols — prove the three results sum to exactly 1.
 
-    ::: answer
-    $\frac{a}{a+b+c}$, $\frac{b}{a+b+c}$, $\frac{c}{a+b+c}$ — move: divide each by the shared
-    total $a+b+c$, which is already a common denominator. Sum:
-    $\frac{a+b+c}{a+b+c}=1$.
+    ::: rephrase
+    This is problem 10 (normalise $(6,10,4)$) with **letters where the numbers were** — same
+    moves exactly. "Normalise" = divide each by the total; here the total is $a+b+c$ (add them
+    all). "Prove they sum to 1" = add the three fractions — and because they already share the
+    denominator $a+b+c$, you just add the tops.
+    :::
+
+    ::: hint
+    "Normalise" means divide each thing by the total. What's the total of $a$, $b$, and $c$?
+    :::
+
+    ::: hint
+    To add the three normalised fractions, notice they already share one denominator — so add
+    the tops straight over that common denominator (0.4's "add matching pieces" move).
+    :::
+
+    ::: steps
+    1. **Sum everything for the total.** total $= a+b+c$
+    2. **Divide each by the total (normalise).** $\dfrac{a}{a+b+c},\ \dfrac{b}{a+b+c},\ \dfrac{c}{a+b+c}$
+    3. **Add the tops over the shared denominator.** $\dfrac{a+b+c}{a+b+c}=1$
     :::
 
 14. In one class of 20 students, 15 passed. In another class of 80 students, 44 passed.
     What percentage passed **overall**? Why is the answer NOT the average of 75% and 55%?
     *(This trap — averaging averages — corrupts real ML evaluations all the time.)*
 
-    ::: answer
-    $59\%$ overall ($\frac{15+44}{20+80}=\frac{59}{100}$). It's **not** the average of $75\%$
-    and $55\%$ (which gives $65\%$) because the classes are different sizes — you need a
-    size-weighted average, not a simple average of the two rates.
+    ::: rephrase
+    "Percentage passed overall" means **one big fraction**: everyone who passed over everyone
+    total — pool the two classes into a single pile first, don't compute two separate rates.
+    The trap: averaging $75\%$ and $55\%$ secretly pretends both classes are the same size, but
+    the 80-student class dwarfs the 20-student one, so the true rate leans toward its $55\%$.
+    :::
+
+    ::: hint
+    Don't work with the two percentages. Go back to raw counts: how many students passed in
+    total, and how many students are there in total?
+    :::
+
+    ::: hint
+    Overall rate $=\dfrac{\text{all passers}}{\text{all students}}$; turn that fraction into a
+    percentage. Then compare it to the naive $\frac{75\%+55\%}{2}$ to see the size effect.
+    :::
+
+    ::: steps
+    1. **Pool the passers and the totals.** passed $= 15+44 = 59$; students $= 20+80 = 100$
+    2. **One big fraction → percentage.** $\dfrac{59}{100} = 59\%$
+    3. **Name why the average fails.** $\dfrac{75\%+55\%}{2}=65\%$ ignores that the 80-student class outweighs the 20-student one — the correct figure is a *size-weighted* average, so it leans toward the bigger class's $55\%$.
     :::
 
 15. Solve for $x$: $\;\frac{2}{x} + \frac{1}{3} = 1$
     *(A 0.2 basement problem wearing 0.4 clothes. Clear the clutter first.)*
 
-    ::: answer
-    $x=3$ — move: multiply every term by the LCD $3x$ to clear both basements:
-    $2(3) + x(1) = 1(3x) \Rightarrow 6+x=3x \Rightarrow 6=2x \Rightarrow x=3$.
-    Check: $\frac{2}{3}+\frac{1}{3}=1$. ✓
+    ::: rephrase
+    The $x$ is hiding in a **basement** (a denominator) — you can't do balance moves on it while
+    it's stuck down there. So the whole first job is to lift every term out of its basement by
+    multiplying through by the LCD; the equation then collapses into an ordinary linear one like
+    0.2's. That's what "clear the clutter first" is telling you to do.
+    :::
+
+    ::: hint
+    You can't solve while $x$ sits in a denominator. What do you multiply *every* term by to
+    clear all the denominators at once? (Find the LCD of $x$ and $3$.)
+    :::
+
+    ::: hint
+    Multiply all three terms by $3x$. Each fraction's denominator cancels, leaving a plain linear
+    equation — then gather the $x$'s onto one side.
+    :::
+
+    ::: steps
+    1. **Multiply every term by the LCD $3x$** — clears both basements. $2(3) + x(1) = 1(3x)$
+    2. **Simplify each term.** $6 + x = 3x$
+    3. **Gather the $x$'s (subtract $x$ from both sides).** $6 = 2x$
+    4. **Divide by 2.** $x = 3$ &nbsp; (check: $\frac{2}{3}+\frac{1}{3}=1$ ✓)
     :::
 
 ---

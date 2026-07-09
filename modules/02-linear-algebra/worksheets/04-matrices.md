@@ -109,13 +109,35 @@ houses as rows, features (beds, baths, land m²) as columns.
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 11. Which matrix does nothing — sends every vector to itself? Use the column decoder,
     write it down, verify on $\begin{pmatrix} 3 \\ 7 \end{pmatrix}$.
     *(Its name: the identity matrix, $I$ — the matrix world's number 1.)*
 
-    ::: answer
-    $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ — each unit arrow lands on itself.
-    Check: $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 3 \\ 7 \end{pmatrix} = \begin{pmatrix} 1(3)+0(7) \\ 0(3)+1(7) \end{pmatrix} = \begin{pmatrix} 3 \\ 7 \end{pmatrix}$ — unchanged.
+    ::: rephrase
+    You're being asked to build a machine, not compute one. The column decoder says: column 1
+    is *where $\begin{pmatrix}1\\0\end{pmatrix}$ lands*, column 2 is *where $\begin{pmatrix}0\\1\end{pmatrix}$ lands*.
+    "Does nothing" means every vector — including the two unit arrows — must come out exactly where
+    it went in. So the whole question is: **where should the unit arrows land if nothing moves?**
+    Write those two landing spots as the columns and you've built the machine. This is problem 7
+    (build-a-machine from the decoder) with the simplest possible instruction.
+    :::
+
+    ::: hint
+    Column 1 = where $\begin{pmatrix}1\\0\end{pmatrix}$ lands; column 2 = where $\begin{pmatrix}0\\1\end{pmatrix}$ lands.
+    If the machine changes nothing, where does each unit arrow have to end up?
+    :::
+
+    ::: hint
+    Each arrow must land on *itself*: $\begin{pmatrix}1\\0\end{pmatrix} \to \begin{pmatrix}1\\0\end{pmatrix}$
+    and $\begin{pmatrix}0\\1\end{pmatrix} \to \begin{pmatrix}0\\1\end{pmatrix}$. Write those two vectors as the columns.
+    :::
+
+    ::: steps
+    1. **Decode "does nothing" into the unit arrows.** $\begin{pmatrix}1\\0\end{pmatrix} \to \begin{pmatrix}1\\0\end{pmatrix}$, $\begin{pmatrix}0\\1\end{pmatrix} \to \begin{pmatrix}0\\1\end{pmatrix}$
+    2. **Write the landing spots as columns.** $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$
+    3. **Verify on $\begin{pmatrix}3\\7\end{pmatrix}$** (row $\cdot$ vector each time). $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 3 \\ 7 \end{pmatrix} = \begin{pmatrix} 1(3)+0(7) \\ 0(3)+1(7) \end{pmatrix} = \begin{pmatrix} 3 \\ 7 \end{pmatrix}$ — unchanged.
     :::
 
 12. Every output of a matrix machine is dot products with the matrix's rows. Question 5's machines
@@ -123,22 +145,57 @@ houses as rows, features (beds, baths, land m²) as columns.
     at once… you'd need to multiply a matrix by a matrix. What shape would the machine need to be
     to accept $M$'s rows? *(Sets up 2.5 — reason, don't compute.)*
 
-    ::: answer
-    $M$ is $(3\times3)$ with 3 feature-columns per house-row. To multiply $M \cdot A$, $A$'s **rows** must match
-    $M$'s **columns** (3), so the machine $A$ needs to be $(3\times3)$ — same shape-matching move as the
-    vector case, just with the vector's single column replaced by $A$'s many columns.
+    ::: rephrase
+    No arithmetic here — it's pure shape-detective work. Remember the rule that made problems 5c
+    and 10 work: a product is only legal when the **left thing's columns match the right thing's rows**
+    (that's why the $(2\times3)$ matrix needed a 3-entry vector, not a 2-entry one). Now the "vector"
+    being fed in is a whole matrix $A$. The question is just: for $M \cdot A$ to fit, what shape must $A$ be?
+    :::
+
+    ::: hint
+    Reuse the shape-matching rule from problems 5c and 10: for $M \cdot A$, $A$'s **rows** must equal
+    $M$'s **columns**. So first — how many columns does $M$ have?
+    :::
+
+    ::: hint
+    $M$ is $(3\times3)$, so it has 3 columns. That forces $A$ to have 3 rows. A square machine that
+    keeps each house as 3 features in, 3 out is $(3\times 3)$.
+    :::
+
+    ::: steps
+    1. **Recall the shape rule.** left's columns $=$ right's rows.
+    2. **Count $M$'s columns.** $M$ is $(3\times3)$ → 3 feature-columns per house-row.
+    3. **Match $A$'s rows to that.** $A$ needs 3 rows, so the machine is $(3\times3)$ — the same shape-matching move as the vector case, just with the vector's single column replaced by $A$'s many columns.
     :::
 
 13. The machine $\begin{pmatrix} 0.5 & 0 \\ 0 & 0.5 \end{pmatrix}$ is applied to a photo's pixel
     *coordinates*. What happens to the photo? What about $\begin{pmatrix} 1 & 0.5 \\ 0 & 1 \end{pmatrix}$
     (try the unit arrows)? *(You'll see this one lean in the notebook — it's called a shear.)*
 
-    ::: answer
-    $\begin{pmatrix} 0.5 & 0 \\ 0 & 0.5 \end{pmatrix} = 0.5I$ scales both coordinates by a half — the photo
-    **shrinks to half size**, evenly.
-    For $\begin{pmatrix} 1 & 0.5 \\ 0 & 1 \end{pmatrix}$: $\begin{pmatrix}1\\0\end{pmatrix} \to \begin{pmatrix}1\\0\end{pmatrix}$
-    (unchanged) but $\begin{pmatrix}0\\1\end{pmatrix} \to \begin{pmatrix}0.5\\1\end{pmatrix}$ (pushed sideways).
-    The bottom row of pixels stays put while higher rows slide right — the photo **shears/leans over**, like italic text.
+    ::: rephrase
+    Don't be thrown by "photo" — a photo is just a big cloud of coordinate-vectors (one per pixel),
+    and a matrix moves *every* vector the same way (View 2, the machine). So you only have to figure
+    out what each machine does to a typical arrow. For the first, read the numbers off the diagonal;
+    for the second, feed it the two unit arrows and see where they land — exactly the move you did in
+    problem 6, watching what a machine does to the plane.
+    :::
+
+    ::: hint
+    First machine: it multiplies both coordinates by $0.5$. What does halving every point's coordinates
+    do to its distance from the origin? Second machine: feed it $\begin{pmatrix}1\\0\end{pmatrix}$ and
+    $\begin{pmatrix}0\\1\end{pmatrix}$ (as in problem 6) and compare where they land.
+    :::
+
+    ::: hint
+    First: both coordinates halve, so the whole picture scales down by a factor of $\tfrac12$.
+    Second: $\begin{pmatrix}1\\0\end{pmatrix}$ stays put, but $\begin{pmatrix}0\\1\end{pmatrix}$ picks up
+    a sideways $0.5$ — the higher a point sits, the further it slides.
+    :::
+
+    ::: steps
+    1. **Read the first machine as a scale** ($0.5$ down the diagonal $= 0.5I$). Every coordinate $\times 0.5$, so the photo **shrinks to half size**, evenly.
+    2. **Feed the shear its unit arrows** (column decoder / problem 6). $\begin{pmatrix}1\\0\end{pmatrix} \to \begin{pmatrix}1\\0\end{pmatrix}$ (unchanged), $\begin{pmatrix}0\\1\end{pmatrix} \to \begin{pmatrix}0.5\\1\end{pmatrix}$ (pushed sideways).
+    3. **Interpret the landings.** The bottom row of pixels stays put while higher rows slide right — the photo **shears/leans over**, like italic text.
     :::
 
 ---

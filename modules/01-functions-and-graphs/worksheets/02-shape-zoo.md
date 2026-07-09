@@ -136,42 +136,107 @@ Equations: $\quad y = e^{-x} \qquad y = x^2 \qquad y = \log x \qquad y = 3x + 2 
 
 ## Part D — Deep end
 
-*Beyond what was taught.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 16. Sketch $y = 2^{-x}$. Which side is the explosion on now? Which side hugs the floor?
 
-    ::: answer
-    $y = 2^{-x} = (1/2)^x$ is $2^x$ mirrored across the y-axis. The explosion is now on the
-    LEFT (as $x \to -\infty$, $y \to \infty$); the floor-hugging ($y \to 0$) is on the RIGHT
-    (as $x \to +\infty$).
+    ::: rephrase
+    Same species as $2^x$ (the $x$ is still up in the exponent), but the minus sign in $2^{-x}$
+    runs it backwards — exactly the "predict before you plot" example from the lesson. "Which
+    side explodes, which side hugs the floor?" just asks you to sketch it and read the two ends.
+    A quick sanity test: plug in $x = -3$ vs $x = +3$ and see which one is huge.
+    :::
+
+    ::: hint
+    A minus sign in the exponent is a **reflection**. Across which axis does it flip $2^x$?
+    :::
+
+    ::: hint
+    Rewrite the exponent to make the shape obvious: $2^{-x} = (1/2)^x$ — a base *less than 1*,
+    so it *decays* as $x$ grows.
+    :::
+
+    ::: steps
+    1. **Rewrite the exponent** ($a^{-x} = (1/a)^x$). $2^{-x} = (1/2)^x$
+    2. **Reflect $2^x$ across the y-axis** — same graph read right-to-left. $x=-3 \Rightarrow 8,\quad x=+3 \Rightarrow 1/8$
+    3. **Read off the two ends.** explosion on the LEFT ($x \to -\infty,\; y \to \infty$); floor-hug on the RIGHT ($x \to +\infty,\; y \to 0$)
     :::
 
 17. Who wins eventually, $x^2$ or $2^x$? Compute both at $x = 2, 4, 10$. Notice anything
     embarrassing for the quadratic at $x = 2$ and $4$ vs $10$?
 
-    ::: answer
-    At $x=2$: $x^2=4$, $2^x=4$ — tied. At $x=4$: $x^2=16$, $2^x=16$ — tied again!
-    At $x=10$: $x^2=100$, $2^x=1024$ — the exponential is already 10× bigger.
-    Embarrassing bit: the quadratic manages to *tie* twice before the exponential
-    permanently, and increasingly, dominates. $2^x$ wins eventually — always.
+    ::: rephrase
+    This is the lesson's "species barrier" trap made concrete: $x^2$ (variable in the *base*)
+    vs $2^x$ (variable in the *exponent*). No cleverness needed — just build a little table,
+    plug in $x = 2, 4, 10$, and compare the two columns. "Who wins eventually" means: for big
+    $x$, which grows bigger and stays bigger?
+    :::
+
+    ::: hint
+    Make a two-column table — $x^2$ in one, $2^x$ in the other — and fill in $x = 2, 4, 10$.
+    :::
+
+    ::: hint
+    Look hard at $x=2$ and $x=4$ before you decide who's stronger — the numbers *match*.
+    Then let $x=10$ break the tie.
+    :::
+
+    ::: steps
+    1. **Evaluate at $x=2$.** $x^2 = 4,\quad 2^x = 4$ — tied
+    2. **Evaluate at $x=4$.** $x^2 = 16,\quad 2^x = 16$ — tied again
+    3. **Evaluate at $x=10$.** $x^2 = 100,\quad 2^x = 1024$ — exponential already 10× bigger
+    4. **Conclude.** the quadratic only ever manages to *tie* (at 2 and 4); past that $2^x$ dominates permanently and increasingly — $2^x$ wins eventually, always
     :::
 
 18. Sketch $y = \dfrac{1}{x - 2}$. *(Same species as $\frac{1}{x}$ — but where has the crash
     site moved to? Next unit explains why.)*
 
-    ::: answer
-    The crash site (vertical asymptote) moves from $x = 0$ to $x = 2$; the horizontal
-    asymptote stays at $y = 0$. Same two-branch shape as $1/x$, just shifted 2 units right.
+    ::: rephrase
+    Same reciprocal species as $\frac1x$ — two swooping branches, both axes as asymptotes. The
+    only new question is: *where's the crash now?* $\frac1x$ crashed where its bottom hit zero
+    ($x=0$); the bottom here is $x-2$, so find the input that makes *that* zero.
+    :::
+
+    ::: hint
+    A reciprocal crashes (vertical asymptote) wherever the **denominator equals 0**. Which $x$
+    makes $x - 2 = 0$?
+    :::
+
+    ::: hint
+    The horizontal asymptote doesn't move — dividing 1 by something huge still gives ~0. So only
+    the crash slides sideways; the whole picture shifts with it.
+    :::
+
+    ::: steps
+    1. **Find the crash: set the denominator to 0.** $x - 2 = 0 \Rightarrow x = 2$ — vertical asymptote
+    2. **Horizontal asymptote is unchanged.** $y = 0$
+    3. **Describe the shape.** same two branches as $1/x$, shifted 2 units right
     :::
 
 19. The lesson's deep-end: an accuracy curve rises fast then levels off near 1.0.
     Propose a blueprint from the zoo (transformed however you like) with that shape.
 
-    ::: answer
-    One valid choice: $y = 1 - 2^{-x}$ for $x \ge 0$. At $x=0$, $y=0$; as $x$ grows,
-    $2^{-x} \to 0$ so $y \to 1$ — rising fast at first, then flattening near the ceiling
-    $y = 1$. The key move: "1 minus a decaying exponential" (any decaying term works,
-    e.g. $e^{-x}$).
+    ::: rephrase
+    You're being asked to *invent* a curve with a target shape: rises fast, then flattens just
+    under a ceiling of 1. This is the lesson's parting question — and you already met its mirror
+    image in problem 16: $2^{-x}$ *falls* fast toward the floor 0. You need something that *rises*
+    fast toward the ceiling 1. Turn one into the other.
+    :::
+
+    ::: hint
+    You already own a curve that drops fast to 0: $2^{-x}$ (or $e^{-x}$). How do you turn a
+    "falling to 0" curve into a "rising to 1" curve?
+    :::
+
+    ::: hint
+    Subtract the decaying curve from 1. When the decaying part is big, $1 - (\text{big})$ is
+    small; when it decays to 0, $1 - 0 = 1$ — the ceiling.
+    :::
+
+    ::: steps
+    1. **Start with a decaying exponential.** $2^{-x} \to 0$ as $x$ grows
+    2. **Flip it up under a ceiling of 1** — the key move, "1 minus a decaying term". $y = 1 - 2^{-x}$
+    3. **Check the ends.** at $x=0$: $y = 1 - 1 = 0$; as $x \to \infty$: $2^{-x}\to 0$ so $y \to 1$ — rises fast, flattens near the ceiling (any decaying term works, e.g. $e^{-x}$)
     :::
 
 ---

@@ -123,15 +123,35 @@ dotted with *itself*. Compare with $|\vec{v}|$ from 2.1. What do you notice?
 
 ## Part D — Deep end
 
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
+
 12. Compute the cosine similarity of $\begin{pmatrix} 6 \\ 8 \end{pmatrix}$ and
     $\begin{pmatrix} 3 \\ 4 \end{pmatrix}$ (dot, then divide by both magnitudes).
     Before computing: predict the answer from the arrow picture.
 
-    ::: answer
-    $\cos\theta = \dfrac{6(3)+8(4)}{|\begin{pmatrix}6\\8\end{pmatrix}||\begin{pmatrix}3\\4\end{pmatrix}|}
-    = \dfrac{50}{10 \times 5} = 1$ — move: dot, then divide by both magnitudes. Makes sense
-    from the picture: $\begin{pmatrix} 6 \\ 8 \end{pmatrix} = 2\begin{pmatrix} 3 \\ 4 \end{pmatrix}$,
-    so the two arrows point in *exactly* the same direction (angle $=0°$, and $\cos 0° = 1$).
+    ::: rephrase
+    "Cosine similarity" is the *fair* similarity from Part C q10 and the lesson's "length
+    cheats" wrinkle: dot the two arrows, then divide out both lengths so only *direction*
+    counts. First, do what the problem asks and predict from the picture — is one arrow just a
+    scaled-up copy of the other? If so, they point the same way and the answer should land at
+    the maximum, $1$.
+    :::
+
+    ::: hint
+    The tool is $\cos\theta = \dfrac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}$. You already know
+    the top (the dot product); the new part is dividing by *both* lengths. Compute the dot first.
+    :::
+
+    ::: hint
+    Now the two magnitudes, via Pythagoras from 2.1: $|\begin{pmatrix}6\\8\end{pmatrix}|$ and
+    $|\begin{pmatrix}3\\4\end{pmatrix}|$ — both are $3$-$4$-$5$ triangles (the first scaled by $2$).
+    :::
+
+    ::: steps
+    1. **Dot the two vectors** (multiply matching, then add). $6(3)+8(4) = 50$
+    2. **Find each magnitude** ($\sqrt{x^2+y^2}$). $|\begin{pmatrix}6\\8\end{pmatrix}| = 10$, $\;|\begin{pmatrix}3\\4\end{pmatrix}| = 5$
+    3. **Divide the dot by both magnitudes.** $\cos\theta = \dfrac{50}{10 \times 5} = 1$
+    4. **Interpret.** $\begin{pmatrix}6\\8\end{pmatrix} = 2\begin{pmatrix}3\\4\end{pmatrix}$, so the arrows point *exactly* the same way — angle $0°$, and $\cos 0° = 1$.
     :::
 
 13. Query and keys, exactly like attention: query $\vec{q} = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$,
@@ -141,19 +161,54 @@ dotted with *itself*. Compare with $|\vec{v}|$ from 2.1. What do you notice?
     Compute all three scores $\vec{q} \cdot \vec{k_i}$ and rank them. You have just done the
     first half of a transformer attention head by hand.
 
-    ::: answer
-    $\vec{q}\cdot\vec{k_1} = 1(2)+2(4) = 10$, $\vec{q}\cdot\vec{k_2} = 1(3)+2(0) = 3$,
-    $\vec{q}\cdot\vec{k_3} = 1(-1)+2(-2) = -5$. Ranking: $\vec{k_1}\ (10) > \vec{k_2}\ (3) >
-    \vec{k_3}\ (-5)$ — move: dot product = attention score; the highest-scoring key gets the
-    most "attention".
+    ::: rephrase
+    This is the movie-taste problem (q8) in transformer clothing: $\vec{q}$ is your "query" and
+    each $\vec{k_i}$ is a "key". Score every key by dotting it with $\vec{q}$, then rank the
+    scores — highest score = the key that gets the most attention. One tool, used three times.
+    First move: just compute $\vec{q}\cdot\vec{k_1}$.
+    :::
+
+    ::: hint
+    The only tool is the dot product $\vec{q}\cdot\vec{k_i}$ — multiply matching, then add.
+    Start with $\vec{q}\cdot\vec{k_1} = 1(2)+2(4)$.
+    :::
+
+    ::: hint
+    Do the identical thing for $\vec{k_2}$ and $\vec{k_3}$, then line the three numbers up from
+    biggest to smallest.
+    :::
+
+    ::: steps
+    1. **Score key 1** (dot with $\vec{q}$). $\vec{q}\cdot\vec{k_1} = 1(2)+2(4) = 10$
+    2. **Score key 2.** $\vec{q}\cdot\vec{k_2} = 1(3)+2(0) = 3$
+    3. **Score key 3.** $\vec{q}\cdot\vec{k_3} = 1(-1)+2(-2) = -5$
+    4. **Rank the scores.** $\vec{k_1}\ (10) > \vec{k_2}\ (3) > \vec{k_3}\ (-5)$ — the highest-scoring key gets the most "attention".
     :::
 
 14. Using the $\Sigma$ notation from Module 0.6, write the dot product of two $n$-component
     vectors as one summation. Then write it as a Python `for` loop.
 
-    ::: answer
-    $\vec{a}\cdot\vec{b} = \sum_{i=1}^{n} a_i b_i$ — move: sigma notation is just
-    "multiply matching, then add", written compactly. As a `for` loop:
+    ::: rephrase
+    You're not computing a number here — you're writing the *pattern* "multiply matching, then
+    add" in two compact languages: math's $\Sigma$ (Module 0.6) and a Python loop. Ask the two
+    questions behind both notations: *what single action gets repeated?* (one product $a_i b_i$)
+    and *what accumulates?* (their running sum). First move: write the $\Sigma$.
+    :::
+
+    ::: hint
+    In $\Sigma$ notation the thing you repeat is one product $a_i b_i$; the $\Sigma$ says "add
+    these up as $i$ runs from $1$ to $n$". Write that single expression.
+    :::
+
+    ::: hint
+    The loop mirrors the sum exactly: a running total starting at $0$, and each pass through
+    adds one more product $a[i] * b[i]$.
+    :::
+
+    ::: steps
+    1. **Write "multiply matching, then add" as one sum.** $\vec{a}\cdot\vec{b} = \sum_{i=1}^{n} a_i b_i$
+    2. **Translate the same sum into a running-total loop** — start at $0$, add one product each pass.
+
     ```python
     total = 0
     for i in range(n):

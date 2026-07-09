@@ -86,42 +86,111 @@ Expand (problems 1–2) or factor (problems 3–4). Name the move each time.
 
 ## Part D — Deep end
 
-*Beyond what was taught — this is where the workout lives. Attempt everything; name your
-moves even when unsure. A wrong path with named moves teaches more than a blank page.*
+*Beyond what was taught — you're **not** expected to see these cold. Each one gives you a ladder: tap **🔍 In plain words** if the question won't land, then **💡 Hints** one at a time (each says the least next thing), and only **✅ Worked solution** once you've wrestled. Take the fewest rungs you can — the struggle before each tap is where the learning happens. Always name your moves, even when guessing.*
 
 11. Solve $(x + 2)(x - 3) = 6$.
     *(Trap from the lesson's deep-end question: you can NOT split this while the right side
     is 6. What single 0.1 move makes the zero-product move legal?)*
 
-    ::: answer
-    $x = 4$ or $x = -3$. The needed 0.1 move: $-6$ both sides first, so the right side is 0
-    (zero product only works against zero). That gives $(x+2)(x-3) - 6 = 0$.
-    Expand: $x^2 - x - 6 - 6 = 0 \Rightarrow x^2 - x - 12 = 0$.
-    Factor ($-4$ and $3$ multiply to $-12$, add to $-1$): $(x-4)(x+3) = 0$.
-    Zero product: $x = 4$ or $x = -3$.
+    ::: rephrase
+    This is the exact trap from the lesson's deep-end question. Zero product — "if two things
+    multiply to $0$, one of them IS $0$" — only works when the right side is $0$. Here the right
+    side is $6$, so you can't split the brackets yet. The whole problem is: what single move turns
+    that $6$ into a $0$ so the factoring tools switch back on?
+    :::
+
+    ::: hint
+    Zero product needs a $0$ on the right. What single 0.1 balance move (same to both pans) turns
+    the $6$ into $0$?
+    :::
+
+    ::: hint
+    After $-6$ both sides you have $(x+2)(x-3) - 6 = 0$ — still not factored. Expand the product,
+    combine like terms, then reverse-FOIL the trinomial you get.
+    :::
+
+    ::: steps
+    1. **Subtract 6 from both sides** — zero product only works against $0$. $(x+2)(x-3) - 6 = 0$
+    2. **Expand the product.** $x^2 - x - 6 - 6 = 0$
+    3. **Combine like terms.** $x^2 - x - 12 = 0$
+    4. **Factor** ($-4$ and $3$ multiply to $-12$, add to $-1$). $(x-4)(x+3) = 0$
+    5. **Zero product.** $x = 4$ or $x = -3$
     :::
 
 12. Expand $(a + b)^2$ with pure symbols, then use your result to compute $31^2$ **in your
     head** by writing it as $(30 + 1)^2$. Show the three pieces.
 
-    ::: answer
-    $(a+b)^2 = a^2 + 2ab + b^2$. With $a=30$, $b=1$: $30^2 + 2(30)(1) + 1^2 = 900 + 60 + 1 = 961$.
-    Move: same double-handshake expansion as problem 7, just with symbols first.
+    ::: rephrase
+    Two tasks. First is problem 7 ($(x+4)^2$) but with letters: write $(a+b)^2$ as $(a+b)(a+b)$
+    and shake every hand. Then the mental-arithmetic trick — $31 = 30 + 1$, so $31^2$ is just your
+    formula with $a=30$, $b=1$. Watch for the freshman's-dream trap: there's a middle term, it is
+    **not** $a^2 + b^2$.
+    :::
+
+    ::: hint
+    Write $(a+b)^2 = (a+b)(a+b)$ and distribute every term over every term — all four handshakes,
+    like problem 5.
+    :::
+
+    ::: hint
+    For $31^2$, substitute $a=30$, $b=1$ into your expanded formula and add the three pieces
+    $a^2$, $2ab$, $b^2$.
+    :::
+
+    ::: steps
+    1. **Write as two brackets and handshake.** $(a+b)(a+b) = a^2 + ab + ab + b^2$
+    2. **Combine the two middle terms.** $a^2 + 2ab + b^2$
+    3. **Substitute $a=30$, $b=1$.** $30^2 + 2(30)(1) + 1^2$
+    4. **Add the three pieces.** $900 + 60 + 1 = 961$
     :::
 
 13. Factor $2x^2 + 10x + 12$.   *(Two stages: pull out a common number first, then factor
     what's left.)*
 
-    ::: answer
-    $2(x + 2)(x + 3)$. Stage 1 — move: factor out the common 2: $2(x^2 + 5x + 6)$.
-    Stage 2 — move: factor the trinomial (2 and 3 add to 5, multiply to 6): $2(x+2)(x+3)$.
+    ::: rephrase
+    Every term shares a common number — this is problem 3 ($6x + 9 \to 3(2x+3)$), but with a
+    second stage after it. Pull out the biggest number all three terms share first; what's left
+    inside the bracket is then a plain trinomial you factor exactly like problem 8.
+    :::
+
+    ::: hint
+    What's the biggest number that divides all of $2$, $10$, and $12$? Factor it out of all three
+    terms first.
+    :::
+
+    ::: hint
+    After pulling out the $2$ you have $2(x^2 + 5x + 6)$ — now factor the trinomial (two numbers
+    that add to $5$ and multiply to $6$).
+    :::
+
+    ::: steps
+    1. **Factor out the common 2** (biggest number dividing all three terms). $2(x^2 + 5x + 6)$
+    2. **Factor the trinomial** ($2$ and $3$ add to $5$, multiply to $6$). $2(x+2)(x+3)$
     :::
 
 14. Expand $(x + y)(x - y)$, then use the pattern to compute $102 \times 98$ in your head.
 
-    ::: answer
-    $(x+y)(x-y) = x^2 - y^2$ — move: difference of squares.
-    Write $102 \times 98 = (100+2)(100-2) = 100^2 - 2^2 = 10000 - 4 = 9996$.
+    ::: rephrase
+    First half is problem 6 ($(x+5)(x-5)$) with letters — the difference-of-squares pattern where
+    the two middle terms cancel. Then the trick: can you write $102 \times 98$ as
+    (something $+$ something)(something $-$ something) around a round number? $102 = 100 + 2$ and
+    $98 = 100 - 2$ — same $x$, same $y$.
+    :::
+
+    ::: hint
+    Expand $(x+y)(x-y)$ by handshaking the two brackets — watch the two middle terms cancel.
+    :::
+
+    ::: hint
+    Match $102 \times 98$ to your pattern: find the middle number (the $x$) and the offset (the
+    $y$) so that $102 = x+y$ and $98 = x-y$.
+    :::
+
+    ::: steps
+    1. **Handshake the two brackets.** $x^2 - xy + xy - y^2$
+    2. **Middle terms cancel — difference of squares.** $x^2 - y^2$
+    3. **Match the numbers:** $x = 100$, $y = 2$. $102 \times 98 = (100+2)(100-2)$
+    4. **Apply the pattern.** $100^2 - 2^2 = 10000 - 4 = 9996$
     :::
 
 ---
